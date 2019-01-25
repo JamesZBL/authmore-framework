@@ -31,10 +31,14 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
 
-//    @Bean
-//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-//        http
-//                .authorizeExchange().anyExchange().permitAll();
-//        return http.build();
-//    }
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http
+                .authorizeExchange()
+                .anyExchange().authenticated()
+                .and()
+                .oauth2ResourceServer()
+                .jwt();
+        return http.build();
+    }
 }
