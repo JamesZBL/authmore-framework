@@ -1,3 +1,3 @@
-# reactive-security
+# reactive-security-example
 
-Reactive demo with Spring Security and OAuth2
+Reactive example with Spring Security and OAuth2
