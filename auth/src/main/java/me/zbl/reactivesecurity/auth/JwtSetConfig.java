@@ -19,6 +19,7 @@ package me.zbl.reactivesecurity.auth;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -52,8 +53,9 @@ public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
     private KeyPair keyPair;
     private ClientsConfig clients;
 
-    public JwtSetConfig(AuthenticationManager authenticationManager, KeyPair keyPair, ClientsConfig clients) {
-        this.authenticationManager = authenticationManager;
+    public JwtSetConfig(KeyPair keyPair, ClientsConfig clients,
+                        AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.keyPair = keyPair;
         this.clients = clients;
     }
