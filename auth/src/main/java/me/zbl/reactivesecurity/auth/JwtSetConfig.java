@@ -18,11 +18,10 @@ package me.zbl.reactivesecurity.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -50,32 +49,25 @@ import java.util.Map;
 public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
 
     private AuthenticationManager authenticationManager;
-    private RedisConnectionFactory redisConnectionFactory;
     private KeyPair keyPair;
+    private ClientsConfig clients;
 
-    public JwtSetConfig(RedisConnectionFactory redisConnectionFactory, KeyPair keyPair, AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        this.redisConnectionFactory = redisConnectionFactory;
+    public JwtSetConfig(AuthenticationManager authenticationManager, KeyPair keyPair, ClientsConfig clients) {
+        this.authenticationManager = authenticationManager;
         this.keyPair = keyPair;
+        this.clients = clients;
     }
 
     @Override
-    public void configure(ClientDetailsServiceConfigurer clients)
-            throws Exception {
-        // @formatter:off
-		clients.inMemory()
-			.withClient("userapp")
-				.authorizedGrantTypes("password")
-				.secret("{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0")
-				.scopes("user:read")
-				.accessTokenValiditySeconds(3600)
-				.and()
-			.withClient("messageapp")
-				.authorizedGrantTypes("client_credentials")
-				.secret("{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0")
-				.scopes("message:read")
-				.accessTokenValiditySeconds(3600);
-		// @formatter:on
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
+        for (ClientsConfig.Client c : this.clients.getClients()) {
+            builder.withClient(c.getId())
+                    .authorizedGrantTypes(c.getGrantTypes())
+                    .secret(c.getSecret())
+                    .scopes(c.getScopes())
+                    .accessTokenValiditySeconds(c.getAccessTokenValiditySeconds());
+        }
     }
 
     @Override
@@ -112,6 +104,7 @@ public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
      * <a target="_blank" href="https://tools.ietf.org/html/rfc7519">JWT Specification</a>.
      */
     static class SubjectAttributeUserTokenConverter extends DefaultUserAuthenticationConverter {
+
         @Override
         public Map<String, ?> convertUserAuthentication(Authentication authentication) {
             Map<String, Object> response = new LinkedHashMap<>();
