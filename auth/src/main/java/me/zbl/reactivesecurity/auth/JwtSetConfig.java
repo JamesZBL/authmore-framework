@@ -32,7 +32,6 @@ import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticat
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.security.KeyPair;
 import java.util.LinkedHashMap;
@@ -74,7 +73,7 @@ public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
 			.withClient("messageapp")
 				.authorizedGrantTypes("client_credentials")
 				.secret("{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0")
-				.scopes("message:read","user:read")
+				.scopes("message:read")
 				.accessTokenValiditySeconds(3600);
 		// @formatter:on
     }
