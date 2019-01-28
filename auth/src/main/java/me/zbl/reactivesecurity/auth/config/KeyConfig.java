@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth;
+package me.zbl.reactivesecurity.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

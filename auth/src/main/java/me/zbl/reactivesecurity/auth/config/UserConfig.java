@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth;
+package me.zbl.reactivesecurity.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +47,7 @@ public class UserConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .mvcMatchers("/auth/jwk").permitAll()
+                .mvcMatchers("/client/**").permitAll()
                 .anyRequest().authenticated();
     }
 

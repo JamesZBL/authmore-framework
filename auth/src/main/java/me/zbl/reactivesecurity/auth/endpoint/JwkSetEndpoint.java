@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth;
+package me.zbl.reactivesecurity.auth.endpoint;
 
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.web.bind.annotation.GetMapping;

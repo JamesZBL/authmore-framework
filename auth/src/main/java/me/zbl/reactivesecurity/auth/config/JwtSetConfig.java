@@ -14,15 +14,15 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth;
+package me.zbl.reactivesecurity.auth.config;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -51,25 +51,18 @@ public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
 
     private AuthenticationManager authenticationManager;
     private KeyPair keyPair;
-    private ClientsConfig clients;
+    private ClientDetailService clientDetailsService;
 
-    public JwtSetConfig(KeyPair keyPair, ClientsConfig clients,
-                        AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public JwtSetConfig(KeyPair keyPair, AuthenticationConfiguration authenticationConfiguration,
+                        ClientDetailService clientDetailsService) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.keyPair = keyPair;
-        this.clients = clients;
+        this.clientDetailsService = clientDetailsService;
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
-        for (ClientsConfig.Client c : this.clients.getClients()) {
-            builder.withClient(c.getId())
-                    .authorizedGrantTypes(c.getGrantTypes())
-                    .secret(c.getSecret())
-                    .scopes(c.getScopes())
-                    .accessTokenValiditySeconds(c.getAccessTokenValiditySeconds());
-        }
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
