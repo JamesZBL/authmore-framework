@@ -14,11 +14,11 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth.client;
+package me.zbl.reactivesecurity.auth.user;
 
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,16 +27,16 @@ import org.springframework.stereotype.Component;
  * @date 2019-01-28
  */
 @Component
-public class ClientDetailService implements ClientDetailsService {
+public class UserDetailService implements UserDetailsService {
 
-    private ClientDetailsRepo clientDetailsRepo;
+    private UserDetailsRepo users;
 
-    public ClientDetailService(ClientDetailsRepo clientDetailsRepo) {
-        this.clientDetailsRepo = clientDetailsRepo;
+    public UserDetailService(UserDetailsRepo users) {
+        this.users = users;
     }
 
     @Override
-    public ClientDetails loadClientByClientId(String id) throws ClientRegistrationException {
-        return clientDetailsRepo.findByClientId(id).orElse(null);
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return users.findByUsername(s).orElse(null);
     }
 }

@@ -14,10 +14,9 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth.client;
+package me.zbl.reactivesecurity.auth.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -26,8 +25,7 @@ import java.util.Optional;
  * @email 1146556298@qq.com
  * @date 2019-01-28
  */
-@Repository
-public interface ClientDetailsRepo extends MongoRepository<ClientDetails, String> {
+public interface UserDetailsRepo extends MongoRepository<UserDetails, String> {
 
-    Optional<ClientDetails> findByClientId(String clientId);
+    Optional<UserDetails> findByUsername(String username);
 }

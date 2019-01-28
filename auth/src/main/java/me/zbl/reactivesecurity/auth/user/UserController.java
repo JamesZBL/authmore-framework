@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth.client;
+package me.zbl.reactivesecurity.auth.user;
 
 import me.zbl.reactsecurity.common.entity.BasicController;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
@@ -28,40 +28,40 @@ import java.util.List;
  * @date 2019-01-28
  */
 @RestController
-@RequestMapping("/client")
-public class ClientController extends BasicController {
+@RequestMapping("/user")
+public class UserController extends BasicController {
 
-    private ClientDetailsRepo clients;
+    private UserDetailsRepo users;
 
-    public ClientController(ClientDetailsRepo clients) {
-        this.clients = clients;
+    public UserController(UserDetailsRepo users) {
+        this.users = users;
     }
 
     @GetMapping
-    public List<ClientDetails> clientDetails() {
-        return clients.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public ClientDetails clientDetails(@PathVariable("id") String id) {
-        return clients.findByClientId(id).orElse(null);
+    public List<UserDetails> all() {
+        return users.findAll();
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody ClientDetails client) {
-        clients.save(client);
+    public ResponseEntity add(@RequestBody UserDetails user) {
+        users.save(user);
         return success();
     }
 
+    @GetMapping("/{id}")
+    public UserDetails byId(@PathVariable("id") String id) {
+        return users.findById(id).orElse(null);
+    }
+
     @PutMapping()
-    public ResponseEntity delete(@RequestBody ClientDetails user) {
-        clients.save(user);
+    public ResponseEntity delete(@RequestBody UserDetails user) {
+        users.save(user);
         return success();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") String id) {
-        clients.deleteById(id);
+        users.deleteById(id);
         return success();
     }
 }
