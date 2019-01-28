@@ -16,10 +16,11 @@
  */
 package me.zbl.reactivesecurity.auth.client;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.zbl.reactsecurity.common.entity.BasicController;
+import me.zbl.reactsecurity.common.entity.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author JamesZBL
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/client")
-public class ClientController {
+public class ClientController extends BasicController {
 
     private ClientDetailsRepo clients;
 
@@ -36,8 +37,19 @@ public class ClientController {
         this.clients = clients;
     }
 
+    @GetMapping
+    public List<ClientDetails> clientDetails() {
+        return clients.findAll();
+    }
+
     @GetMapping("/{id}")
     public ClientDetails clientDetails(@PathVariable("id") String id) {
         return clients.findByClientId(id);
+    }
+
+    @PostMapping
+    public ResponseEntity add(@RequestBody ClientDetails client) {
+        clients.save(client);
+        return success();
     }
 }

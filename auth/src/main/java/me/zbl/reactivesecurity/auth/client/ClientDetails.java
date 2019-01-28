@@ -34,24 +34,26 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
 
     @Id
     private String clientId;
-    private String grantTypes;
-    private Boolean isScoped;
-    private String scopes;
+    private String authorizedGrantTypes;
+    private Boolean scoped;
+    private String scope;
     private String resourceIds;
-    private Boolean isSecretRequired;
+    private Boolean isSecretRequired = true;
     private String clientSecret;
     private String authorities;
-    private String redirectUri;
+    private String registeredRedirectUri;
     private Integer accessTokenValiditySeconds;
     private Integer refreshTokenValiditySeconds;
     private Boolean isAutoApprove;
-    private String additionalInfomation;
+    private String additionalInformation;
+
+    public ClientDetails() {}
 
     public ClientDetails(String clientId, String grantTypes, String scopes, String clientSecret,
                          Integer accessTokenValiditySeconds) {
         this.clientId = clientId;
-        this.grantTypes = grantTypes;
-        this.scopes = scopes;
+        this.authorizedGrantTypes = grantTypes;
+        this.scope = scopes;
         this.clientSecret = clientSecret;
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;
     }
@@ -68,7 +70,7 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
 
     @Override
     public boolean isSecretRequired() {
-        return true;
+        return isSecretRequired;
     }
 
     @Override
@@ -83,17 +85,17 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
 
     @Override
     public Set<String> getScope() {
-        return string2Set(scopes);
+        return string2Set(scope);
     }
 
     @Override
     public Set<String> getAuthorizedGrantTypes() {
-        return string2Set(grantTypes);
+        return string2Set(authorizedGrantTypes);
     }
 
     @Override
     public Set<String> getRegisteredRedirectUri() {
-        return string2Set(redirectUri);
+        return string2Set(registeredRedirectUri);
     }
 
     @Override

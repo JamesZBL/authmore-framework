@@ -44,11 +44,9 @@ public class UserConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/auth/jwk").permitAll()
-                .mvcMatchers("/client/**").permitAll()
-                .anyRequest().authenticated();
+                .mvcMatchers("/auth/jwk").permitAll();
     }
 
     @Bean
