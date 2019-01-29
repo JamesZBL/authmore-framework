@@ -45,7 +45,13 @@ public class UserConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/auth/jwk").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and()
+                .requestMatchers()
+                .antMatchers("/login","/oauth/authorize").and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
         // @formatter:on
     }
 }

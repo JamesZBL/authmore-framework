@@ -58,6 +58,16 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;
     }
 
+    public ClientDetails(String clientId, String grantTypes, String scopes, String clientSecret,
+                         String registeredRedirectUri, Integer accessTokenValiditySeconds) {
+        this.clientId = clientId;
+        this.authorizedGrantTypes = grantTypes;
+        this.scope = scopes;
+        this.clientSecret = clientSecret;
+        this.registeredRedirectUri = registeredRedirectUri;
+        this.accessTokenValiditySeconds = accessTokenValiditySeconds;
+    }
+
     @Override
     public String getClientId() {
         return clientId;
@@ -117,7 +127,7 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
 
     @Override
     public boolean isAutoApprove(String s) {
-        return false;
+        return true;
     }
 
     @Override

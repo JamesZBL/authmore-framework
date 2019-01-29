@@ -30,5 +30,6 @@ limitations under the License.
         <module>user</module>
         <module>gates</module>
         <module>common</module>
+        <module>cart</module>
     </modules>
 </project>
