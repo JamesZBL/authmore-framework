@@ -17,6 +17,7 @@
 package me.zbl.reactivesecurity.auth.user;
 
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,9 @@ public class UserInitializer implements SmartInitializingSingleton {
     @Override
     public void afterSingletonsInstantiated() {
         UserDetails user = new UserDetails("james", passwordEncoder.encode("123456"), "SA");
-        users.save(user);
+        try {
+            users.save(user);
+        } catch (DuplicateKeyException ignored) {
+        }
     }
 }

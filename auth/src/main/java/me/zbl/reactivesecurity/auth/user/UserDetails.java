@@ -35,7 +35,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private String id;
     private String authorities;
     private String password;
-    @Indexed
+    @Indexed(unique = true)
     private String username;
     private Boolean isAccountNonExpired = true;
     private Boolean isAccountNonLocked = true;

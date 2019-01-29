@@ -33,12 +33,6 @@ public class ClientInitializer implements SmartInitializingSingleton {
         this.clientDetailsRepo = clientDetailsRepo;
     }
 
-    //    clients:
-    //            - id: userapp
-    //    grantTypes: password
-    //    secret: "{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0"
-    //    scopes: user:read
-    //    accessTokenValiditySeconds: 3600
     @Override
     public void afterSingletonsInstantiated() {
         ClientDetails client = new ClientDetails("userapp", "password", "user:read",
