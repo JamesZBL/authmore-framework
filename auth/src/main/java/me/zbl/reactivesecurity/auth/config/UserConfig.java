@@ -18,7 +18,6 @@ package me.zbl.reactivesecurity.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -41,13 +40,12 @@ public class UserConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        // @formatter:off
+        http.httpBasic().and()
+                .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/auth/jwk").permitAll();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManagerBean();
+                .mvcMatchers("/auth/jwk").permitAll()
+                .anyRequest().authenticated();
+        // @formatter:on
     }
 }
