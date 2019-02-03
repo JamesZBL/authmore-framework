@@ -1,0 +1,45 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'me.zbl'
+version = '0.0.1-SNAPSHOT'
+description = 'cart'
+sourceCompatibility = '1.8'
+
+repositories {
+    maven {
+        url = 'https://maven.aliyun.com/repository/public'
+    }
+
+    maven {
+        url = 'https://repo.spring.io/milestone'
+    }
+
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.2.RELEASE'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'io.projectreactor:reactor-test'
+    testCompile 'org.springframework.security:spring-security-test'
+}
