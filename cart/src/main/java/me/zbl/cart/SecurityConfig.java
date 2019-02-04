@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
+                .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/cart/index", "/login**")
                 .permitAll()

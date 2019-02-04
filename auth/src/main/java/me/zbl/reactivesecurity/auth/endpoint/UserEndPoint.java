@@ -16,7 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth.endpoint;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,11 +28,11 @@ import java.security.Principal;
  * @date 2019-01-29
  */
 @RestController
+@EnableResourceServer
 public class UserEndPoint {
 
     @GetMapping("/about/me")
     public Principal user(Principal principal) {
-        UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken("james", "123456");
-        return user;
+        return principal;
     }
 }

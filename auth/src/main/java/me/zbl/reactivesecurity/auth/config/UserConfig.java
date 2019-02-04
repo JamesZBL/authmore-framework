@@ -32,7 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 2019-01-25
  */
 @Configuration
-//@Order(1)
+@Order(1)
 public class UserConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -43,18 +43,16 @@ public class UserConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.httpBasic().and()
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/auth/jwk").permitAll()
-                .anyRequest().authenticated().and()
-                .requestMatchers()
-                .antMatchers("/login","/oauth/authorize").and()
-                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .permitAll();
+                .requestMatchers().antMatchers("/login","/oauth/authorize")
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll();
         // @formatter:on
     }
 }

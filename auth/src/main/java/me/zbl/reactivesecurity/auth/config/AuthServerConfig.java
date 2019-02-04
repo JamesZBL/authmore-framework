@@ -19,6 +19,7 @@ package me.zbl.reactivesecurity.auth.config;
 import me.zbl.reactivesecurity.auth.client.ClientDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,8 @@ import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticat
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.jwk.JwkTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.security.KeyPair;
 import java.util.LinkedHashMap;
@@ -53,16 +56,18 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     private KeyPair keyPair;
     private ClientDetailService clientDetailsService;
+    private RedisConnectionFactory redisConnectionFactory;
 
     public AuthServerConfig(KeyPair keyPair, AuthenticationConfiguration authenticationConfiguration,
-                            ClientDetailService clientDetailsService) throws Exception {
+                            ClientDetailService clientDetailsService, RedisConnectionFactory redisConnectionFactory) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.keyPair = keyPair;
         this.clientDetailsService = clientDetailsService;
+        this.redisConnectionFactory = redisConnectionFactory;
     }
 
     @Override
-    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
@@ -85,6 +90,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
+//        return new RedisTokenStore(redisConnectionFactory);
     }
 
     @Bean
@@ -110,7 +116,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         @Override
         public Map<String, ?> convertUserAuthentication(Authentication authentication) {
             Map<String, Object> response = new LinkedHashMap<>();
-            response.put("sub", authentication.getName());
+            response.put("user_name", authentication.getName());
             if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
                 response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
             }
