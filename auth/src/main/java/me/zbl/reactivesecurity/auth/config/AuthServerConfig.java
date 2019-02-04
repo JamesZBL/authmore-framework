@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -47,17 +48,23 @@ import java.util.Map;
  */
 @Configuration
 @EnableAuthorizationServer
-public class JwtSetConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private AuthenticationManager authenticationManager;
     private KeyPair keyPair;
     private ClientDetailService clientDetailsService;
 
-    public JwtSetConfig(KeyPair keyPair, AuthenticationConfiguration authenticationConfiguration,
-                        ClientDetailService clientDetailsService) throws Exception {
+    public AuthServerConfig(KeyPair keyPair, AuthenticationConfiguration authenticationConfiguration,
+                            ClientDetailService clientDetailsService) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.keyPair = keyPair;
         this.clientDetailsService = clientDetailsService;
+    }
+
+    @Override
+    public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer.tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override

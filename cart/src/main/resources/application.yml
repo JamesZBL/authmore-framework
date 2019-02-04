@@ -8,9 +8,11 @@ security:
   oauth2:
     client:
       client-id: cartapp
-      client-secret: "{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0"
+      client-secret: 123456
       access-token-uri: http://localhost:8083/oauth/token
       user-authorization-uri: http://localhost:8083/oauth/authorize
+      registered-redirect-uri: http://localhost:8084/login
+      authorized-grant-types: authorization_code
     resource:
       user-info-uri: http://localhost:8083/about/me
 

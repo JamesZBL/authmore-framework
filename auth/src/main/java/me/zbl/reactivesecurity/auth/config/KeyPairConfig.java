@@ -31,7 +31,7 @@ import java.security.spec.RSAPublicKeySpec;
  * @date 2019-01-25
  */
 @Configuration
-public class KeyConfig {
+public class KeyPairConfig {
 
     @Bean
     KeyPair keyPair() {
