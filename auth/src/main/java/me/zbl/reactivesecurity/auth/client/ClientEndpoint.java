@@ -18,6 +18,7 @@ package me.zbl.reactivesecurity.auth.client;
 
 import me.zbl.reactsecurity.common.entity.BasicController;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +30,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/client")
-public class ClientController extends BasicController {
+@PreAuthorize("hasAuthority('SA')")
+public class ClientEndpoint extends BasicController {
 
     private ClientDetailsRepo clients;
 
-    public ClientController(ClientDetailsRepo clients) {
+    public ClientEndpoint(ClientDetailsRepo clients) {
         this.clients = clients;
     }
 

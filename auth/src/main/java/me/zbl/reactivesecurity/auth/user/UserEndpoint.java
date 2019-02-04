@@ -18,6 +18,7 @@ package me.zbl.reactivesecurity.auth.user;
 
 import me.zbl.reactsecurity.common.entity.BasicController;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +30,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController extends BasicController {
+@PreAuthorize("hasAuthority('SA')")
+public class UserEndpoint extends BasicController {
 
     private UserDetailsRepo users;
 
-    public UserController(UserDetailsRepo users) {
+    public UserEndpoint(UserDetailsRepo users) {
         this.users = users;
     }
 

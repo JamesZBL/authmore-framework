@@ -29,7 +29,7 @@ import java.security.Principal;
  */
 @RestController
 @EnableResourceServer
-public class UserEndPoint {
+public class UserDetailsEndpoint {
 
     @GetMapping("/about/me")
     public Principal user(Principal principal) {
