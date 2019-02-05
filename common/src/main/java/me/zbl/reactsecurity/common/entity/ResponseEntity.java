@@ -21,8 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-28
+ * created at 2019-01-28
  */
 public class ResponseEntity extends org.springframework.http.ResponseEntity<ResponseContent> {
 

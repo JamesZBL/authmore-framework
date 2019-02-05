@@ -22,8 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-23
+ * created at 2019-01-23
  */
 @Document
 public class User {

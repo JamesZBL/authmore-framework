@@ -24,8 +24,7 @@ import java.security.Principal;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-29
+ * created at 2019-01-29
  */
 @RestController
 @EnableResourceServer

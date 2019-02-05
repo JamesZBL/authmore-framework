@@ -24,8 +24,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-25
+ * created at 2019-01-25
  */
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity

@@ -26,8 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-28
+ * created at 2019-01-28
  */
 @Document
 public class ClientDetails implements org.springframework.security.oauth2.provider.ClientDetails {

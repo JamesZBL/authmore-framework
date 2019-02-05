@@ -25,8 +25,7 @@ import java.util.List;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-28
+ * created at 2019-01-28
  */
 @RestController
 @RequestMapping("/client")

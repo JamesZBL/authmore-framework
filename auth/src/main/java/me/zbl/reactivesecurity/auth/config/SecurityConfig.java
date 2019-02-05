@@ -30,8 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * For configuring the end users recognized by this Authorization Server
  *
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-25
+ * created at 2019-01-25
  */
 @Order(1)
 @Configuration

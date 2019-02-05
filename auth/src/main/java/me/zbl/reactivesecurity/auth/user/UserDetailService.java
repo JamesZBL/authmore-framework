@@ -23,8 +23,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-28
+ * created at 2019-01-28
  */
 @Component
 public class UserDetailService implements UserDetailsService {

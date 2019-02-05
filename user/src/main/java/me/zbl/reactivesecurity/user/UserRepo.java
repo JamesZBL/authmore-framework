@@ -21,8 +21,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-23
+ * created at 2019-01-23
  */
 public interface UserRepo extends ReactiveCrudRepository<User, Long> {
 

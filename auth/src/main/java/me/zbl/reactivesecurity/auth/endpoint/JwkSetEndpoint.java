@@ -31,8 +31,7 @@ import java.util.Map;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-25
+ * created at 2019-01-25
  */
 @FrameworkEndpoint
 public class JwkSetEndpoint {

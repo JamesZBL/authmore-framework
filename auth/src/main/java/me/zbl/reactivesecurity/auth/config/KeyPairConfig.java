@@ -27,8 +27,7 @@ import java.security.spec.RSAPublicKeySpec;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-25
+ * created at 2019-01-25
  */
 @Configuration
 public class KeyPairConfig {

@@ -20,8 +20,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-28
+ * created at 2019-01-28
  */
 public class BasicController {
 

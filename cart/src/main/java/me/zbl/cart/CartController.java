@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author JamesZBL
- * @email 1146556298@qq.com
- * @date 2019-01-29
+ * created at 2019-01-29
  */
 @Controller
 @RequestMapping("/cart")
