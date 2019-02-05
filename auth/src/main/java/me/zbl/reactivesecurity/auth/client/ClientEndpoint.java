@@ -55,7 +55,7 @@ public class ClientEndpoint extends BasicController {
     }
 
     @PutMapping()
-    public ResponseEntity delete(@RequestBody ClientDetails user) {
+    public ResponseEntity update(@RequestBody ClientDetails user) {
         clients.save(user);
         return success();
     }

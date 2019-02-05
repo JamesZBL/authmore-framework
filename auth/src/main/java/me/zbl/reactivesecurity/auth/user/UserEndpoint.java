@@ -55,7 +55,7 @@ public class UserEndpoint extends BasicController {
     }
 
     @PutMapping()
-    public ResponseEntity delete(@RequestBody UserDetails user) {
+    public ResponseEntity update(@RequestBody UserDetails user) {
         users.save(user);
         return success();
     }
