@@ -19,6 +19,7 @@ package me.zbl.reactivesecurity.auth.client;
 import me.zbl.reactsecurity.common.entity.BasicController;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,9 +34,11 @@ import java.util.List;
 public class ClientEndpoint extends BasicController {
 
     private ClientDetailsRepo clients;
+    private PasswordEncoder passwordEncoder;
 
-    public ClientEndpoint(ClientDetailsRepo clients) {
+    public ClientEndpoint(ClientDetailsRepo clients, PasswordEncoder passwordEncoder) {
         this.clients = clients;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -50,6 +53,7 @@ public class ClientEndpoint extends BasicController {
 
     @PostMapping
     public ResponseEntity add(@RequestBody ClientDetails client) {
+//        client.setClientSecret();
         clients.save(client);
         return success();
     }

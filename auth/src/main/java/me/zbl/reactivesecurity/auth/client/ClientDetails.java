@@ -45,7 +45,6 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
     private Integer refreshTokenValiditySeconds;
     private Boolean isAutoApprove;
     private String additionalInformation;
-
     public ClientDetails() {}
 
     public ClientDetails(String clientId, String grantTypes, String scopes, String clientSecret,
@@ -132,6 +131,10 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
     @Override
     public Map<String, Object> getAdditionalInformation() {
         return Collections.emptyMap();
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
     private Set<String> string2Set(String raw) {
