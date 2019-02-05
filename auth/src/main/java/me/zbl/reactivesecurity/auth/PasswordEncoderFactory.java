@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactivesecurity.auth.encode;
+package me.zbl.reactivesecurity.auth;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;

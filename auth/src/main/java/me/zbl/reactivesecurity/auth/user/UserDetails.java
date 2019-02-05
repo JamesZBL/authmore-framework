@@ -16,6 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth.user;
 
+import me.zbl.reactivesecurity.auth.PasswordHolder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
  * @author JamesZBL
  * created at 2019-01-28
  */
-public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
+public class UserDetails implements org.springframework.security.core.userdetails.UserDetails, PasswordHolder {
 
     @Id
     private String id;
@@ -88,6 +89,10 @@ public class UserDetails implements org.springframework.security.core.userdetail
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     private Set<String> string2Set(String raw) {

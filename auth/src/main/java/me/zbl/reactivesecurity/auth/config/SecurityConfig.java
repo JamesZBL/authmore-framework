@@ -16,7 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth.config;
 
-import me.zbl.reactivesecurity.auth.encode.PasswordEncoderFactory;
+import me.zbl.reactivesecurity.auth.PasswordEncoderFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

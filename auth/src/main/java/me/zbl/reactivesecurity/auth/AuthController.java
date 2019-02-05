@@ -14,25 +14,26 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactsecurity.common.entity;
+package me.zbl.reactivesecurity.auth;
 
-import org.springframework.http.HttpStatus;
+import me.zbl.reactsecurity.common.BasicController;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author JamesZBL
- * created at 2019-01-28
+ * created at 2019-02-05
  */
-public class BasicController {
+public class AuthController extends BasicController {
 
-    public ResponseEntity success() {
-        return new ResponseEntity(new ResponseContent("", "success"), HttpStatus.OK);
+    private PasswordEncoder passwordEncoder;
+
+    public AuthController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity error() {
-        return new ResponseEntity(new ResponseContent("", "error"), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    public ResponseEntity badRequest() {
-        return new ResponseEntity(new ResponseContent("", "invalid request"), HttpStatus.BAD_REQUEST);
+    protected void encodePassword(PasswordHolder holder) {
+        String raw = holder.getPassword();
+        String encoded = passwordEncoder.encode(raw);
+        holder.setPassword(encoded);
     }
 }

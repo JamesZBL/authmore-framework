@@ -16,6 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth.client;
 
+import me.zbl.reactivesecurity.auth.PasswordHolder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * created at 2019-01-28
  */
 @Document
-public class ClientDetails implements org.springframework.security.oauth2.provider.ClientDetails {
+public class ClientDetails implements org.springframework.security.oauth2.provider.ClientDetails, PasswordHolder {
 
     @Id
     private String clientId;
@@ -131,6 +132,16 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
     @Override
     public Map<String, Object> getAdditionalInformation() {
         return Collections.emptyMap();
+    }
+
+    @Override
+    public String getPassword() {
+        return getClientSecret();
+    }
+
+    @Override
+    public void setPassword(String encoded) {
+        setClientSecret(encoded);
     }
 
     public void setClientSecret(String clientSecret) {

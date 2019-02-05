@@ -16,9 +16,10 @@
  */
 package me.zbl.reactivesecurity.auth.user;
 
-import me.zbl.reactsecurity.common.entity.BasicController;
+import me.zbl.reactivesecurity.auth.AuthController;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,11 +31,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @PreAuthorize("hasAuthority('SA')")
-public class UserEndpoint extends BasicController {
+public class UserEndpoint extends AuthController {
 
     private UserDetailsRepo users;
 
-    public UserEndpoint(UserDetailsRepo users) {
+    public UserEndpoint(UserDetailsRepo users, PasswordEncoder passwordEncoder) {
+        super(passwordEncoder);
         this.users = users;
     }
 
@@ -45,6 +47,7 @@ public class UserEndpoint extends BasicController {
 
     @PostMapping
     public ResponseEntity add(@RequestBody UserDetails user) {
+        encodePassword(user);
         users.save(user);
         return success();
     }
@@ -56,6 +59,7 @@ public class UserEndpoint extends BasicController {
 
     @PutMapping()
     public ResponseEntity update(@RequestBody UserDetails user) {
+        encodePassword(user);
         users.save(user);
         return success();
     }
