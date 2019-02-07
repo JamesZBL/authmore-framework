@@ -16,6 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth.client;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import me.zbl.reactivesecurity.auth.PasswordHolder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -134,6 +135,7 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         return Collections.emptyMap();
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return getClientSecret();
