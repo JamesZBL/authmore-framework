@@ -58,9 +58,9 @@ public class ClientEndpoint extends AuthController {
     }
 
     @PutMapping()
-    public ResponseEntity update(@RequestBody ClientDetails user) {
-        encodePassword(user);
-        clients.save(user);
+    public ResponseEntity update(@RequestBody ClientDetails client) {
+        encodePassword(client);
+        clients.save(client);
         return success();
     }
 

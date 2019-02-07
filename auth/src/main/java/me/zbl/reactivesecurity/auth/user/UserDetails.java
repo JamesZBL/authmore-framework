@@ -16,7 +16,6 @@
  */
 package me.zbl.reactivesecurity.auth.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import me.zbl.reactivesecurity.auth.PasswordHolder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -62,7 +61,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
                 .collect(Collectors.toSet());
     }
 
-    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
