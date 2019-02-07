@@ -83,6 +83,7 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         return isSecretRequired;
     }
 
+    @JsonIgnore
     @Override
     public String getClientSecret() {
         return clientSecret;
