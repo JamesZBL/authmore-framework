@@ -22,7 +22,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author JamesZBL
@@ -51,10 +54,12 @@ public class ClientEndpoint extends AuthController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody ClientDetails client) {
+    public ClientCreateResult add(@RequestBody ClientDetails client) {
+        String secret = UUID.randomUUID().toString();
+        client.setClientSecret(secret);
         encodePassword(client);
         clients.save(client);
-        return success();
+        return ClientCreateResult.build(client, secret);
     }
 
     @PutMapping()
@@ -68,5 +73,12 @@ public class ClientEndpoint extends AuthController {
     public ResponseEntity delete(@PathVariable("id") String id) {
         clients.deleteById(id);
         return success();
+    }
+
+    @GetMapping("/exist")
+    public Map exist(@RequestParam("clientName") String name) {
+        Collection<ClientDetails> find = clients.findByClientName(name);
+        boolean exist = !find.isEmpty();
+        return exist(exist);
     }
 }

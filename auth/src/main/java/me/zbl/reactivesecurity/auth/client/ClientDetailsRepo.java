@@ -19,6 +19,7 @@ package me.zbl.reactivesecurity.auth.client;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -29,4 +30,6 @@ import java.util.Optional;
 public interface ClientDetailsRepo extends MongoRepository<ClientDetails, String> {
 
     Optional<ClientDetails> findByClientId(String clientId);
+
+    Collection<ClientDetails> findByClientName(String clientName);
 }

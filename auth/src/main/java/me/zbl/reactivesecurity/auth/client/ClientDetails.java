@@ -46,7 +46,12 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
     private Integer refreshTokenValiditySeconds;
     private Boolean isAutoApprove;
     private String additionalInformation;
-    public ClientDetails() {}
+
+    /* customized fields **/
+    private String clientName;
+
+    public ClientDetails() {
+    }
 
     public ClientDetails(String clientId, String grantTypes, String scopes, String clientSecret,
                          Integer accessTokenValiditySeconds) {
@@ -144,8 +149,36 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         setClientSecret(encoded);
     }
 
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = String.join(",", authorities);
+    }
+
+    public void setAuthorizedGrantTypes(List<String> authorizedGrantTypes) {
+        this.authorizedGrantTypes = String.join(",", authorizedGrantTypes);
+    }
+
+    public void setResourceIds(List<String> resourceIds) {
+        this.resourceIds = String.join(",", resourceIds);
+    }
+
+    public void setRegisteredRedirectUri(List<String> registeredRedirectUri) {
+        this.registeredRedirectUri = String.join(",", registeredRedirectUri);
+    }
+
+    public void setScope(List<String> scope) {
+        this.scope = String.join(",", scope);
+    }
+
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     private Set<String> string2Set(String raw) {

@@ -19,6 +19,10 @@ package me.zbl.reactsecurity.common;
 import me.zbl.reactsecurity.common.entity.ResponseContent;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.LinkedMultiValueMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author JamesZBL
@@ -36,5 +40,11 @@ public class BasicController {
 
     public ResponseEntity badRequest() {
         return new ResponseEntity(new ResponseContent("", "invalid request"), HttpStatus.BAD_REQUEST);
+    }
+
+    public Map exist(boolean exist) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("result", exist);
+        return map;
     }
 }
