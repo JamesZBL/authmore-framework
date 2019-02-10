@@ -17,6 +17,7 @@
 package me.zbl.reactivesecurity.auth.client;
 
 import me.zbl.reactivesecurity.auth.AuthController;
+import me.zbl.reactivesecurity.auth.DataWrapper;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,8 +45,9 @@ public class ClientEndpoint extends AuthController {
     }
 
     @GetMapping
-    public List<ClientDetails> clientDetails() {
-        return clients.findAll();
+    public DataWrapper<ClientDetails> clientDetails() {
+        List<ClientDetails> all = clients.findAll();
+        return new DataWrapper<>(all);
     }
 
     @GetMapping("/{id}")
