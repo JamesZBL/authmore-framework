@@ -44,7 +44,7 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
     private String registeredRedirectUri;
     private Integer accessTokenValiditySeconds;
     private Integer refreshTokenValiditySeconds;
-    private Boolean isAutoApprove;
+    private Boolean isAutoApprove = true;
     private String additionalInformation;
 
     /* customized fields **/

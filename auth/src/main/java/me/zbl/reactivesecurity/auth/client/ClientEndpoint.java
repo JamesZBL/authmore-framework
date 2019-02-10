@@ -46,7 +46,7 @@ public class ClientEndpoint extends AuthController {
 
     @GetMapping
     public DataWrapper<ClientDetails> clientDetails() {
-        List<ClientDetails> all = clients.findAll();
+        List<ClientDetails> all = clients.findAllByOrderByClientIdDesc();
         return new DataWrapper<>(all);
     }
 
@@ -66,7 +66,6 @@ public class ClientEndpoint extends AuthController {
 
     @PutMapping()
     public ResponseEntity update(@RequestBody ClientDetails client) {
-        encodePassword(client);
         clients.save(client);
         return success();
     }
