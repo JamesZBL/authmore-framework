@@ -42,7 +42,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private Boolean isCredentialsNonExpired = true;
     private Boolean isEnabled = true;
 
-    public UserDetails() { }
+    public UserDetails() {}
 
     public UserDetails(String username, String password, String authorities) {
         this.password = password;
@@ -93,6 +93,10 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = String.join(",", authorities);
     }
 
     private Set<String> string2Set(String raw) {
