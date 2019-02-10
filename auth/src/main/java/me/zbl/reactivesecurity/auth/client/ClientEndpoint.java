@@ -23,10 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author JamesZBL
@@ -66,6 +63,9 @@ public class ClientEndpoint extends AuthController {
 
     @PutMapping()
     public ResponseEntity update(@RequestBody ClientDetails client) {
+        String clientId = client.getClientId();
+        Optional<ClientDetails> original = clients.findById(clientId);
+        original.ifPresent(o -> client.setClientSecret(o.getClientSecret()));
         clients.save(client);
         return success();
     }
