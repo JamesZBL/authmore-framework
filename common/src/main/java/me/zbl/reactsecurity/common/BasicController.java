@@ -19,9 +19,7 @@ package me.zbl.reactsecurity.common;
 import me.zbl.reactsecurity.common.entity.ResponseContent;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.LinkedMultiValueMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,8 +41,10 @@ public class BasicController {
     }
 
     public Map exist(boolean exist) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("result", exist);
-        return map;
+        return map().put("result", exist).map();
+    }
+
+    public ResultBuilder map() {
+        return new ResultBuilder();
     }
 }
