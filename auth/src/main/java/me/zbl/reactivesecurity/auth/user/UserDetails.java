@@ -91,6 +91,10 @@ public class UserDetails implements org.springframework.security.core.userdetail
         return isEnabled;
     }
 
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }

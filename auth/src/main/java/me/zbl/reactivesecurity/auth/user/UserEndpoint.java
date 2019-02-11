@@ -61,7 +61,8 @@ public class UserEndpoint extends AuthController {
 
     @PutMapping()
     public ResponseEntity update(@RequestBody UserDetails user) {
-        encodePassword(user);
+        if (!user.getPassword().startsWith("{"))
+            encodePassword(user);
         users.save(user);
         return success();
     }
