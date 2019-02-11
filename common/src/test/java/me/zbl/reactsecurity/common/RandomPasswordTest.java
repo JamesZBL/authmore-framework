@@ -16,7 +16,6 @@
  */
 package me.zbl.reactsecurity.common;
 
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,9 +53,8 @@ public class RandomPasswordTest {
                 char c = chars[j];
                 assertTrue(c >= '0' && c <= '9' || c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z');
             }
-            String digest = Md5Crypt.md5Crypt(pwd.getBytes());
-            assertFalse(digests.contains(digest));
-            digests.add(digest);
+            assertFalse(digests.contains(pwd));
+            digests.add(pwd);
             last = pwd;
             LOGGER.debug("New random password: {}", pwd);
         }
