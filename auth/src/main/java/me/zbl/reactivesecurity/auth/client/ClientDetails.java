@@ -181,6 +181,14 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         this.clientName = clientName;
     }
 
+    public void setScoped(Boolean scoped) {
+        this.scoped = scoped;
+    }
+
+    public Boolean getScoped() {
+        return scoped;
+    }
+
     private Set<String> string2Set(String raw) {
         if (StringUtils.isEmpty(raw)) {
             return Collections.emptySet();
