@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -79,5 +80,13 @@ public class UserEndpoint extends AuthController {
     public ResponseEntity delete(@PathVariable("id") String id) {
         users.deleteById(id);
         return success();
+    }
+
+    @GetMapping("/exist")
+    public Map exist(@RequestParam("username") String name) {
+        Optional<UserDetails> find = users.findByUsername(name);
+        if(find.isPresent())
+            return exist(true);
+        return exist(false);
     }
 }
