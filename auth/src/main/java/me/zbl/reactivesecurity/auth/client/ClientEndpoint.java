@@ -86,4 +86,10 @@ public class ClientEndpoint extends AuthController {
         boolean exist = !find.isEmpty();
         return exist(exist);
     }
+
+    @DeleteMapping()
+    public ResponseEntity deleteBatch(@RequestBody List<String> ids) {
+        clients.deleteByClientIdIn(ids);
+        return success();
+    }
 }

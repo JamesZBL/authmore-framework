@@ -85,8 +85,14 @@ public class UserEndpoint extends AuthController {
     @GetMapping("/exist")
     public Map exist(@RequestParam("username") String name) {
         Optional<UserDetails> find = users.findByUsername(name);
-        if(find.isPresent())
+        if (find.isPresent())
             return exist(true);
         return exist(false);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity deleteBatch(@RequestBody List<String> ids) {
+        users.deleteByIdIn(ids);
+        return success();
     }
 }

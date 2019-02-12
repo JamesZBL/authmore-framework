@@ -35,4 +35,6 @@ public interface ClientDetailsRepo extends MongoRepository<ClientDetails, String
     Collection<ClientDetails> findByClientName(String clientName);
 
     List<ClientDetails> findAllByOrderByClientIdDesc();
+
+    void deleteByClientIdIn(List<String> id);
 }

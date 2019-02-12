@@ -30,4 +30,6 @@ public interface UserDetailsRepo extends MongoRepository<UserDetails, String> {
     Optional<UserDetails> findByUsername(String username);
 
     List<UserDetails> findAllByOrderByIdDesc();
+
+    void deleteByIdIn(List<String> id);
 }
