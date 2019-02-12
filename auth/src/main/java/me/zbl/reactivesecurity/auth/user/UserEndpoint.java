@@ -21,9 +21,11 @@ import me.zbl.reactivesecurity.auth.DataWrapper;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author JamesZBL
@@ -61,7 +63,13 @@ public class UserEndpoint extends AuthController {
 
     @PutMapping()
     public ResponseEntity update(@RequestBody UserDetails user) {
-        if (!user.getPassword().startsWith("{"))
+        String id = user.getId();
+        Optional<UserDetails> original = users.findById(id);
+        original.orElseThrow(IllegalArgumentException::new);
+        String input = user.getPassword();
+        if (StringUtils.isEmpty(input))
+            original.ifPresent(o -> user.setPassword(o.getPassword()));
+        else if (!input.startsWith("{"))
             encodePassword(user);
         users.save(user);
         return success();
