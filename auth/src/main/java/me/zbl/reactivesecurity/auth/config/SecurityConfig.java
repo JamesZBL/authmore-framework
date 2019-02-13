@@ -46,15 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
+        /* until now stable */
         http.csrf().disable()
-                .authorizeRequests()
-                .mvcMatchers("/auth/jwk").permitAll()
-                .and()
-                .requestMatchers().antMatchers("/login","/oauth/authorize")
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin();
+            .authorizeRequests()
+            .antMatchers("/test/**").permitAll()
+            .and()
+            .formLogin();
+        // @formatter:on
+        /* original stable edition */
+        //    http.csrf().disable()
+        //    .authorizeRequests()
+        //    .mvcMatchers("/auth/jwk").permitAll()
+        //    .and()
+        //    .requestMatchers().antMatchers("/login","/oauth/authorize")
+        //    .and()
+        //    .authorizeRequests().anyRequest().authenticated()
+        //    .and()
+        //    .formLogin();
         // @formatter:on
     }
 }
