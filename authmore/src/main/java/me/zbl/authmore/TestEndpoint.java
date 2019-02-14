@@ -17,18 +17,18 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  * @author JamesZBL
  * created at 2019-02-14
  */
-@RestController
-@RequestMapping("/user")
+@Controller
 public class TestEndpoint {
 
     private UserDetailsRepo users;
@@ -37,8 +37,20 @@ public class TestEndpoint {
         this.users = users;
     }
 
-    @GetMapping
+    @GetMapping("/user")
+    @ResponseBody
     public List<UserDetails> users() {
         return users.findAll();
+    }
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/set_name")
+    public String setName(HttpSession session) {
+        session.setAttribute("application_name", "Authmore");
+        return "redirect:index";
     }
 }
