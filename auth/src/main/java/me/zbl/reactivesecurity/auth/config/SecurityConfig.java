@@ -47,11 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         /* until now stable */
+        // @formatter:off
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/test/**").permitAll()
+            .mvcMatchers("/auth/jwk").permitAll()
+            .and()
+            .requestMatchers().antMatchers("/login","/oauth/authorize")
+            .and()
+            .authorizeRequests().anyRequest().authenticated()
             .and()
             .formLogin();
+        // @formatter:on
         // @formatter:on
         /* original stable edition */
         //    http.csrf().disable()
