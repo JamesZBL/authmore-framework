@@ -16,15 +16,14 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class AuthmoreApplication {
+/**
+ * @author JamesZBL
+ * created at 2019-02-14
+ */
+public interface UserDetailsRepo extends MongoRepository<UserDetails, String> {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthmoreApplication.class, args);
-    }
+
 }
-

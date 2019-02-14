@@ -16,15 +16,29 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class AuthmoreApplication {
+import java.util.List;
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthmoreApplication.class, args);
+/**
+ * @author JamesZBL
+ * created at 2019-02-14
+ */
+@RestController
+@RequestMapping("/user")
+public class TestEndpoint {
+
+    private UserDetailsRepo users;
+
+    public TestEndpoint(UserDetailsRepo users) {
+        this.users = users;
+    }
+
+    @GetMapping
+    public List<UserDetails> users() {
+        return users.findAll();
     }
 }
-
