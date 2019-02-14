@@ -27,6 +27,10 @@ public class RandomPassword {
     private RandomPassword() {}
 
     public static String build() {
+        return build(32);
+    }
+
+    public static String build(int length) {
         int p = 0;
         char[] table = new char[62];
         StringBuilder sb = new StringBuilder();
@@ -40,10 +44,12 @@ public class RandomPassword {
         for (char i = 'a'; i <= 'z'; i++) {
             table[p++] = i;
         }
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < length; i++) {
             int po = random.nextInt(62);
             sb.append(String.valueOf(table[po]));
         }
         return sb.toString();
     }
+
+
 }

@@ -25,6 +25,7 @@ dependencies {
     implementation project(':auth')
     implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
