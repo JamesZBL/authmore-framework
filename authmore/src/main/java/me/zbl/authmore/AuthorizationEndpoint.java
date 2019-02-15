@@ -16,11 +16,11 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author JamesZBL
@@ -29,10 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AuthorizationEndpoint {
 
-    private ClientDetailsRepository clients;
+    private AuthenticationManager authenticationManager;
+
+    public AuthorizationEndpoint(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     @GetMapping("/authorize")
-    @ResponseBody
     public String authorize(
             @RequestParam("client_id") String clientId,
             @RequestParam("response_type") String responseType,
@@ -40,7 +43,8 @@ public class AuthorizationEndpoint {
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "state", required = false) String state,
             Model model) {
-
-        return "Authorize";
+        ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
+        model.addAttribute("client", client);
+        return "authorize";
     }
 }

@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import static me.zbl.authmore.SessionProperties.LAST_URL;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -53,8 +57,12 @@ public class AuthenticationEndpoint {
     }
 
     @PostMapping("/signin")
-    public String singIn(@RequestParam("ui") String userName, @RequestParam("uc") String inputPassword,
-                         @RequestParam("from") String from, Model model) {
+    public String singIn(
+            @RequestParam("ui") String userName,
+            @RequestParam("uc") String inputPassword,
+            HttpServletRequest request,
+            HttpSession session,
+            Model model) {
         UserDetails user;
         try {
             user = authenticationManager.userValidate(userName, inputPassword);
@@ -63,6 +71,7 @@ public class AuthenticationEndpoint {
             return "/signin";
         }
         sessionManager.signin(user);
+        String from = (String) session.getAttribute(LAST_URL);
         if (!isEmpty(from))
             return "redirect:" + from;
         return "redirect:/";

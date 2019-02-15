@@ -24,4 +24,5 @@ class SessionProperties {
 
     static final String SESSION_DETAILS = "session_details";
     static final String CURRENT_USER = "current_user";
+    static final String LAST_URL = "last_url";
 }
