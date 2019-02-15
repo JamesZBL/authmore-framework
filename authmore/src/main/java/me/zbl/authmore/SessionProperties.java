@@ -16,17 +16,11 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+/**
+ * @author JamesZBL
+ * created at 2019-02-15
+ */
+class SessionProperties {
 
-@ServletComponentScan
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class AuthmoreApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(AuthmoreApplication.class, args);
-    }
+    static final String SESSION_DETAILS = "session_details";
 }
-

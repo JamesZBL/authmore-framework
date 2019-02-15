@@ -16,34 +16,46 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static me.zbl.authmore.SessionProperties.SESSION_DETAILS;
+
 /**
  * @author JamesZBL
  * created at 2019-02-14
  */
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE + 100)
+@WebFilter(urlPatterns = {"/authorize"})
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String SESSION_DETAILS = "session_details";
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpSession session = request.getSession(true);
         SessionDetails sd = (SessionDetails) session.getAttribute(SESSION_DETAILS);
         if (null == sd) {
-            response.sendRedirect("signin");
+            redirectToSignin(request, response);
+            return;
         }
+
+        UserDetails user = sd.getUser();
+        if (null == user) {
+            redirectToSignin(request, response);
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    private void redirectToSignin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        StringBuffer from = request.getRequestURL();
+        response.sendRedirect("/signin?from=" + from);
     }
 }

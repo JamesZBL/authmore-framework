@@ -16,13 +16,27 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+
 import java.io.Serializable;
 
 /**
  * @author JamesZBL
  * created at 2019-02-14
  */
-public class SessionDetails implements Serializable {
+class SessionDetails implements Serializable {
 
-    private String username;
+    private UserDetails user;
+
+    UserDetails getUser() {
+        return user;
+    }
+
+    void setUser(UserDetails user) {
+        this.user = user;
+    }
+
+    public SessionDetails(UserDetails user) {
+        this.user = user;
+    }
 }

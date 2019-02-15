@@ -16,17 +16,20 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import me.zbl.reactivesecurity.auth.PasswordEncoderFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@ServletComponentScan
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class AuthmoreApplication {
+/**
+ * @author JamesZBL
+ * created at 2019-02-15
+ */
+@Configuration
+public class SecurityConfiguration {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthmoreApplication.class, args);
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactory.createDelegatingPasswordEncoder();
     }
 }
-

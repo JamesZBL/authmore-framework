@@ -17,6 +17,8 @@
 package me.zbl.authmore;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author JamesZBL
@@ -25,4 +27,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class AuthorizationEndpoint {
 
+    @GetMapping("/authorize")
+    @ResponseBody
+    public String authorize() {
+        return "Authorize";
+    }
 }

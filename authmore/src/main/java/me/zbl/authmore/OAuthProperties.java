@@ -20,7 +20,7 @@ package me.zbl.authmore;
  * @author JamesZBL
  * created at 2019-02-14
  */
-public class OAuthProperties {
+class OAuthProperties {
 
     enum GrantTypes {
         AUTHORIZATION_CDOE,

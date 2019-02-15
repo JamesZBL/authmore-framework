@@ -6,7 +6,5 @@
 </head>
 <body>
 <h1>Authmore Authorization Center</h1>
-<h2>App name is <span th:text="${session.application_name}"></span></h2>
-<a href="/set_name">Set name</a>
 </body>
 </html>

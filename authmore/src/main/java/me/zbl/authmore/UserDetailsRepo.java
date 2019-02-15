@@ -19,11 +19,13 @@ package me.zbl.authmore;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 /**
  * @author JamesZBL
  * created at 2019-02-14
  */
 public interface UserDetailsRepo extends MongoRepository<UserDetails, String> {
 
-
+    Optional<UserDetails> findByUsername(String userName);
 }
