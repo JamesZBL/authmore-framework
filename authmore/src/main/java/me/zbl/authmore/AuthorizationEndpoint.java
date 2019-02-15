@@ -22,6 +22,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
+import static me.zbl.authmore.SessionProperties.CURRENT_CLIENT;
+
 /**
  * @author JamesZBL
  * created at 2019-02-14
@@ -42,8 +46,10 @@ public class AuthorizationEndpoint {
             @RequestParam("redirect_uri") String redirectUri,
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "state", required = false) String state,
+            HttpSession session,
             Model model) {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
+        session.setAttribute(CURRENT_CLIENT, client);
         model.addAttribute("client", client);
         return "authorize";
     }
