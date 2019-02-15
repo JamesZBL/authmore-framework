@@ -16,16 +16,16 @@
  */
 package me.zbl.authmore;
 
-import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.Optional;
 
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * created at 2019-02-14
  */
-public interface AuthenticationManager {
+public interface UserDetailsRepository extends MongoRepository<UserDetails, String> {
 
-    UserDetails userValidate(String principal, String credential) throws AuthenticationException;
-
-    ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws OAuthException;
+    Optional<UserDetails> findByUsername(String userName);
 }

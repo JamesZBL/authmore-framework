@@ -16,13 +16,18 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 
 import static me.zbl.authmore.AuthenticationException.*;
+import static me.zbl.authmore.OAuthException.*;
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -31,16 +36,20 @@ import static me.zbl.authmore.AuthenticationException.*;
 @Service
 public class RepoAuthenticationManager implements AuthenticationManager {
 
-    private UserDetailsRepo users;
+    private UserDetailsRepository users;
+    private ClientDetailsRepository clients;
     private PasswordEncoder passwordEncoder;
 
-    public RepoAuthenticationManager(UserDetailsRepo users, PasswordEncoder passwordEncoder) {
+    public RepoAuthenticationManager(
+            UserDetailsRepository users, ClientDetailsRepository clients,
+            PasswordEncoder passwordEncoder) {
         this.users = users;
+        this.clients = clients;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserDetails authenticate(String principal, String credential) throws AuthenticationException {
+    public UserDetails userValidate(String principal, String credential) throws AuthenticationException {
         Optional<UserDetails> find = users.findByUsername(principal);
         if (!find.isPresent()) {
             throw new AuthenticationException(INVALID_USERNAME);
@@ -54,5 +63,25 @@ public class RepoAuthenticationManager implements AuthenticationManager {
         if (!enabled)
             throw new AuthenticationException(ACCOUNT_DISABLED);
         return user;
+    }
+
+    @Override
+    public ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws OAuthException {
+        Optional<ClientDetails> find = clients.findByClientId(clientId);
+        if (!find.isPresent())
+            throw new OAuthException(INVALID_CLIENT);
+        ClientDetails client = find.get();
+        Set<String> registeredRedirectUri = client.getRegisteredRedirectUri();
+        boolean validRedirectUri = registeredRedirectUri.stream().anyMatch(r -> r.equals(redirectUri));
+        if (!validRedirectUri)
+            throw new OAuthException(REDIRECT_URI_MISMATCH);
+        if (!isEmpty(scope)) {
+            Set<String> registeredScope = client.getScope();
+            boolean validScope = Arrays.stream(scope.split("\\+"))
+                    .allMatch(s -> registeredScope.contains(scope));
+            if (!validScope)
+                throw new OAuthException(INVALID_SCOPE);
+        }
+        return client;
     }
 }

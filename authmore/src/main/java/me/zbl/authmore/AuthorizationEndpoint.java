@@ -17,7 +17,9 @@
 package me.zbl.authmore;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -27,9 +29,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AuthorizationEndpoint {
 
+    private ClientDetailsRepository clients;
+
     @GetMapping("/authorize")
     @ResponseBody
-    public String authorize() {
+    public String authorize(
+            @RequestParam("client_id") String clientId,
+            @RequestParam("response_type") String responseType,
+            @RequestParam("redirect_uri") String redirectUri,
+            @RequestParam(value = "scope", required = false) String scope,
+            @RequestParam(value = "state", required = false) String state,
+            Model model) {
+
         return "Authorize";
     }
 }

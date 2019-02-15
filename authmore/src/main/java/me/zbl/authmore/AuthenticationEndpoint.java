@@ -19,10 +19,11 @@ package me.zbl.authmore;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -56,13 +57,13 @@ public class AuthenticationEndpoint {
                          @RequestParam("from") String from, Model model) {
         UserDetails user;
         try {
-            user = authenticationManager.authenticate(userName, inputPassword);
+            user = authenticationManager.userValidate(userName, inputPassword);
         } catch (AuthenticationException e) {
             model.addAttribute(ERROR, e.getMessage());
             return "/signin";
         }
         sessionManager.signin(user);
-        if (!StringUtils.isEmpty(from))
+        if (!isEmpty(from))
             return "redirect:" + from;
         return "redirect:/";
     }

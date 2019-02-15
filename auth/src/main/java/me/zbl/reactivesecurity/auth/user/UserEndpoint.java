@@ -21,12 +21,13 @@ import me.zbl.reactivesecurity.auth.DataWrapper;
 import me.zbl.reactsecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -68,7 +69,7 @@ public class UserEndpoint extends AuthController {
         Optional<UserDetails> original = users.findById(id);
         original.orElseThrow(IllegalArgumentException::new);
         String input = user.getPassword();
-        if (StringUtils.isEmpty(input))
+        if (isEmpty(input))
             original.ifPresent(o -> user.setPassword(o.getPassword()));
         else if (!input.startsWith("{"))
             encodePassword(user);

@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
     implementation 'org.springframework.session:spring-session-data-redis'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
