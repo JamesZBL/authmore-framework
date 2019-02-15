@@ -16,12 +16,30 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+
+import static me.zbl.authmore.SessionProperties.CURRENT_USER;
+import static me.zbl.authmore.SessionProperties.SESSION_DETAILS;
+
 /**
  * @author JamesZBL
  * created at 2019-02-15
  */
-class SessionProperties {
+@Service
+public class DefaultSessionManager implements SessionManager {
 
-    static final String SESSION_DETAILS = "session_details";
-    static final String CURRENT_USER = "current_user";
+    private HttpSession session;
+
+    public DefaultSessionManager(HttpSession session) {
+        this.session = session;
+    }
+
+    @Override
+    public void signin(UserDetails user) {
+        session.setAttribute(SESSION_DETAILS, new SessionDetails(user));
+        session.setAttribute(CURRENT_USER, user.getUsername());
+    }
 }

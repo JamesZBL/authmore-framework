@@ -16,12 +16,13 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+
 /**
  * @author JamesZBL
  * created at 2019-02-15
  */
-class SessionProperties {
+public interface AuthenticationManager {
 
-    static final String SESSION_DETAILS = "session_details";
-    static final String CURRENT_USER = "current_user";
+    UserDetails authenticate(String principal, String credential) throws AuthenticationException;
 }

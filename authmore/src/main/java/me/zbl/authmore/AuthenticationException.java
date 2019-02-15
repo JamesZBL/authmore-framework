@@ -20,8 +20,13 @@ package me.zbl.authmore;
  * @author JamesZBL
  * created at 2019-02-15
  */
-class SessionProperties {
+public class AuthenticationException extends Exception {
 
-    static final String SESSION_DETAILS = "session_details";
-    static final String CURRENT_USER = "current_user";
+    public static final String INVALID_USERNAME = "Invalid username";
+    public static final String INVALID_PASSWORD = "Invalid password";
+    public static final String ACCOUNT_DISABLED = "Account is disabled";
+
+    public AuthenticationException(String message) {
+        super(message);
+    }
 }

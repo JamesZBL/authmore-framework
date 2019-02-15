@@ -17,15 +17,12 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.user.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author JamesZBL
@@ -36,18 +33,12 @@ public class AuthenticationEndpoint {
 
     private static final String ERROR = "error";
 
-    private UserDetailsRepo users;
-    private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
+    private SessionManager sessionManager;
 
-    public AuthenticationEndpoint(UserDetailsRepo users, PasswordEncoder passwordEncoder) {
-        this.users = users;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @GetMapping("/user")
-    @ResponseBody
-    public List<UserDetails> users() {
-        return users.findAll();
+    public AuthenticationEndpoint(AuthenticationManager authenticationManager, SessionManager sessionManager) {
+        this.authenticationManager = authenticationManager;
+        this.sessionManager = sessionManager;
     }
 
     @GetMapping("/index")
@@ -62,26 +53,17 @@ public class AuthenticationEndpoint {
 
     @PostMapping("/signin")
     public String singIn(@RequestParam("ui") String userName, @RequestParam("uc") String inputPassword,
-                         @RequestParam("from") String from, Model model, HttpSession session) {
-        Optional<UserDetails> find = users.findByUsername(userName);
-        if (!find.isPresent()) {
-            model.addAttribute(ERROR, "Invalid username!");
-        } else {
-            UserDetails user = find.get();
-            String storedPassword = user.getPassword();
-            boolean valid = passwordEncoder.matches(inputPassword, storedPassword);
-            boolean enabled = user.isEnabled();
-            if (valid) {
-                if(!enabled)
-                    model.addAttribute(ERROR,"Account is disabled!");
-                else {
-                    session.setAttribute(SessionProperties.SESSION_DETAILS, new SessionDetails(user));
-                    if (!StringUtils.isEmpty(from))
-                        return "redirect:" + from;
-                    else return "/";
-                }
-            } else model.addAttribute(ERROR, "Invalid password!");
+                         @RequestParam("from") String from, Model model) {
+        UserDetails user;
+        try {
+            user = authenticationManager.authenticate(userName, inputPassword);
+        } catch (AuthenticationException e) {
+            model.addAttribute(ERROR, e.getMessage());
+            return "/signin";
         }
-        return "/signin";
+        sessionManager.signin(user);
+        if (!StringUtils.isEmpty(from))
+            return "redirect:" + from;
+        return "redirect:/";
     }
 }
