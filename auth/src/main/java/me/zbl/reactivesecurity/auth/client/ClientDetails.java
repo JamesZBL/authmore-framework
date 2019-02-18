@@ -193,6 +193,10 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         return isAutoApprove;
     }
 
+    public void setAutoApprove(Boolean autoApprove) {
+        isAutoApprove = autoApprove;
+    }
+
     private Set<String> string2Set(String raw) {
         if (StringUtils.isEmpty(raw)) {
             return Collections.emptySet();
