@@ -3,3 +3,5 @@ server:
   servlet:
     session:
       timeout: 5m
+      cookie:
+        name: AUTHMORE_SESSION
