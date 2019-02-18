@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Authmore Sign in</title>
+    <title>Sign in - Authmore</title>
 </head>
 <body>
 <h1>Please Sign in</h1>
