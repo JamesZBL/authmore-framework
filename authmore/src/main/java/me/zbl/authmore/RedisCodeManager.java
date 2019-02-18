@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * @since 2019-02-18
  */
 @Component
-public class RedisCodeManager implements CodeManager {
+public class RedisCodeManager extends AbstractKeyManager implements CodeManager {
 
     private static final String KEY_PREFIX = "authmore:authorization:code:";
 
@@ -36,17 +36,18 @@ public class RedisCodeManager implements CodeManager {
     }
 
     @Override
+    protected String getKeyPrefix() {
+        return KEY_PREFIX;
+    }
+
+    @Override
     public void saveCodeBinding(ClientDetails client, String code) {
-        redisTemplate.boundValueOps(buildKey(code)).set(client.getClientId(), CodeManager.codeValiditySeconds);
+        redisTemplate.boundValueOps(key(code)).set(client.getClientId(), CodeManager.codeValiditySeconds);
     }
 
     @Override
     public boolean isValidCode(String clientId, String code) {
-        String find = redisTemplate.boundValueOps(buildKey(code)).get();
+        String find = redisTemplate.boundValueOps(key(code)).get();
         return null != find && find.equals(clientId);
-    }
-
-    private String buildKey(String key) {
-        return KEY_PREFIX + key;
     }
 }
