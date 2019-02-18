@@ -23,9 +23,21 @@ package me.zbl.authmore;
 class OAuthProperties {
 
     enum GrantTypes {
-        AUTHORIZATION_CDOE,
-        IMPLICIT,
-        PASSWORD,
-        CLIENT_CREDENTIALS
+
+        AUTHORIZATION_CDOE("authorization_code"),
+        IMPLICIT("implicit"),
+        PASSWORD("password"),
+        CLIENT_CREDENTIALS("client_credentials"),
+        REFRESH_TOKEN("refresh_token");
+
+        String name;
+
+        GrantTypes(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }
