@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler({OAuthException.class})
-    public String exception(OAuthException exception, Model model) {
+    @ExceptionHandler({AuthorizationException.class})
+    public String exception(AuthorizationException exception, Model model) {
         String error = exception.getMessage();
         model.addAttribute("error", error);
         return "error";

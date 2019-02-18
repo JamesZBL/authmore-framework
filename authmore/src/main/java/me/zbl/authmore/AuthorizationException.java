@@ -16,16 +16,21 @@
  */
 package me.zbl.authmore;
 
-import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactivesecurity.auth.user.UserDetails;
-
 /**
  * @author JamesZBL
- * @since 2019-02-15
+ * @since 2019-02-18
  */
-public interface AuthenticationManager {
+public class AuthorizationException extends RuntimeException {
 
-    UserDetails userValidate(String principal, String credential) throws AuthenticationException;
+    public AuthorizationException() {
+        super("authorization_error");
+    }
 
-    ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws AuthorizationException;
+    public AuthorizationException(String message) {
+        super(message);
+    }
+
+    public AuthorizationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

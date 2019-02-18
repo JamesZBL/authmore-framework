@@ -26,13 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 
+import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
 import static me.zbl.authmore.OAuthException.UNSUPPORTED_RESPONSE_TYPE;
-import static me.zbl.authmore.SessionProperties.CURRENT_CLIENT;
-import static me.zbl.authmore.SessionProperties.CURRENT_REDIRECT_URI;
-import static me.zbl.authmore.SessionProperties.LAST_STATE;
+import static me.zbl.authmore.SessionProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -63,7 +61,7 @@ public class AuthorizationEndpoint {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
         session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
         if (!"code".equals(responseType))
-            throw new OAuthException(UNSUPPORTED_RESPONSE_TYPE);
+            throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         if (client.isAutoApprove()) {
             String code = RandomPassword.create();
             codeManager.saveCodeBinding(client, code);
@@ -86,9 +84,9 @@ public class AuthorizationEndpoint {
             HttpServletResponse response) throws IOException {
         ClientDetails client = (ClientDetails) session.getAttribute(CURRENT_CLIENT);
         if (null == client || !client.getClientId().equals(clientId))
-            throw new OAuthException("invalid client");
+            throw new AuthorizationException(INVALID_CLIENT);
         if (!"allow".equals(opinion))
-            throw new OAuthException("signin was rejected");
+            throw new AuthorizationException("signin was rejected");
         String code = RandomPassword.create();
         codeManager.saveCodeBinding(client, code);
         String redirectUri = (String) session.getAttribute(CURRENT_REDIRECT_URI);

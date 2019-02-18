@@ -66,21 +66,21 @@ public class RepoAuthenticationManager implements AuthenticationManager {
     }
 
     @Override
-    public ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws OAuthException {
+    public ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws AuthorizationException {
         Optional<ClientDetails> find = clients.findByClientId(clientId);
         if (!find.isPresent())
-            throw new OAuthException(INVALID_CLIENT);
+            throw new AuthorizationException(INVALID_CLIENT);
         ClientDetails client = find.get();
         Set<String> registeredRedirectUri = client.getRegisteredRedirectUri();
         boolean validRedirectUri = registeredRedirectUri.stream().anyMatch(r -> r.equals(redirectUri));
         if (!validRedirectUri)
-            throw new OAuthException(REDIRECT_URI_MISMATCH);
+            throw new AuthorizationException(REDIRECT_URI_MISMATCH);
         if (!isEmpty(scope)) {
             Set<String> registeredScope = client.getScope();
             boolean validScope = Arrays.stream(scope.split("\\+"))
                     .allMatch(s -> registeredScope.contains(scope));
             if (!validScope)
-                throw new OAuthException(INVALID_SCOPE);
+                throw new AuthorizationException(INVALID_SCOPE);
         }
         return client;
     }

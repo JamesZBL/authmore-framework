@@ -16,16 +16,13 @@
  */
 package me.zbl.authmore;
 
-import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author JamesZBL
- * @since 2019-02-15
+ * @since 2019-02-18
  */
-public interface AuthenticationManager {
+@RestController
+public class TokenEndpoint {
 
-    UserDetails userValidate(String principal, String credential) throws AuthenticationException;
-
-    ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws AuthorizationException;
 }
