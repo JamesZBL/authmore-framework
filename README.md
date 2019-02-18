@@ -1,3 +1,3 @@
-# reactive-security-example
+# authmore
 
-Reactive example with Spring Security and OAuth2
+Cross-domain authentication and authorization system with implementing for OAuth2 protocol.
