@@ -29,7 +29,6 @@ import java.io.IOException;
 
 import static me.zbl.authmore.SessionProperties.CURRENT_USER_DETAILS;
 import static me.zbl.authmore.SessionProperties.LAST_URL;
-import static me.zbl.authmore.SessionProperties.SESSION_DETAILS;
 
 /**
  * @author JamesZBL
