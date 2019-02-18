@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisCodeManager implements CodeManager {
 
-    private static final String KEY_PREFIX = "authorize_code_";
+    private static final String KEY_PREFIX = "authmore:authorization:code:";
 
     private RedisTemplate<String, String> redisTemplate;
 
