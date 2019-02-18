@@ -20,5 +20,11 @@
         var opinion = allow ? "allow" : "deny";
         $('#id_input_opinion').val(opinion);
         $('#id_form_opinion').submit();
-    }
+    };
+
+    $(function () {
+        setTimeout(function () {
+            location.reload();
+        }, 30 * 1000)
+    });
 </script>
