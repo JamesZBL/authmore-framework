@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static me.zbl.authmore.SessionProperties.CURRENT_USER_DETAILS;
 import static me.zbl.authmore.SessionProperties.LAST_URL;
 import static me.zbl.authmore.SessionProperties.SESSION_DETAILS;
 
@@ -41,13 +42,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         HttpSession session = request.getSession(true);
-        SessionDetails sessionDetails = (SessionDetails) session.getAttribute(SESSION_DETAILS);
-        if (null == sessionDetails) {
-            redirectToSignin(request, response);
-            return;
-        }
-
-        UserDetails user = sessionDetails.getUser();
+        UserDetails user = (UserDetails) session.getAttribute(CURRENT_USER_DETAILS);
         if (null == user) {
             redirectToSignin(request, response);
             return;

@@ -17,14 +17,21 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import me.zbl.reactsecurity.common.RandomPassword;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
+
+import static me.zbl.authmore.OAuthException.UNSUPPORTED_RESPONSE_TYPE;
 import static me.zbl.authmore.SessionProperties.CURRENT_CLIENT;
+import static me.zbl.authmore.SessionProperties.LAST_STATE;
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -34,9 +41,11 @@ import static me.zbl.authmore.SessionProperties.CURRENT_CLIENT;
 public class AuthorizationEndpoint {
 
     private AuthenticationManager authenticationManager;
+    private CodeManager codeManager;
 
-    public AuthorizationEndpoint(AuthenticationManager authenticationManager) {
+    public AuthorizationEndpoint(AuthenticationManager authenticationManager, CodeManager codeManager) {
         this.authenticationManager = authenticationManager;
+        this.codeManager = codeManager;
     }
 
     @GetMapping("/authorize")
@@ -47,10 +56,24 @@ public class AuthorizationEndpoint {
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "state", required = false) String state,
             HttpSession session,
-            Model model) {
+            Model model,
+            HttpServletResponse response) throws IOException {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
+        if(!"code".equals(responseType))
+            throw new OAuthException(UNSUPPORTED_RESPONSE_TYPE);
+        if (client.isAutoApprove()) {
+            String code = RandomPassword.create();
+            codeManager.saveCodeBinding(client, code);
+            String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
+            response.sendRedirect(location);
+        }
+        if (!isEmpty(state)) {
+            session.setAttribute(LAST_STATE, state);
+        }
         session.setAttribute(CURRENT_CLIENT, client);
         model.addAttribute("client", client);
         return "authorize";
     }
+
+    //    @PostMapping("/")
 }

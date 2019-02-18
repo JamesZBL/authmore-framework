@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 
 import static me.zbl.authmore.SessionProperties.CURRENT_USER;
-import static me.zbl.authmore.SessionProperties.SESSION_DETAILS;
+import static me.zbl.authmore.SessionProperties.CURRENT_USER_DETAILS;
 
 /**
  * @author JamesZBL
@@ -39,7 +39,7 @@ public class DefaultSessionManager implements SessionManager {
 
     @Override
     public void signin(UserDetails user) {
-        session.setAttribute(SESSION_DETAILS, new SessionDetails(user));
+        session.setAttribute(CURRENT_USER_DETAILS, user);
         session.setAttribute(CURRENT_USER, user.getUsername());
     }
 }

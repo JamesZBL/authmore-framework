@@ -16,16 +16,17 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
+
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * created at 2019-02-18
  */
-interface SessionProperties {
+public interface CodeManager {
 
-    String SESSION_DETAILS = "session_details";
-    String CURRENT_USER = "current_user";
-    String CURRENT_USER_DETAILS = "current_user_details";
-    String LAST_URL = "last_url";
-    String CURRENT_CLIENT = "current_client";
-    String LAST_STATE = "last_state";
+    int codeValiditySeconds = 300;
+
+    void saveCodeBinding(ClientDetails client, String code);
+
+    boolean isValidCode(String clientId, String code);
 }

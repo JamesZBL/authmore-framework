@@ -44,7 +44,7 @@ public class RandomPasswordTest {
         String last = null;
         HashSet<Object> digests = new HashSet<>();
         for (int i = 0; i < 100; i++) {
-            String pwd = RandomPassword.build();
+            String pwd = RandomPassword.create();
             char[] chars = pwd.toCharArray();
             assertNotNull(pwd);
             assertEquals(32, pwd.length());

@@ -34,7 +34,7 @@ public class PasswordEndpoint extends BasicController {
 
     @GetMapping("/random")
     public Map randomPassword() {
-        return map().put("result", RandomPassword.build()).map();
+        return map().put("result", RandomPassword.create()).map();
     }
 }
 

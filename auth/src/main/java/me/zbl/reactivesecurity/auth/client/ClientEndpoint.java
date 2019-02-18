@@ -58,7 +58,7 @@ public class ClientEndpoint extends AuthController {
 
     @PostMapping
     public ClientCreateResult add(@RequestBody ClientDetails client) {
-        String secret = RandomPassword.build();
+        String secret = RandomPassword.create();
         client.setClientSecret(secret);
         encodePassword(client);
         clients.save(client);

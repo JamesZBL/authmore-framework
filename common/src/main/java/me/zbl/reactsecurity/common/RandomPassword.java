@@ -26,11 +26,11 @@ public class RandomPassword {
 
     private RandomPassword() {}
 
-    public static String build() {
-        return build(32);
+    public static String create() {
+        return create(32);
     }
 
-    public static String build(int length) {
+    public static String create(int length) {
         int p = 0;
         char[] table = new char[62];
         StringBuilder sb = new StringBuilder();
