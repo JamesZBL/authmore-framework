@@ -29,11 +29,11 @@ import static me.zbl.authmore.SessionProperties.CURRENT_USER_DETAILS;
  * created at 2019-02-15
  */
 @Service
-public class DefaultSessionManager implements SessionManager {
+public class UserSessionManager implements SessionManager {
 
     private HttpSession session;
 
-    public DefaultSessionManager(HttpSession session) {
+    public UserSessionManager(HttpSession session) {
         this.session = session;
     }
 
