@@ -21,6 +21,7 @@ import me.zbl.reactsecurity.common.RandomPassword;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ import java.io.IOException;
 
 import static me.zbl.authmore.OAuthException.UNSUPPORTED_RESPONSE_TYPE;
 import static me.zbl.authmore.SessionProperties.CURRENT_CLIENT;
+import static me.zbl.authmore.SessionProperties.CURRENT_REDIRECT_URI;
 import static me.zbl.authmore.SessionProperties.LAST_STATE;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -59,7 +61,8 @@ public class AuthorizationEndpoint {
             Model model,
             HttpServletResponse response) throws IOException {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
-        if(!"code".equals(responseType))
+        session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
+        if (!"code".equals(responseType))
             throw new OAuthException(UNSUPPORTED_RESPONSE_TYPE);
         if (client.isAutoApprove()) {
             String code = RandomPassword.create();
@@ -75,5 +78,22 @@ public class AuthorizationEndpoint {
         return "authorize";
     }
 
-    //    @PostMapping("/")
+    @PostMapping("/authorize/confirm")
+    public void authorizeConfirm(
+            @RequestParam("client_id") String clientId,
+            @RequestParam("opinion") String opinion,
+            HttpSession session,
+            HttpServletResponse response) throws IOException {
+        ClientDetails client = (ClientDetails) session.getAttribute(CURRENT_CLIENT);
+        if (null == client || !client.getClientId().equals(clientId))
+            throw new OAuthException("invalid client");
+        if (!"allow".equals(opinion))
+            throw new OAuthException("signin was rejected");
+        String code = RandomPassword.create();
+        codeManager.saveCodeBinding(client, code);
+        String redirectUri = (String) session.getAttribute(CURRENT_REDIRECT_URI);
+        String state = (String) session.getAttribute(LAST_STATE);
+        String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
+        response.sendRedirect(location);
+    }
 }

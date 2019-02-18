@@ -27,5 +27,6 @@ interface SessionProperties {
     String CURRENT_USER_DETAILS = "current_user_details";
     String LAST_URL = "last_url";
     String CURRENT_CLIENT = "current_client";
+    String CURRENT_REDIRECT_URI = "current_redirect_uri";
     String LAST_STATE = "last_state";
 }

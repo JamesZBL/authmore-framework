@@ -37,6 +37,10 @@ public class OAuthException extends RuntimeException {
     public static final String UNSUPPORTED_RESPONSE_TYPE ="unsupported_response_type";
     public static final String ACCESS_DENIED = "access_denied";
 
+    public OAuthException() {
+        super(ERROR);
+    }
+
     public OAuthException(String message) {
         super(message);
     }

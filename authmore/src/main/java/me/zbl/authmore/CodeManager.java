@@ -18,13 +18,15 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 
+import java.time.Duration;
+
 /**
  * @author JamesZBL
  * created at 2019-02-18
  */
 public interface CodeManager {
 
-    int codeValiditySeconds = 300;
+    Duration codeValiditySeconds = Duration.ofSeconds(300);
 
     void saveCodeBinding(ClientDetails client, String code);
 
