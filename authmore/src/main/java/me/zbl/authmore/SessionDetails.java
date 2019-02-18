@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * @author JamesZBL
- * created at 2019-02-14
+ * @since 2019-02-14
  */
 class SessionDetails implements Serializable {
 

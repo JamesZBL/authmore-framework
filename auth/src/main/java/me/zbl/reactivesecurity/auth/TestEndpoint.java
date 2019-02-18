@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * endpoints for test security config
  *
  * @author JamesZBL
- * created at 2019-02-13
+ * @since 2019-02-13
  */
 @RestController
 @RequestMapping("/test")

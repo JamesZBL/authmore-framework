@@ -22,7 +22,7 @@ import java.time.Duration;
 
 /**
  * @author JamesZBL
- * created at 2019-02-18
+ * @since 2019-02-18
  */
 public interface CodeManager {
 

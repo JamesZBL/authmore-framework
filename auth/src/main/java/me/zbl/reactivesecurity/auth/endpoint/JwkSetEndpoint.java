@@ -31,7 +31,7 @@ import java.util.Map;
 
 /**
  * @author JamesZBL
- * created at 2019-01-25
+ * @since 2019-01-25
  */
 @FrameworkEndpoint
 public class JwkSetEndpoint {

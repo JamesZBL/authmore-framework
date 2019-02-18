@@ -31,7 +31,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * @since 2019-02-15
  */
 @Controller
 public class AuthenticationEndpoint {

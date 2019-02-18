@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author JamesZBL
- * created at 2019-01-23
+ * @since 2019-01-23
  */
 @Component
 public class UserInitializer implements SmartInitializingSingleton {

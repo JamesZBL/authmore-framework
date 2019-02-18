@@ -23,7 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * @author JamesZBL
- * created at 2019-01-29
+ * @since 2019-01-29
  */
 @Configuration
 @EnableOAuth2Sso

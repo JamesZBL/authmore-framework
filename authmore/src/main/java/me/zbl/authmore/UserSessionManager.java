@@ -26,7 +26,7 @@ import static me.zbl.authmore.SessionProperties.CURRENT_USER_DETAILS;
 
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * @since 2019-02-15
  */
 @Service
 public class UserSessionManager implements SessionManager {

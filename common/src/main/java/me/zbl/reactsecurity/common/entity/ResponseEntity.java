@@ -21,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * @author JamesZBL
- * created at 2019-01-28
+ * @since 2019-01-28
  */
 public class ResponseEntity extends org.springframework.http.ResponseEntity<ResponseContent> {
 

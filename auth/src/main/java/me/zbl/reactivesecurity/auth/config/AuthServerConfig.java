@@ -46,7 +46,7 @@ import java.util.Map;
  * not-rotating key and exposes a JWK endpoint.
  *
  * @author JamesZBL
- * created at 2019-01-25
+ * @since 2019-01-25
  */
 @Configuration
 @EnableAuthorizationServer

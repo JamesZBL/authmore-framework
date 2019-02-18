@@ -28,7 +28,7 @@ import java.util.Random;
 
 /**
  * @author JamesZBL
- * created at 2019-01-23
+ * @since 2019-01-23
  */
 @RestController
 @RequestMapping(path = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

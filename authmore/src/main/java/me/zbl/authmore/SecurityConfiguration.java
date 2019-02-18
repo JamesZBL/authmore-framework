@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * @since 2019-02-15
  */
 @Configuration
 public class SecurityConfiguration {

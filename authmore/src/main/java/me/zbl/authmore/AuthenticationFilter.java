@@ -32,7 +32,7 @@ import static me.zbl.authmore.SessionProperties.LAST_URL;
 
 /**
  * @author JamesZBL
- * created at 2019-02-14
+ * @since 2019-02-14
  */
 @WebFilter(urlPatterns = {"/authorize"})
 public class AuthenticationFilter extends OncePerRequestFilter {

@@ -21,7 +21,7 @@ import me.zbl.reactivesecurity.auth.user.UserDetails;
 
 /**
  * @author JamesZBL
- * created at 2019-02-15
+ * @since 2019-02-15
  */
 public interface AuthenticationManager {
 

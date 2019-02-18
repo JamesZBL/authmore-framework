@@ -18,7 +18,7 @@ package me.zbl.reactivesecurity.auth.client;
 
 /**
  * @author JamesZBL
- * created at 2019-02-09
+ * @since 2019-02-09
  */
 public class ClientCreateResult {
 

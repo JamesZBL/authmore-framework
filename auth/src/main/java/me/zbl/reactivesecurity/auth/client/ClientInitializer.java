@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author JamesZBL
- * created at 2019-01-28
+ * @since 2019-01-28
  */
 @Component
 public class ClientInitializer implements SmartInitializingSingleton {

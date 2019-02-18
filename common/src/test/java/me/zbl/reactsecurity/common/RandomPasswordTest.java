@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author JamesZBL
- * created at 2019-02-10
+ * @since 2019-02-10
  */
 public class RandomPasswordTest {
 

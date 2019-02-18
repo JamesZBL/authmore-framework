@@ -18,7 +18,7 @@ package me.zbl.reactsecurity.common.entity;
 
 /**
  * @author JamesZBL
- * created at 2019-01-28
+ * @since 2019-01-28
  */
 public class ResponseContent {
 
