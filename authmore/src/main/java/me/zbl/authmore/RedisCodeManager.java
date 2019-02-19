@@ -24,8 +24,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
-
 /**
  * @author JamesZBL
  * @since 2019-02-18
@@ -48,17 +46,18 @@ public class RedisCodeManager extends AbstractKeyManager implements CodeManager 
 
     @Override
     public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes) {
-        redisTemplate.boundHashOps(key(code)).put("client_id", client.getClientId());
-        redisTemplate.boundHashOps(key(code)).put("scopes", scopes);
+        redisTemplate.boundValueOps(key(code) + ":client_id").set(client.getClientId(), codeValiditySeconds);
+        redisTemplate.boundValueOps(key(code) + ":scopes")
+                .set(String.join(",", scopes), codeValiditySeconds);
     }
 
     @Override
     public Set<String> getCurrentScopes(String clientId, String code) {
-        String find = (String) redisTemplate.boundHashOps(key(code)).get("client_id");
+        String find = redisTemplate.boundValueOps(key(code) + ":client_id").get();
         if (null == find || !find.equals(clientId))
             throw new OAuthException("invalid code");
-        String[] scopes = (String[]) redisTemplate.boundHashOps(key(code)).get("scopes");
-        assert scopes != null;
-        return Arrays.stream(scopes).collect(Collectors.toSet());
+        String strScopes = redisTemplate.boundValueOps(key(code) + ":scopes").get();
+        assert null != strScopes;
+        return Arrays.stream(strScopes.split(",")).collect(Collectors.toSet());
     }
 }

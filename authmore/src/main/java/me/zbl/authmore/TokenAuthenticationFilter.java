@@ -47,8 +47,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String clientId = (String) request.getAttribute("client_id");
-        String clientSecret = (String) request.getAttribute("client_secret");
+
+        String clientId = request.getParameter("client_id");
+        String clientSecret = request.getParameter("client_secret");
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
             sendUnauthorized(response);
             return;
