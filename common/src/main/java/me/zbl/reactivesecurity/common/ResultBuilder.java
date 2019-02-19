@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactsecurity.common;
+package me.zbl.reactivesecurity.common;
 
 import java.util.HashMap;
 import java.util.Map;

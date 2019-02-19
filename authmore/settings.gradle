@@ -4,3 +4,7 @@ pluginManagement {
     }
 }
 rootProject.name = 'authmore'
+
+include ":auth", ":common"
+project(":auth").projectDir = new File("../auth")
+project(":common").projectDir = new File("../common")

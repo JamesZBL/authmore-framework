@@ -5,8 +5,9 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'me.zbl'
+group = 'me.zbl.reactive-security'
 version = '0.0.1-SNAPSHOT'
+description = 'authmore'
 sourceCompatibility = '1.8'
 
 repositories {

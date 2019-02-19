@@ -14,10 +14,10 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactsecurity.common;
+package me.zbl.reactivesecurity.common;
 
-import me.zbl.reactsecurity.common.entity.ResponseContent;
-import me.zbl.reactsecurity.common.entity.ResponseEntity;
+import me.zbl.reactivesecurity.common.entity.ResponseContent;
+import me.zbl.reactivesecurity.common.entity.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;

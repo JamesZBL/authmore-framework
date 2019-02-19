@@ -16,8 +16,8 @@
  */
 package me.zbl.reactivesecurity.auth;
 
-import me.zbl.reactsecurity.common.BasicController;
-import me.zbl.reactsecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.BasicController;
+import me.zbl.reactivesecurity.common.RandomPassword;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

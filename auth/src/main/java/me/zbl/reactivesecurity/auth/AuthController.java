@@ -16,7 +16,7 @@
  */
 package me.zbl.reactivesecurity.auth;
 
-import me.zbl.reactsecurity.common.BasicController;
+import me.zbl.reactivesecurity.common.BasicController;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**

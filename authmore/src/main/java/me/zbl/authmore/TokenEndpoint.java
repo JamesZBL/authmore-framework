@@ -18,7 +18,7 @@ package me.zbl.authmore;
 
 import me.zbl.authmore.OAuthProperties.GrantTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactsecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomPassword;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

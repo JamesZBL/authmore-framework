@@ -1,2 +1,5 @@
 
 rootProject.name = 'auth'
+
+include ":common"
+project(":common").projectDir = file("../common")

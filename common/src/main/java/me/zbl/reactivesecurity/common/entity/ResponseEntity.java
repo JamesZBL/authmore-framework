@@ -14,35 +14,30 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactsecurity.common.entity;
+package me.zbl.reactivesecurity.common.entity;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.util.MultiValueMap;
 
 /**
  * @author JamesZBL
  * @since 2019-01-28
  */
-public class ResponseContent {
+public class ResponseEntity extends org.springframework.http.ResponseEntity<ResponseContent> {
 
-    private String status;
-    private String msg;
-
-    public ResponseContent(String status, String msg) {
-        this.status = status;
-        this.msg = msg;
+    public ResponseEntity(HttpStatus status) {
+        super(status);
     }
 
-    public String getStatus() {
-        return status;
+    public ResponseEntity(ResponseContent body, HttpStatus status) {
+        super(body, status);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public ResponseEntity(MultiValueMap<String, String> headers, HttpStatus status) {
+        super(headers, status);
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public ResponseEntity(ResponseContent body, MultiValueMap<String, String> headers, HttpStatus status) {
+        super(body, headers, status);
     }
 }

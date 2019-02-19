@@ -17,7 +17,7 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactsecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomPassword;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

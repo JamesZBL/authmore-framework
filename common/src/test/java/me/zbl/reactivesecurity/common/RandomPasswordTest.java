@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.reactsecurity.common;
+package me.zbl.reactivesecurity.common;
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.jupiter.api.BeforeEach;
