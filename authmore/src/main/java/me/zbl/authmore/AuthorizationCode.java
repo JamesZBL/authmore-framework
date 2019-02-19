@@ -34,6 +34,12 @@ public class AuthorizationCode implements Serializable {
     private String clientId;
     private Set<String> scopes;
 
+    public AuthorizationCode(String code, String clientId, Set<String> scopes) {
+        this.code = code;
+        this.clientId = clientId;
+        this.scopes = scopes;
+    }
+
     public String getCode() {
         return code;
     }

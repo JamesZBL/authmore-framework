@@ -36,10 +36,8 @@ public class RedisCodeManager implements CodeManager {
 
     @Override
     public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes) {
-        AuthorizationCode authorizationCode = new AuthorizationCode();
-        authorizationCode.setClientId(client.getClientId());
-        authorizationCode.setCode(code);
-        authorizationCode.setScopes(scopes);
+        String clientId = client.getClientId();
+        AuthorizationCode authorizationCode = new AuthorizationCode(code, clientId, scopes);
         authorizationCodes.save(authorizationCode);
     }
 
