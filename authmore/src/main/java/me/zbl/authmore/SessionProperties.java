@@ -22,7 +22,6 @@ package me.zbl.authmore;
  */
 interface SessionProperties {
 
-    String SESSION_DETAILS = "session_details";
     String CURRENT_USER = "current_user";
     String CURRENT_USER_DETAILS = "current_user_details";
     String LAST_URL = "last_url";

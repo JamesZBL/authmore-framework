@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+import static me.zbl.authmore.OAuthException.INVALID_CODE;
+
 /**
  * @author JamesZBL
  * @since 2019-02-18
@@ -44,7 +46,7 @@ public class RedisCodeManager implements CodeManager {
     @Override
     public Set<String> getCurrentScopes(String clientId, String code) {
         AuthorizationCode find = authorizationCodes.findById(code)
-                .orElseThrow(() -> new OAuthException("invalid code"));
+                .orElseThrow(() -> new OAuthException(INVALID_CODE));
         return find.getScopes();
     }
 }
