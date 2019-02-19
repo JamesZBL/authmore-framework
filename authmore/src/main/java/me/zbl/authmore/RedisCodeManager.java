@@ -26,19 +26,12 @@ import java.util.Set;
  * @since 2019-02-18
  */
 @Component
-public class RedisCodeManager extends AbstractKeyManager implements CodeManager {
-
-    private static final String KEY_PREFIX = "authmore:authorization:code:";
+public class RedisCodeManager implements CodeManager {
 
     private AuthorizationCodeRepository authorizationCodes;
 
     public RedisCodeManager(AuthorizationCodeRepository authorizationCodes) {
         this.authorizationCodes = authorizationCodes;
-    }
-
-    @Override
-    protected String getKeyPrefix() {
-        return KEY_PREFIX;
     }
 
     @Override
