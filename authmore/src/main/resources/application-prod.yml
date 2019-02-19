@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      host: mongo
+  redis:
+    host: redis
