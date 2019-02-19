@@ -24,6 +24,8 @@ import java.util.Arrays;
  */
 class OAuthProperties {
 
+    static final long CODE_VALIDITY_SECONDS = 300L;
+
     enum GrantTypes {
 
         AUTHORIZATION_CDOE("authorization_code"),

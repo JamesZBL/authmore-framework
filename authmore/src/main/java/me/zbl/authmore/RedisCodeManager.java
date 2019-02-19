@@ -17,12 +17,9 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author JamesZBL
@@ -33,10 +30,10 @@ public class RedisCodeManager extends AbstractKeyManager implements CodeManager 
 
     private static final String KEY_PREFIX = "authmore:authorization:code:";
 
-    private RedisTemplate<String, String> redisTemplate;
+    private AuthorizationCodeRepository authorizationCodes;
 
-    public RedisCodeManager(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public RedisCodeManager(AuthorizationCodeRepository authorizationCodes) {
+        this.authorizationCodes = authorizationCodes;
     }
 
     @Override
@@ -46,18 +43,17 @@ public class RedisCodeManager extends AbstractKeyManager implements CodeManager 
 
     @Override
     public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes) {
-        redisTemplate.boundValueOps(key(code) + ":client_id").set(client.getClientId(), codeValiditySeconds);
-        redisTemplate.boundValueOps(key(code) + ":scopes")
-                .set(String.join(",", scopes), codeValiditySeconds);
+        AuthorizationCode authorizationCode = new AuthorizationCode();
+        authorizationCode.setClientId(client.getClientId());
+        authorizationCode.setCode(code);
+        authorizationCode.setScopes(scopes);
+        authorizationCodes.save(authorizationCode);
     }
 
     @Override
     public Set<String> getCurrentScopes(String clientId, String code) {
-        String find = redisTemplate.boundValueOps(key(code) + ":client_id").get();
-        if (null == find || !find.equals(clientId))
-            throw new OAuthException("invalid code");
-        String strScopes = redisTemplate.boundValueOps(key(code) + ":scopes").get();
-        assert null != strScopes;
-        return Arrays.stream(strScopes.split(",")).collect(Collectors.toSet());
+        AuthorizationCode find = authorizationCodes.findById(code)
+                .orElseThrow(() -> new OAuthException("invalid code"));
+        return find.getScopes();
     }
 }
