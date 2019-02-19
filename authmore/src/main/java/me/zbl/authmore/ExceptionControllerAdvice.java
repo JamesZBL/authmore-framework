@@ -16,9 +16,12 @@
  */
 package me.zbl.authmore;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author JamesZBL
@@ -27,10 +30,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({AuthorizationException.class})
-    public String exception(AuthorizationException exception, Model model) {
+    public String authorizationException(AuthorizationException exception, Model model) {
         String error = exception.getMessage();
         model.addAttribute("error", error);
         return "error";
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler({OAuthException.class})
+    public OAuthErrorResponse oAuthException(OAuthException exception) {
+        return new OAuthErrorResponse(exception);
     }
 }
