@@ -16,6 +16,8 @@
  */
 package me.zbl.authmore;
 
+import java.util.Arrays;
+
 /**
  * @author JamesZBL
  * @since 2019-02-14
@@ -38,6 +40,12 @@ class OAuthProperties {
 
         public String getName() {
             return name;
+        }
+
+        public static GrantTypes eval(String name) {
+            return Arrays.stream(GrantTypes.values())
+                    .filter(t -> t.getName().equals(name)).findFirst()
+                    .orElseThrow(() -> new OAuthException(OAuthException.UNSUPPORTED_GRANT_TYPE));
         }
     }
 }

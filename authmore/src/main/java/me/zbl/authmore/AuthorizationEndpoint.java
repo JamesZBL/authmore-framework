@@ -29,7 +29,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
+import static me.zbl.authmore.OAuthException.INVALID_SCOPE;
 import static me.zbl.authmore.OAuthException.UNSUPPORTED_RESPONSE_TYPE;
+import static me.zbl.authmore.OAuthUtil.scopeSet;
 import static me.zbl.authmore.SessionProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -60,11 +62,13 @@ public class AuthorizationEndpoint {
             HttpServletResponse response) throws IOException {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
         session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
+        if (isEmpty(scope))
+            throw new AuthorizationException(INVALID_SCOPE);
         if (!"code".equals(responseType))
             throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         if (client.isAutoApprove()) {
             String code = RandomPassword.create();
-            codeManager.saveCodeBinding(client, code);
+            codeManager.saveCodeBinding(client, code, scopeSet(scope));
             String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
             response.sendRedirect(location);
         }
@@ -72,6 +76,7 @@ public class AuthorizationEndpoint {
             session.setAttribute(LAST_STATE, state);
         }
         session.setAttribute(CURRENT_CLIENT, client);
+        session.setAttribute(LAST_SCOPE, scope);
         model.addAttribute("client", client);
         return "authorize";
     }
@@ -88,7 +93,8 @@ public class AuthorizationEndpoint {
         if (!"allow".equals(opinion))
             throw new AuthorizationException("signin was rejected");
         String code = RandomPassword.create();
-        codeManager.saveCodeBinding(client, code);
+        String scope = (String) session.getAttribute(LAST_SCOPE);
+        codeManager.saveCodeBinding(client, code, scopeSet(scope));
         String redirectUri = (String) session.getAttribute(CURRENT_REDIRECT_URI);
         String state = (String) session.getAttribute(LAST_STATE);
         String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);

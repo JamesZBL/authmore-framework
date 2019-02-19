@@ -16,18 +16,17 @@
  */
 package me.zbl.authmore;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * @author JamesZBL
- * @since 2019-02-15
+ * @since 2019-02-19
  */
-interface SessionProperties {
+public class OAuthUtil {
 
-    String SESSION_DETAILS = "session_details";
-    String CURRENT_USER = "current_user";
-    String CURRENT_USER_DETAILS = "current_user_details";
-    String LAST_URL = "last_url";
-    String CURRENT_CLIENT = "current_client";
-    String CURRENT_REDIRECT_URI = "current_redirect_uri";
-    String LAST_STATE = "last_state";
-    String LAST_SCOPE = "last_scope";
+    public static Set<String> scopeSet(String scope) {
+        return Arrays.stream(scope.split("\\+")).collect(Collectors.toSet());
+    }
 }

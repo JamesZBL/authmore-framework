@@ -20,6 +20,12 @@ import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
+
 /**
  * @author JamesZBL
  * @since 2019-02-18
@@ -41,13 +47,18 @@ public class RedisCodeManager extends AbstractKeyManager implements CodeManager 
     }
 
     @Override
-    public void saveCodeBinding(ClientDetails client, String code) {
-        redisTemplate.boundValueOps(key(code)).set(client.getClientId(), CodeManager.codeValiditySeconds);
+    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes) {
+        redisTemplate.boundHashOps(key(code)).put("client_id", client.getClientId());
+        redisTemplate.boundHashOps(key(code)).put("scopes", scopes);
     }
 
     @Override
-    public boolean isValidCode(String clientId, String code) {
-        String find = redisTemplate.boundValueOps(key(code)).get();
-        return null != find && find.equals(clientId);
+    public Set<String> getCurrentScopes(String clientId, String code) {
+        String find = (String) redisTemplate.boundHashOps(key(code)).get("client_id");
+        if (null == find || !find.equals(clientId))
+            throw new OAuthException("invalid code");
+        String[] scopes = (String[]) redisTemplate.boundHashOps(key(code)).get("scopes");
+        assert scopes != null;
+        return Arrays.stream(scopes).collect(Collectors.toSet());
     }
 }

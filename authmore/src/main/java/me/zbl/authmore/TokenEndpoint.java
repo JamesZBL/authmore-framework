@@ -16,7 +16,16 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.authmore.OAuthProperties.GrantTypes;
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import me.zbl.reactsecurity.common.RandomPassword;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -25,4 +34,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TokenEndpoint {
 
+    private ClientDetailsRepository clients;
+    private CodeManager codeManager;
+
+    public TokenEndpoint(ClientDetailsRepository clients, CodeManager codeManager) {
+        this.clients = clients;
+        this.codeManager = codeManager;
+    }
+
+    @PostMapping("/oauth/token")
+    public TokenEntity token(
+            @RequestParam(value = "grant_type", required = false) String grantType,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "redirect_uri", required = false) String redirectUri,
+            @RequestParam(value = "client_id", required = false) String clientId) {
+        GrantTypes realType = GrantTypes.eval(grantType);
+        TokenEntity token = new TokenEntity();
+        if (isEmpty(clientId))
+            throw new OAuthException(OAuthException.INVALID_CLIENT);
+        switch (realType) {
+            case AUTHORIZATION_CDOE:
+                Set<String> scopes = codeManager.getCurrentScopes(clientId, code);
+                ClientDetails client = clients.findByClientId(clientId)
+                        .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
+                if (isEmpty(redirectUri) || !client.getRegisteredRedirectUri().contains(redirectUri))
+                    throw new OAuthException("unregistered redirect uri");
+                long expiresIn = client.getAccessTokenValiditySeconds();
+                token.setScope(scopes);
+                token.setExpires_in(expiresIn);
+                String accessToken = RandomPassword.create();
+                String refreshToken = RandomPassword.create();
+                token.setAccess_token(accessToken);
+                token.setRefresh_token(refreshToken);
+                break;
+            default:
+                throw new OAuthException(OAuthException.UNSUPPORTED_GRANT_TYPE);
+        }
+        return token;
+    }
 }

@@ -16,6 +16,8 @@
  */
 package me.zbl.authmore;
 
+import java.util.Set;
+
 /**
  * @author JamesZBL
  * @since 2019-02-18
@@ -25,9 +27,11 @@ public class TokenEntity {
     private String access_token;
     private long expires_in;
     private String refresh_token;
-    private String scope;
+    private Set<String> scope;
 
-    public TokenEntity(String access_token, long expires_in, String refresh_token, String scope) {
+    public TokenEntity() {}
+
+    public TokenEntity(String access_token, long expires_in, String refresh_token, Set<String> scope) {
         this.access_token = access_token;
         this.expires_in = expires_in;
         this.refresh_token = refresh_token;
@@ -59,10 +63,10 @@ public class TokenEntity {
     }
 
     public String getScope() {
-        return scope;
+        return String.join(",", scope);
     }
 
-    public void setScope(String scope) {
+    public void setScope(Set<String> scope) {
         this.scope = scope;
     }
 }
