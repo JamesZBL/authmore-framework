@@ -2,6 +2,7 @@ version: "3"
 
 services:
   authmore:
+    image: authmore
     build:
       context: ./authmore
       dockerfile: Dockerfile.test
@@ -10,12 +11,13 @@ services:
     networks:
       - authmore
     ports:
-      - 8086:8086
+      - "8086:8086"
     depends_on:
       - mongo
       - redis
 
   auth:
+    image: auth
     build:
       context: ./auth
       dockerfile: Dockerfile.test
@@ -24,7 +26,7 @@ services:
     networks:
       - authmore
     ports:
-      - 8083:8083
+      - "8083:8083"
     depends_on:
       - mongo
       - redis
