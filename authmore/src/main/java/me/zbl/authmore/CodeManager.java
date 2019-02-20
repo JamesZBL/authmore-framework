@@ -29,7 +29,9 @@ public interface CodeManager {
 
     Duration codeValiditySeconds = Duration.ofSeconds(300);
 
-    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes);
+    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri);
 
-    Set<String> getCurrentScopes(String clientId, String code);
+    AuthorizationCode getCodeDetails(String clientId, String code);
+
+    void expireCode(String code);
 }

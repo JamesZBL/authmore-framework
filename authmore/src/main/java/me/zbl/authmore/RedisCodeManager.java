@@ -37,16 +37,20 @@ public class RedisCodeManager implements CodeManager {
     }
 
     @Override
-    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes) {
+    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri) {
         String clientId = client.getClientId();
-        AuthorizationCode authorizationCode = new AuthorizationCode(code, clientId, scopes);
+        AuthorizationCode authorizationCode = new AuthorizationCode(code, clientId, scopes, redirectUri);
         authorizationCodes.save(authorizationCode);
     }
 
     @Override
-    public Set<String> getCurrentScopes(String clientId, String code) {
-        AuthorizationCode find = authorizationCodes.findById(code)
+    public AuthorizationCode getCodeDetails(String clientId, String code) {
+        return authorizationCodes.findById(code)
                 .orElseThrow(() -> new OAuthException(INVALID_CODE));
-        return find.getScopes();
+    }
+
+    @Override
+    public void expireCode(String code) {
+        authorizationCodes.deleteById(code);
     }
 }

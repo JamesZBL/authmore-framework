@@ -61,20 +61,22 @@ public class AuthorizationEndpoint {
             Model model,
             HttpServletResponse response) throws IOException {
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
-        session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
-        if (isEmpty(scope))
+        if (isEmpty(scope)) {
             throw new AuthorizationException(INVALID_SCOPE);
-        if (!"code".equals(responseType))
+        }
+        if (!"code".equals(responseType)) {
             throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
+        }
         if (client.isAutoApprove()) {
             String code = RandomPassword.create();
-            codeManager.saveCodeBinding(client, code, scopeSet(scope));
+            codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri);
             String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
             response.sendRedirect(location);
         }
         if (!isEmpty(state)) {
             session.setAttribute(LAST_STATE, state);
         }
+        session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
         session.setAttribute(CURRENT_CLIENT, client);
         session.setAttribute(LAST_SCOPE, scope);
         model.addAttribute("client", client);
@@ -94,8 +96,8 @@ public class AuthorizationEndpoint {
             throw new AuthorizationException("signin was rejected");
         String code = RandomPassword.create();
         String scope = (String) session.getAttribute(LAST_SCOPE);
-        codeManager.saveCodeBinding(client, code, scopeSet(scope));
         String redirectUri = (String) session.getAttribute(CURRENT_REDIRECT_URI);
+        codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri);
         String state = (String) session.getAttribute(LAST_STATE);
         String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
         response.sendRedirect(location);

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
+import static me.zbl.authmore.OAuthException.*;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -49,26 +50,27 @@ public class TokenEndpoint {
             @RequestParam(value = "redirect_uri", required = false) String redirectUri,
             @RequestParam(value = "client_id", required = false) String clientId) {
         GrantTypes realType = GrantTypes.eval(grantType);
-        TokenEntity token = new TokenEntity();
+        TokenEntity token;
         if (isEmpty(clientId))
-            throw new OAuthException(OAuthException.INVALID_CLIENT);
+            throw new OAuthException(INVALID_CLIENT);
         switch (realType) {
             case AUTHORIZATION_CDOE:
-                Set<String> scopes = codeManager.getCurrentScopes(clientId, code);
+                AuthorizationCode codeBinding = codeManager.getCodeDetails(clientId, code);
+                Set<String> scopes = codeBinding.getScopes();
+                String requestRedirectUri = codeBinding.getRedirectUri();
                 ClientDetails client = clients.findByClientId(clientId)
-                        .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
-                if (isEmpty(redirectUri) || !client.getRegisteredRedirectUri().contains(redirectUri))
-                    throw new OAuthException("unregistered redirect uri");
+                        .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
+                if (isEmpty(redirectUri) || !redirectUri.equals(requestRedirectUri)) {
+                    throw new OAuthException(REDIRECT_URI_MISMATCH);
+                }
+                codeManager.expireCode(code);
                 long expiresIn = client.getAccessTokenValiditySeconds();
-                token.setScope(scopes);
-                token.setExpires_in(expiresIn);
                 String accessToken = RandomPassword.create();
                 String refreshToken = RandomPassword.create();
-                token.setAccess_token(accessToken);
-                token.setRefresh_token(refreshToken);
+                token = new TokenEntity(accessToken, expiresIn, refreshToken, scopes);
                 break;
             default:
-                throw new OAuthException(OAuthException.UNSUPPORTED_GRANT_TYPE);
+                throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
         }
         return token;
     }

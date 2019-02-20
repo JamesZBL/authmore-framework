@@ -33,11 +33,13 @@ public class AuthorizationCode implements Serializable {
     private String code;
     private String clientId;
     private Set<String> scopes;
+    private String redirectUri;
 
-    public AuthorizationCode(String code, String clientId, Set<String> scopes) {
+    public AuthorizationCode(String code, String clientId, Set<String> scopes, String redirectUri) {
         this.code = code;
         this.clientId = clientId;
         this.scopes = scopes;
+        this.redirectUri = redirectUri;
     }
 
     public String getCode() {
@@ -62,5 +64,13 @@ public class AuthorizationCode implements Serializable {
 
     public void setScopes(Set<String> scopes) {
         this.scopes = scopes;
+    }
+
+    public String getRedirectUri() {
+        return redirectUri;
+    }
+
+    public void setRedirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
     }
 }

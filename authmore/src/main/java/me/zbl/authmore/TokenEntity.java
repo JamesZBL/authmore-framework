@@ -29,8 +29,6 @@ public class TokenEntity {
     private String refresh_token;
     private Set<String> scope;
 
-    public TokenEntity() {}
-
     public TokenEntity(String access_token, long expires_in, String refresh_token, Set<String> scope) {
         this.access_token = access_token;
         this.expires_in = expires_in;
