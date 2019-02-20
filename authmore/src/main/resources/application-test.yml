@@ -1,0 +1,10 @@
+server:
+  tomcat:
+    max-threads: 5
+    
+spring:
+  data:
+    mongodb:
+      host: mongo
+  redis:
+    host: redis

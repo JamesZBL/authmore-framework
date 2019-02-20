@@ -1,6 +1,3 @@
-spring:
-  data:
-    mongodb:
-      host: mongo
-  redis:
-    host: redis
+server:
+  tomcat:
+    max-threads: 200

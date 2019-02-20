@@ -5,3 +5,5 @@ server:
       timeout: 5m
       cookie:
         name: AUTHMORE_SESSION
+  tomcat:
+    max-threads: 5
