@@ -11,10 +11,28 @@ services:
       - authmore
     ports:
       - 8086:8086
+    depends_on:
+      - mongo
+      - redis
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile.test
+    container_name: auth
+    restart: unless-stopped
+    networks:
+      - authmore
+    ports:
+      - 8083:8083
+    depends_on:
+      - mongo
+      - redis
 
   redis:
     image: redis
     restart: unless-stopped
+    container_name: authmore-redis
     networks:
       - authmore
     volumes:
@@ -23,6 +41,7 @@ services:
   mongo:
     image: mongo
     restart: unless-stopped
+    container_name: authmore-mongo
     networks:
       - authmore
     volumes:

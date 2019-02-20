@@ -1,7 +1,6 @@
 server:
   port: 8083
 
-logging:
-  level:
-    org.springframework.security: debug
-
+spring:
+  profiles:
+    active: dev
