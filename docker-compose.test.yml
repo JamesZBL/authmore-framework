@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  authmore:
+    build:
+      context: ./authmore
+      dockerfile: Dockerfile.test
+    container_name: authmore
+    restart: unless-stopped
+    networks:
+      - authmore
+    ports:
+      - 8086:8086
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    networks:
+      - authmore
+    volumes:
+      - redis-data:/data
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    networks:
+      - authmore
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+
+networks:
+  authmore:
+
+volumes:
+  mongo-data:
+  mongo-config:
+  redis-data:

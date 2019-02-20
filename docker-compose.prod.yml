@@ -2,8 +2,7 @@ version: "3.7"
 
 services:
   authmore:
-    image: authmore:latest
-    container_name: "authmore"
+    image: authmore
     ports:
       - 8086:8086
     networks:
