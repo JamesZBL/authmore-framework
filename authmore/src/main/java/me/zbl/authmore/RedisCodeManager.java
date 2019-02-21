@@ -30,21 +30,21 @@ import static me.zbl.authmore.OAuthException.INVALID_CODE;
 @Component
 public class RedisCodeManager implements CodeManager {
 
-    private AuthorizationCodeRepository authorizationCodes;
+    private CodeRepository authorizationCodes;
 
-    public RedisCodeManager(AuthorizationCodeRepository authorizationCodes) {
+    public RedisCodeManager(CodeRepository authorizationCodes) {
         this.authorizationCodes = authorizationCodes;
     }
 
     @Override
-    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri) {
+    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId) {
         String clientId = client.getClientId();
-        AuthorizationCode authorizationCode = new AuthorizationCode(code, clientId, scopes, redirectUri);
-        authorizationCodes.save(authorizationCode);
+        CodeBinding codeBinding = new CodeBinding(code, clientId, scopes, redirectUri, userId);
+        authorizationCodes.save(codeBinding);
     }
 
     @Override
-    public AuthorizationCode getCodeDetails(String clientId, String code) {
+    public CodeBinding getCodeDetails(String clientId, String code) {
         return authorizationCodes.findById(code)
                 .orElseThrow(() -> new OAuthException(INVALID_CODE));
     }

@@ -17,12 +17,14 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
 import me.zbl.reactivesecurity.common.RandomPassword;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -57,6 +59,7 @@ public class AuthorizationEndpoint {
             @RequestParam("redirect_uri") String redirectUri,
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "state", required = false) String state,
+            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
             HttpSession session,
             Model model,
             HttpServletResponse response) throws IOException {
@@ -69,7 +72,8 @@ public class AuthorizationEndpoint {
         }
         if (client.isAutoApprove()) {
             String code = RandomPassword.create();
-            codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri);
+            String userId = user.getId();
+            codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
             String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
             response.sendRedirect(location);
         }
@@ -87,18 +91,19 @@ public class AuthorizationEndpoint {
     public void authorizeConfirm(
             @RequestParam("client_id") String clientId,
             @RequestParam("opinion") String opinion,
-            HttpSession session,
+            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
+            @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
+            @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
+            @SessionAttribute(LAST_SCOPE) String scope,
+            @SessionAttribute(LAST_STATE) String state,
             HttpServletResponse response) throws IOException {
-        ClientDetails client = (ClientDetails) session.getAttribute(CURRENT_CLIENT);
         if (null == client || !client.getClientId().equals(clientId))
             throw new AuthorizationException(INVALID_CLIENT);
         if (!"allow".equals(opinion))
             throw new AuthorizationException("signin was rejected");
         String code = RandomPassword.create();
-        String scope = (String) session.getAttribute(LAST_SCOPE);
-        String redirectUri = (String) session.getAttribute(CURRENT_REDIRECT_URI);
-        codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri);
-        String state = (String) session.getAttribute(LAST_STATE);
+        String userId = user.getId();
+        codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
         String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
         response.sendRedirect(location);
     }

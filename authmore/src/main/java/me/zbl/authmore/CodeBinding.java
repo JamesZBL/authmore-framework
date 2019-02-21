@@ -26,20 +26,22 @@ import java.util.Set;
  * @author JamesZBL
  * @since 2019-02-19
  */
-@RedisHash(value = "authmore:authorization:code", timeToLive = OAuthProperties.CODE_VALIDITY_SECONDS)
-public class AuthorizationCode implements Serializable {
+@RedisHash(value = OAuthProperties.KEY_PREFIX_CODE_BINDING, timeToLive = OAuthProperties.CODE_VALIDITY_SECONDS)
+public class CodeBinding implements Serializable {
 
     @Id
     private String code;
     private String clientId;
     private Set<String> scopes;
     private String redirectUri;
+    private String userId;
 
-    public AuthorizationCode(String code, String clientId, Set<String> scopes, String redirectUri) {
+    public CodeBinding(String code, String clientId, Set<String> scopes, String redirectUri, String userId) {
         this.code = code;
         this.clientId = clientId;
         this.scopes = scopes;
         this.redirectUri = redirectUri;
+        this.userId = userId;
     }
 
     public String getCode() {
@@ -72,5 +74,13 @@ public class AuthorizationCode implements Serializable {
 
     public void setRedirectUri(String redirectUri) {
         this.redirectUri = redirectUri;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -22,9 +22,12 @@ import java.util.Arrays;
  * @author JamesZBL
  * @since 2019-02-14
  */
-class OAuthProperties {
+interface OAuthProperties {
 
-    static final long CODE_VALIDITY_SECONDS = 300L;
+    long CODE_VALIDITY_SECONDS = 300L;
+    long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 300L;
+    String KEY_PREFIX_CODE_BINDING = "authmore:authorization:code";
+    String KEY_PREFIX_ACCESS_TOKEN_BINDING = "authmore:authorization:access-token";
 
     enum GrantTypes {
 

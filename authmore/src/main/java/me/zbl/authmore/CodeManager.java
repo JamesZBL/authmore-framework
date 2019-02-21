@@ -18,7 +18,6 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 
-import java.time.Duration;
 import java.util.Set;
 
 /**
@@ -27,11 +26,14 @@ import java.util.Set;
  */
 public interface CodeManager {
 
-    Duration codeValiditySeconds = Duration.ofSeconds(300);
+    void saveCodeBinding(
+            ClientDetails client,
+            String code,
+            Set<String> scopes,
+            String redirectUri,
+            String userId);
 
-    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri);
-
-    AuthorizationCode getCodeDetails(String clientId, String code);
+    CodeBinding getCodeDetails(String clientId, String code);
 
     void expireCode(String code);
 }

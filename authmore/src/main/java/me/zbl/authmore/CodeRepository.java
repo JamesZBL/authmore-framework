@@ -22,6 +22,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author JamesZBL
  * @since 2019-02-19
  */
-public interface AuthorizationCodeRepository extends CrudRepository<AuthorizationCode, String> {
+public interface CodeRepository extends CrudRepository<CodeBinding, String> {
 
 }

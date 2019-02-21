@@ -44,18 +44,18 @@ public class TokenEndpoint {
     }
 
     @PostMapping("/oauth/token")
-    public TokenEntity token(
+    public TokenResponse token(
             @RequestParam(value = "grant_type", required = false) String grantType,
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "redirect_uri", required = false) String redirectUri,
             @RequestParam(value = "client_id", required = false) String clientId) {
         GrantTypes realType = GrantTypes.eval(grantType);
-        TokenEntity token;
+        TokenResponse token;
         if (isEmpty(clientId))
             throw new OAuthException(INVALID_CLIENT);
         switch (realType) {
             case AUTHORIZATION_CDOE:
-                AuthorizationCode codeBinding = codeManager.getCodeDetails(clientId, code);
+                CodeBinding codeBinding = codeManager.getCodeDetails(clientId, code);
                 Set<String> scopes = codeBinding.getScopes();
                 String requestRedirectUri = codeBinding.getRedirectUri();
                 ClientDetails client = clients.findByClientId(clientId)
@@ -67,7 +67,7 @@ public class TokenEndpoint {
                 long expiresIn = client.getAccessTokenValiditySeconds();
                 String accessToken = RandomPassword.create();
                 String refreshToken = RandomPassword.create();
-                token = new TokenEntity(accessToken, expiresIn, refreshToken, scopes);
+                token = new TokenResponse(accessToken, expiresIn, refreshToken, scopes);
                 break;
             default:
                 throw new OAuthException(UNSUPPORTED_GRANT_TYPE);

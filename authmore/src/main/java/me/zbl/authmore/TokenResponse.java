@@ -22,14 +22,14 @@ import java.util.Set;
  * @author JamesZBL
  * @since 2019-02-18
  */
-public class TokenEntity {
+public class TokenResponse {
 
     private String access_token;
     private long expires_in;
     private String refresh_token;
     private Set<String> scope;
 
-    public TokenEntity(String access_token, long expires_in, String refresh_token, Set<String> scope) {
+    public TokenResponse(String access_token, long expires_in, String refresh_token, Set<String> scope) {
         this.access_token = access_token;
         this.expires_in = expires_in;
         this.refresh_token = refresh_token;
