@@ -30,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author JamesZBL
  * @since 2019-02-10
  */
-public class RandomPasswordTest {
+public class RandomSecretTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandomPasswordTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RandomSecretTest.class);
 
     @BeforeEach
     void setup() {
@@ -44,7 +44,7 @@ public class RandomPasswordTest {
         String last = null;
         HashSet<Object> digests = new HashSet<>();
         for (int i = 0; i < 100; i++) {
-            String pwd = RandomPassword.create();
+            String pwd = RandomSecret.create();
             char[] chars = pwd.toCharArray();
             assertNotNull(pwd);
             assertEquals(32, pwd.length());

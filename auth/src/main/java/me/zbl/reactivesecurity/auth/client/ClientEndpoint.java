@@ -18,7 +18,7 @@ package me.zbl.reactivesecurity.auth.client;
 
 import me.zbl.reactivesecurity.auth.AuthController;
 import me.zbl.reactivesecurity.auth.DataWrapper;
-import me.zbl.reactivesecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomSecret;
 import me.zbl.reactivesecurity.common.entity.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,7 +58,7 @@ public class ClientEndpoint extends AuthController {
 
     @PostMapping
     public ClientCreateResult add(@RequestBody ClientDetails client) {
-        String secret = RandomPassword.create();
+        String secret = RandomSecret.create();
         client.setClientSecret(secret);
         encodePassword(client);
         clients.save(client);

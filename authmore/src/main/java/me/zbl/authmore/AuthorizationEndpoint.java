@@ -18,7 +18,7 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
-import me.zbl.reactivesecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +71,7 @@ public class AuthorizationEndpoint {
             throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         }
         if (client.isAutoApprove()) {
-            String code = RandomPassword.create();
+            String code = RandomSecret.create();
             String userId = user.getId();
             codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
             String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
@@ -101,7 +101,7 @@ public class AuthorizationEndpoint {
             throw new AuthorizationException(INVALID_CLIENT);
         if (!"allow".equals(opinion))
             throw new AuthorizationException("signin was rejected");
-        String code = RandomPassword.create();
+        String code = RandomSecret.create();
         String userId = user.getId();
         codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
         String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);

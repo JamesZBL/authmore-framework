@@ -17,7 +17,7 @@
 package me.zbl.reactivesecurity.auth;
 
 import me.zbl.reactivesecurity.common.BasicController;
-import me.zbl.reactivesecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +34,7 @@ public class PasswordEndpoint extends BasicController {
 
     @GetMapping("/random")
     public Map randomPassword() {
-        return map().put("result", RandomPassword.create()).map();
+        return map().put("result", RandomSecret.create()).map();
     }
 }
 

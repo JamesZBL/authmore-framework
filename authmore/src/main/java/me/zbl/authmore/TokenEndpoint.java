@@ -18,7 +18,7 @@ package me.zbl.authmore;
 
 import me.zbl.authmore.OAuthProperties.GrantTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactivesecurity.common.RandomPassword;
+import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,8 +65,8 @@ public class TokenEndpoint {
                 }
                 codeManager.expireCode(code);
                 long expiresIn = client.getAccessTokenValiditySeconds();
-                String accessToken = RandomPassword.create();
-                String refreshToken = RandomPassword.create();
+                String accessToken = RandomSecret.create();
+                String refreshToken = RandomSecret.create();
                 token = new TokenResponse(accessToken, expiresIn, refreshToken, scopes);
                 break;
             default:

@@ -22,9 +22,9 @@ import java.util.Random;
  * @author JamesZBL
  * @since 2019-02-10
  */
-public class RandomPassword {
+public class RandomSecret {
 
-    private RandomPassword() {}
+    private RandomSecret() {}
 
     public static String create() {
         return create(32);
@@ -50,6 +50,4 @@ public class RandomPassword {
         }
         return sb.toString();
     }
-
-
 }
