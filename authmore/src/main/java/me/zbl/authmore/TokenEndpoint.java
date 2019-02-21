@@ -18,7 +18,6 @@ package me.zbl.authmore;
 
 import me.zbl.authmore.OAuthProperties.GrantTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
-import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +36,12 @@ public class TokenEndpoint {
 
     private ClientDetailsRepository clients;
     private CodeManager codeManager;
+    private TokenManager tokenManager;
 
-    public TokenEndpoint(ClientDetailsRepository clients, CodeManager codeManager) {
+    public TokenEndpoint(ClientDetailsRepository clients, CodeManager codeManager, TokenManager tokenManager) {
         this.clients = clients;
         this.codeManager = codeManager;
+        this.tokenManager = tokenManager;
     }
 
     @PostMapping("/oauth/token")
@@ -64,10 +65,8 @@ public class TokenEndpoint {
                     throw new OAuthException(REDIRECT_URI_MISMATCH);
                 }
                 codeManager.expireCode(code);
-                long expiresIn = client.getAccessTokenValiditySeconds();
-                String accessToken = RandomSecret.create();
-                String refreshToken = RandomSecret.create();
-                token = new TokenResponse(accessToken, expiresIn, refreshToken, scopes);
+                String userId = codeBinding.getUserId();
+                token = tokenManager.create(client, userId, scopes);
                 break;
             default:
                 throw new OAuthException(UNSUPPORTED_GRANT_TYPE);

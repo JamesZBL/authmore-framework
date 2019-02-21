@@ -16,6 +16,7 @@
  */
 package me.zbl.authmore;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Set;
@@ -28,6 +29,7 @@ import java.util.Set;
            timeToLive = OAuthProperties.DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS)
 public class AccessTokenBinding {
 
+    @Id
     private String accessToken;
     private String clientId;
     private Set<String> scopes;

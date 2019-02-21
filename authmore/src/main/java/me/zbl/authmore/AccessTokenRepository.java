@@ -20,6 +20,6 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author JamesZBL
- * @since 2019-02-19
+ * @since 2019-02-21
  */
-public interface CodeRepository extends CrudRepository<CodeBinding, String> {}
+public interface AccessTokenRepository extends CrudRepository<AccessTokenBinding, String> {}
