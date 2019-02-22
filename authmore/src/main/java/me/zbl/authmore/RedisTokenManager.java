@@ -18,9 +18,11 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.common.RandomSecret;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author JamesZBL
@@ -30,9 +32,11 @@ import java.util.Set;
 public class RedisTokenManager implements TokenManager {
 
     private AccessTokenRepository tokens;
+    private RedisTemplate<String, String> redisTemplate;
 
-    public RedisTokenManager(AccessTokenRepository tokens) {
+    public RedisTokenManager(AccessTokenRepository tokens, RedisTemplate<String, String> redisTemplate) {
         this.tokens = tokens;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -43,6 +47,8 @@ public class RedisTokenManager implements TokenManager {
         String refreshToken = RandomSecret.create();
         AccessTokenBinding accessTokenBinding = new AccessTokenBinding(accessToken, clientId, scopes, userId);
         tokens.save(accessTokenBinding);
+        redisTemplate.boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + accessToken)
+                .expire(expireIn, TimeUnit.SECONDS);
         return new TokenResponse(accessToken, expireIn, refreshToken, scopes);
     }
 }
