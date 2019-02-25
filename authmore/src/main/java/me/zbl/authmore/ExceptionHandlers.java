@@ -18,6 +18,7 @@ package me.zbl.authmore;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @since 2019-02-18
  */
 @ControllerAdvice
-public class ExceptionControllerAdvice {
+public class ExceptionHandlers {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({AuthorizationException.class})
@@ -42,6 +43,13 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     @ExceptionHandler({OAuthException.class})
     public OAuthErrorResponse oAuthException(OAuthException exception) {
+        return new OAuthErrorResponse(exception);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public OAuthErrorResponse badRequest(MissingServletRequestParameterException exception) {
         return new OAuthErrorResponse(exception);
     }
 }
