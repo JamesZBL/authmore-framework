@@ -73,7 +73,7 @@ public class TokenEndpoint {
         String userId = null;
         Set<String> scopes;
         switch (realType) {
-            case AUTHORIZATION_CDOE:
+            case AUTHORIZATION_CODE:
                 CodeBinding codeBinding = codeManager.getCodeDetails(clientId, code);
                 scopes = codeBinding.getScopes();
                 String requestRedirectUri = codeBinding.getRedirectUri();

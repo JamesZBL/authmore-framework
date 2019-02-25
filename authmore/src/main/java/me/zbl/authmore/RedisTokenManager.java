@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static me.zbl.authmore.OAuthException.INVALID_SCOPE;
+
 /**
  * @author JamesZBL
  * @since 2019-02-21
@@ -43,6 +45,9 @@ public class RedisTokenManager implements TokenManager {
     public TokenResponse create(ClientDetails client, String userId, Set<String> scopes) {
         String clientId = client.getClientId();
         long expireIn = client.getAccessTokenValiditySeconds();
+        boolean validScope = client.getScope().containsAll(scopes);
+        if(!validScope)
+            throw new OAuthException(INVALID_SCOPE);
         String accessToken = RandomSecret.create();
         String refreshToken = RandomSecret.create();
         AccessTokenBinding accessTokenBinding = new AccessTokenBinding(accessToken, clientId, scopes, userId);

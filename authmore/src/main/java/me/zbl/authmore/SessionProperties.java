@@ -29,4 +29,5 @@ interface SessionProperties {
     String CURRENT_REDIRECT_URI = "current_redirect_uri";
     String LAST_STATE = "last_state";
     String LAST_SCOPE = "last_scope";
+    String LAST_TYPE = "last_type";
 }

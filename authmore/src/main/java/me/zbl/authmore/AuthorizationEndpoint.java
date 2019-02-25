@@ -16,6 +16,7 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.authmore.OAuthProperties.ResponseTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
 import me.zbl.reactivesecurity.common.RandomSecret;
@@ -29,9 +30,13 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Set;
 
 import static me.zbl.authmore.OAuthException.*;
-import static me.zbl.authmore.OAuthProperties.GrantTypes.AUTHORIZATION_CDOE;
+import static me.zbl.authmore.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
+import static me.zbl.authmore.OAuthProperties.GrantTypes.IMPLICIT;
+import static me.zbl.authmore.OAuthProperties.ResponseTypes.CODE;
+import static me.zbl.authmore.OAuthProperties.ResponseTypes.eval;
 import static me.zbl.authmore.OAuthUtil.scopeSet;
 import static me.zbl.authmore.SessionProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -45,10 +50,15 @@ public class AuthorizationEndpoint {
 
     private AuthenticationManager authenticationManager;
     private CodeManager codeManager;
+    private TokenManager tokenManager;
 
-    public AuthorizationEndpoint(AuthenticationManager authenticationManager, CodeManager codeManager) {
+    public AuthorizationEndpoint(
+            AuthenticationManager authenticationManager,
+            CodeManager codeManager,
+            TokenManager tokenManager) {
         this.authenticationManager = authenticationManager;
         this.codeManager = codeManager;
+        this.tokenManager = tokenManager;
     }
 
     @GetMapping("/authorize")
@@ -64,29 +74,54 @@ public class AuthorizationEndpoint {
             HttpServletResponse response) throws IOException {
         String location;
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
-        OAuthUtil.validateClientAndGrantType(client, AUTHORIZATION_CDOE);
-        if (isEmpty(scope)) {
-            throw new AuthorizationException(INVALID_SCOPE);
+        String userId = user.getId();
+        ResponseTypes type = eval(responseType);
+        Set<String> scopes = scopeSet(scope);
+        switch (type) {
+            case CODE:
+                try {
+                    OAuthUtil.validateClientAndGrantType(client, AUTHORIZATION_CODE);
+                } catch (Exception e) {
+                    throw new AuthorizationException(UNSUPPORTED_GRANT_TYPE);
+                }
+                if (client.isAutoApprove()) {
+                    String code = RandomSecret.create();
+                    codeManager.saveCodeBinding(client, code, scopes, redirectUri, userId);
+                    location = String.format("%s?code=%s", redirectUri, code);
+                    if (null != state)
+                        location = String.format("%s&state=%s", location, state);
+                    response.sendRedirect(location);
+                }
+                if (!isEmpty(state)) {
+                    session.setAttribute(LAST_STATE, state);
+                }
+                session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
+                session.setAttribute(CURRENT_CLIENT, client);
+                session.setAttribute(LAST_SCOPE, scope);
+                session.setAttribute(LAST_TYPE, CODE);
+                model.addAttribute("client", client);
+                break;
+            case TOKEN:
+                try {
+                    OAuthUtil.validateClientAndGrantType(client, IMPLICIT);
+                } catch (Exception e) {
+                    throw new AuthorizationException(UNSUPPORTED_GRANT_TYPE);
+                }
+                TokenResponse tokenResponse;
+                try {
+                    tokenResponse = tokenManager.create(client, userId, scopes);
+                } catch (Exception e) {
+                    throw new AuthorizationException(e.getMessage());
+                }
+                String accessToken = tokenResponse.getAccess_token();
+                location = String.format("%s?token=%s", redirectUri, accessToken);
+                if (null != state)
+                    location = String.format("%s&state=%s", location, state);
+                response.sendRedirect(location);
+                break;
+            default:
+                throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         }
-        if (!"code".equals(responseType)) {
-            throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
-        }
-        if (client.isAutoApprove()) {
-            String code = RandomSecret.create();
-            String userId = user.getId();
-            codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
-            location = String.format("%s?code=%s", redirectUri, code);
-            if(null != state)
-                location = String.format("%s&state=%s", location, state);
-            response.sendRedirect(location);
-        }
-        if (!isEmpty(state)) {
-            session.setAttribute(LAST_STATE, state);
-        }
-        session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
-        session.setAttribute(CURRENT_CLIENT, client);
-        session.setAttribute(LAST_SCOPE, scope);
-        model.addAttribute("client", client);
         return "authorize";
     }
 
@@ -111,7 +146,7 @@ public class AuthorizationEndpoint {
         String userId = user.getId();
         codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
         location = String.format("%s?code=%s", redirectUri, code);
-        if(null != state)
+        if (null != state)
             location = String.format("%s&state=%s", location, state);
         response.sendRedirect(location);
     }

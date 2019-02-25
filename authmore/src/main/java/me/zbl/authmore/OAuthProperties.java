@@ -31,13 +31,13 @@ interface OAuthProperties {
 
     enum GrantTypes {
 
-        AUTHORIZATION_CDOE("authorization_code"),
+        AUTHORIZATION_CODE("authorization_code"),
         IMPLICIT("implicit"),
         PASSWORD("password"),
         CLIENT_CREDENTIALS("client_credentials"),
         REFRESH_TOKEN("refresh_token");
 
-        String name;
+        private final String name;
 
         GrantTypes(String name) {
             this.name = name;
@@ -51,6 +51,28 @@ interface OAuthProperties {
             return Arrays.stream(GrantTypes.values())
                     .filter(t -> t.getName().equals(name)).findFirst()
                     .orElseThrow(() -> new OAuthException(OAuthException.UNSUPPORTED_GRANT_TYPE));
+        }
+    }
+
+    enum ResponseTypes {
+
+        CODE("code"),
+        TOKEN("token");
+
+        private final String name;
+
+        ResponseTypes(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static ResponseTypes eval(String name) {
+            return Arrays.stream(ResponseTypes.values())
+                    .filter(t -> t.getName().equals(name)).findFirst()
+                    .orElseThrow(() -> new OAuthException(OAuthException.UNSUPPORTED_RESPONSE_TYPE));
         }
     }
 }
