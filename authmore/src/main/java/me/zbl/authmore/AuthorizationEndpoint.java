@@ -30,9 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
-import static me.zbl.authmore.OAuthException.INVALID_SCOPE;
-import static me.zbl.authmore.OAuthException.UNSUPPORTED_RESPONSE_TYPE;
+import static me.zbl.authmore.OAuthException.*;
+import static me.zbl.authmore.OAuthProperties.GrantTypes.AUTHORIZATION_CDOE;
 import static me.zbl.authmore.OAuthUtil.scopeSet;
 import static me.zbl.authmore.SessionProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -63,7 +62,9 @@ public class AuthorizationEndpoint {
             HttpSession session,
             Model model,
             HttpServletResponse response) throws IOException {
+        String location;
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
+        OAuthUtil.validateClientAndGrantType(client, AUTHORIZATION_CDOE);
         if (isEmpty(scope)) {
             throw new AuthorizationException(INVALID_SCOPE);
         }
@@ -74,7 +75,9 @@ public class AuthorizationEndpoint {
             String code = RandomSecret.create();
             String userId = user.getId();
             codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
-            String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
+            location = String.format("%s?code=%s", redirectUri, code);
+            if(null != state)
+                location = String.format("%s&state=%s", location, state);
             response.sendRedirect(location);
         }
         if (!isEmpty(state)) {
@@ -97,14 +100,19 @@ public class AuthorizationEndpoint {
             @SessionAttribute(LAST_SCOPE) String scope,
             @SessionAttribute(LAST_STATE) String state,
             HttpServletResponse response) throws IOException {
-        if (null == client || !client.getClientId().equals(clientId))
+        String location;
+        if (null == client || !client.getClientId().equals(clientId)) {
             throw new AuthorizationException(INVALID_CLIENT);
-        if (!"allow".equals(opinion))
+        }
+        if (!"allow".equals(opinion)) {
             throw new AuthorizationException("signin was rejected");
+        }
         String code = RandomSecret.create();
         String userId = user.getId();
         codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
-        String location = String.format("%s?code=%s&state=%s", redirectUri, code, state);
+        location = String.format("%s?code=%s", redirectUri, code);
+        if(null != state)
+            location = String.format("%s&state=%s", location, state);
         response.sendRedirect(location);
     }
 }
