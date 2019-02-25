@@ -47,7 +47,7 @@ public class OAuthUtil {
         return Arrays.stream(authority.split(AUTHORITY_DELIMITER)).collect(Collectors.toSet());
     }
 
-    public static boolean validateClient(ClientDetails client, String scope) {
+    public static void validateClient(ClientDetails client, String scope) {
         if (!isEmpty(scope)) {
             Set<String> registeredScope = client.getScope();
             boolean validScope = Arrays.stream(scope.split("\\+"))
@@ -55,6 +55,5 @@ public class OAuthUtil {
             if (!validScope)
                 throw new OAuthException(INVALID_SCOPE);
         }
-        return true;
     }
 }
