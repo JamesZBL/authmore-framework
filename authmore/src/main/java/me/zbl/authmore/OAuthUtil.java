@@ -16,6 +16,7 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.authmore.OAuthProperties.GrantTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static me.zbl.authmore.OAuthException.INVALID_SCOPE;
+import static me.zbl.authmore.OAuthException.UNSUPPORTED_GRANT_TYPE;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -47,7 +49,7 @@ public class OAuthUtil {
         return Arrays.stream(authority.split(AUTHORITY_DELIMITER)).collect(Collectors.toSet());
     }
 
-    public static void validateClient(ClientDetails client, String scope) {
+    public static void validateClientAndScope(ClientDetails client, String scope) {
         if (!isEmpty(scope)) {
             Set<String> registeredScope = client.getScope();
             boolean validScope = Arrays.stream(scope.split("\\+"))
@@ -55,5 +57,15 @@ public class OAuthUtil {
             if (!validScope)
                 throw new OAuthException(INVALID_SCOPE);
         }
+    }
+
+    public static void validateClientAndGrantType(ClientDetails client, GrantTypes grantType) {
+        boolean valid;
+        if (!isEmpty(grantType))
+            valid = client.getAuthorizedGrantTypes().contains(grantType.getName());
+        else
+            valid = false;
+        if(!valid)
+            throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
     }
 }

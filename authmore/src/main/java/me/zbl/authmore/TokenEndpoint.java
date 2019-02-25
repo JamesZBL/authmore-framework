@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 import static me.zbl.authmore.OAuthException.*;
+import static me.zbl.authmore.OAuthProperties.GrantTypes.PASSWORD;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -69,7 +70,7 @@ public class TokenEndpoint {
             throw new OAuthException(INVALID_CLIENT);
         ClientDetails client = clients.findByClientId(clientId)
                 .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
-        String userId;
+        String userId = null;
         Set<String> scopes;
         switch (realType) {
             case AUTHORIZATION_CDOE:
@@ -84,13 +85,20 @@ public class TokenEndpoint {
                 token = tokenManager.create(client, userId, scopes);
                 break;
             case PASSWORD:
+                OAuthUtil.validateClientAndGrantType(client, PASSWORD);
                 UserDetails user = users.findByUsername(username)
                         .orElseThrow(() -> new OAuthException("invalid username"));
                 boolean matches = passwordEncoder.matches(password, user.getPassword());
                 if(!matches)
                     throw new OAuthException("invalid password");
-                OAuthUtil.validateClient(client, scope);
+                OAuthUtil.validateClientAndScope(client, scope);
                 userId = user.getId();
+                scopes = OAuthUtil.scopeSet(scope);
+                token = tokenManager.create(client, userId, scopes);
+                break;
+            case CLIENT_CREDENTIALS:
+                OAuthUtil.validateClientAndGrantType(client, GrantTypes.CLIENT_CREDENTIALS);
+                OAuthUtil.validateClientAndScope(client, scope);
                 scopes = OAuthUtil.scopeSet(scope);
                 token = tokenManager.create(client, userId, scopes);
                 break;

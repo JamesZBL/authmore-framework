@@ -70,7 +70,7 @@ public class RepoAuthenticationManager implements AuthenticationManager {
         if (!find.isPresent())
             throw new OAuthException(INVALID_CLIENT);
         ClientDetails client = find.get();
-        OAuthUtil.validateClient(client, scope);
+        OAuthUtil.validateClientAndScope(client, scope);
         return client;
     }
 
@@ -84,7 +84,7 @@ public class RepoAuthenticationManager implements AuthenticationManager {
         boolean validRedirectUri = registeredRedirectUri.stream().anyMatch(r -> r.equals(redirectUri));
         if (!validRedirectUri)
             throw new AuthorizationException(REDIRECT_URI_MISMATCH);
-        OAuthUtil.validateClient(client, scope);
+        OAuthUtil.validateClientAndScope(client, scope);
         return client;
     }
 }
