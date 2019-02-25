@@ -17,8 +17,11 @@
 package me.zbl.authmore;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -26,7 +29,18 @@ import java.util.stream.Collectors;
  */
 public class OAuthUtil {
 
+    private static final String SCOPE_DELIMITER = "\\+";
+    private static final String AUTHORITY_DELIMITER = ",";
+
     public static Set<String> scopeSet(String scope) {
-        return Arrays.stream(scope.split("\\+")).collect(Collectors.toSet());
+        if (isEmpty(scope))
+            return Collections.emptySet();
+        return Arrays.stream(scope.split(SCOPE_DELIMITER)).collect(Collectors.toSet());
+    }
+
+    public static Set<String> authoritySet(String authority) {
+        if (isEmpty(authority))
+            return Collections.emptySet();
+        return Arrays.stream(authority.split(AUTHORITY_DELIMITER)).collect(Collectors.toSet());
     }
 }
