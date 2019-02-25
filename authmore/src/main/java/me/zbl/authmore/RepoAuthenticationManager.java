@@ -21,13 +21,12 @@ import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
 import static me.zbl.authmore.AuthenticationException.*;
-import static me.zbl.authmore.OAuthException.*;
-import static org.springframework.util.StringUtils.isEmpty;
+import static me.zbl.authmore.OAuthException.INVALID_CLIENT;
+import static me.zbl.authmore.OAuthException.REDIRECT_URI_MISMATCH;
 
 /**
  * @author JamesZBL
@@ -66,6 +65,16 @@ public class RepoAuthenticationManager implements AuthenticationManager {
     }
 
     @Override
+    public ClientDetails clientValidate(String clientId, String scope) throws OAuthException {
+        Optional<ClientDetails> find = clients.findByClientId(clientId);
+        if (!find.isPresent())
+            throw new OAuthException(INVALID_CLIENT);
+        ClientDetails client = find.get();
+        OAuthUtil.validateClient(client, scope);
+        return client;
+    }
+
+    @Override
     public ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws AuthorizationException {
         Optional<ClientDetails> find = clients.findByClientId(clientId);
         if (!find.isPresent())
@@ -75,13 +84,7 @@ public class RepoAuthenticationManager implements AuthenticationManager {
         boolean validRedirectUri = registeredRedirectUri.stream().anyMatch(r -> r.equals(redirectUri));
         if (!validRedirectUri)
             throw new AuthorizationException(REDIRECT_URI_MISMATCH);
-        if (!isEmpty(scope)) {
-            Set<String> registeredScope = client.getScope();
-            boolean validScope = Arrays.stream(scope.split("\\+"))
-                    .allMatch(s -> registeredScope.contains(scope));
-            if (!validScope)
-                throw new AuthorizationException(INVALID_SCOPE);
-        }
+        OAuthUtil.validateClient(client, scope);
         return client;
     }
 }

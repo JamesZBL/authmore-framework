@@ -18,6 +18,8 @@ package me.zbl.authmore;
 
 import me.zbl.authmore.OAuthProperties.GrantTypes;
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,13 +37,21 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class TokenEndpoint {
 
     private ClientDetailsRepository clients;
+    private UserDetailsRepository users;
     private CodeManager codeManager;
     private TokenManager tokenManager;
+    private PasswordEncoder passwordEncoder;
 
-    public TokenEndpoint(ClientDetailsRepository clients, CodeManager codeManager, TokenManager tokenManager) {
+    public TokenEndpoint(
+            ClientDetailsRepository clients,
+            UserDetailsRepository users, CodeManager codeManager,
+            TokenManager tokenManager,
+            PasswordEncoder passwordEncoder) {
         this.clients = clients;
+        this.users = users;
         this.codeManager = codeManager;
         this.tokenManager = tokenManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/oauth/token")
@@ -49,23 +59,39 @@ public class TokenEndpoint {
             @RequestParam(value = "grant_type", required = false) String grantType,
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "redirect_uri", required = false) String redirectUri,
-            @RequestParam(value = "client_id", required = false) String clientId) {
+            @RequestParam(value = "client_id", required = false) String clientId,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "scope", required = false) String scope) {
         GrantTypes realType = GrantTypes.eval(grantType);
         TokenResponse token;
         if (isEmpty(clientId))
             throw new OAuthException(INVALID_CLIENT);
+        ClientDetails client = clients.findByClientId(clientId)
+                .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
+        String userId;
+        Set<String> scopes;
         switch (realType) {
             case AUTHORIZATION_CDOE:
                 CodeBinding codeBinding = codeManager.getCodeDetails(clientId, code);
-                Set<String> scopes = codeBinding.getScopes();
+                scopes = codeBinding.getScopes();
                 String requestRedirectUri = codeBinding.getRedirectUri();
-                ClientDetails client = clients.findByClientId(clientId)
-                        .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
                 if (isEmpty(redirectUri) || !redirectUri.equals(requestRedirectUri)) {
                     throw new OAuthException(REDIRECT_URI_MISMATCH);
                 }
                 codeManager.expireCode(code);
-                String userId = codeBinding.getUserId();
+                userId = codeBinding.getUserId();
+                token = tokenManager.create(client, userId, scopes);
+                break;
+            case PASSWORD:
+                UserDetails user = users.findByUsername(username)
+                        .orElseThrow(() -> new OAuthException("invalid username"));
+                boolean matches = passwordEncoder.matches(password, user.getPassword());
+                if(!matches)
+                    throw new OAuthException("invalid password");
+                OAuthUtil.validateClient(client, scope);
+                userId = user.getId();
+                scopes = OAuthUtil.scopeSet(scope);
                 token = tokenManager.create(client, userId, scopes);
                 break;
             default:

@@ -16,11 +16,14 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static me.zbl.authmore.OAuthException.INVALID_SCOPE;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -42,5 +45,16 @@ public class OAuthUtil {
         if (isEmpty(authority))
             return Collections.emptySet();
         return Arrays.stream(authority.split(AUTHORITY_DELIMITER)).collect(Collectors.toSet());
+    }
+
+    public static boolean validateClient(ClientDetails client, String scope) {
+        if (!isEmpty(scope)) {
+            Set<String> registeredScope = client.getScope();
+            boolean validScope = Arrays.stream(scope.split("\\+"))
+                    .allMatch(s -> registeredScope.contains(scope));
+            if (!validScope)
+                throw new OAuthException(INVALID_SCOPE);
+        }
+        return true;
     }
 }
