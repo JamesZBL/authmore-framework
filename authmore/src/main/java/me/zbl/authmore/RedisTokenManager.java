@@ -51,4 +51,9 @@ public class RedisTokenManager implements TokenManager {
                 .expire(expireIn, TimeUnit.SECONDS);
         return new TokenResponse(accessToken, expireIn, refreshToken, scopes);
     }
+
+    @Override
+    public AccessTokenBinding find(String token) {
+        return tokens.findById(token).orElseThrow(() -> new OAuthException("invalid token"));
+    }
 }

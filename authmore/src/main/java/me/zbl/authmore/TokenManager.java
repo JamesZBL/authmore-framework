@@ -27,4 +27,6 @@ import java.util.Set;
 public interface TokenManager {
 
     TokenResponse create(ClientDetails client, String userId, Set<String> scopes);
+
+    AccessTokenBinding find(String token);
 }

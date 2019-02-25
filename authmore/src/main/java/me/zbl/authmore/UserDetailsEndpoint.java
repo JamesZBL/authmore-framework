@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2019-02-25
  */
 @RestController
-public class UserEndpoint {
+public class UserDetailsEndpoint {
 
     private UserDetailsRepository users;
 
-    public UserEndpoint(UserDetailsRepository users) {
+    public UserDetailsEndpoint(UserDetailsRepository users) {
         this.users = users;
     }
 

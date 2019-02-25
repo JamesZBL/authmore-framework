@@ -36,7 +36,7 @@ public class ClientInitializer implements SmartInitializingSingleton {
     public void afterSingletonsInstantiated() {
         ClientDetails client = new ClientDetails("cartapp", "authorization_code", "cart:read",
                 "{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0",
-                "http://localhost:8084/login", 300);
+                "http://localhost:8084/login", 999999);
 
         clientDetailsRepo.save(client);
     }
