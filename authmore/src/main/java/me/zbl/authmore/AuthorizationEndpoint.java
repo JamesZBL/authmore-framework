@@ -35,8 +35,7 @@ import java.util.Set;
 import static me.zbl.authmore.OAuthException.*;
 import static me.zbl.authmore.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
 import static me.zbl.authmore.OAuthProperties.GrantTypes.IMPLICIT;
-import static me.zbl.authmore.OAuthProperties.ResponseTypes.CODE;
-import static me.zbl.authmore.OAuthProperties.ResponseTypes.eval;
+import static me.zbl.authmore.OAuthProperties.ResponseTypes.*;
 import static me.zbl.authmore.OAuthUtil.scopeSet;
 import static me.zbl.authmore.SessionProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -92,14 +91,7 @@ public class AuthorizationEndpoint {
                         location = String.format("%s&state=%s", location, state);
                     response.sendRedirect(location);
                 }
-                if (!isEmpty(state)) {
-                    session.setAttribute(LAST_STATE, state);
-                }
-                session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
-                session.setAttribute(CURRENT_CLIENT, client);
-                session.setAttribute(LAST_SCOPE, scope);
                 session.setAttribute(LAST_TYPE, CODE);
-                model.addAttribute("client", client);
                 break;
             case TOKEN:
                 try {
@@ -107,6 +99,64 @@ public class AuthorizationEndpoint {
                 } catch (Exception e) {
                     throw new AuthorizationException(UNSUPPORTED_GRANT_TYPE);
                 }
+                if (client.isAutoApprove()) {
+                    TokenResponse tokenResponse;
+                    try {
+                        tokenResponse = tokenManager.create(client, userId, scopes);
+                    } catch (Exception e) {
+                        throw new AuthorizationException(e.getMessage());
+                    }
+                    String accessToken = tokenResponse.getAccess_token();
+                    location = String.format("%s?token=%s", redirectUri, accessToken);
+                    if (null != state)
+                        location = String.format("%s&state=%s", location, state);
+                    response.sendRedirect(location);
+                }
+                session.setAttribute(LAST_TYPE, TOKEN);
+                break;
+            default:
+                throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
+        }
+        session.setAttribute(CURRENT_REDIRECT_URI, redirectUri);
+        session.setAttribute(CURRENT_CLIENT, client);
+        session.setAttribute(LAST_SCOPE, scope);
+        model.addAttribute("client", client);
+        if (!isEmpty(state)) {
+            session.setAttribute(LAST_STATE, state);
+        }
+        return "authorize";
+    }
+
+    @PostMapping("/authorize/confirm")
+    public void authorizeConfirm(
+            @RequestParam("client_id") String clientId,
+            @RequestParam("opinion") String opinion,
+            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
+            @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
+            @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
+            @SessionAttribute(LAST_SCOPE) String scope,
+            @SessionAttribute(LAST_STATE) String state,
+            @SessionAttribute(LAST_TYPE) ResponseTypes type,
+            HttpServletResponse response) throws IOException {
+        String location;
+        if (null == client || !client.getClientId().equals(clientId)) {
+            throw new AuthorizationException(INVALID_CLIENT);
+        }
+        if (!"allow".equals(opinion)) {
+            throw new AuthorizationException("signin was rejected");
+        }
+        String userId = user.getId();
+        Set<String> scopes = scopeSet(scope);
+        switch (type) {
+            case CODE:
+                String code = RandomSecret.create();
+                codeManager.saveCodeBinding(client, code, scopes, redirectUri, userId);
+                location = String.format("%s?code=%s", redirectUri, code);
+                if (null != state)
+                    location = String.format("%s&state=%s", location, state);
+                response.sendRedirect(location);
+                break;
+            case TOKEN:
                 TokenResponse tokenResponse;
                 try {
                     tokenResponse = tokenManager.create(client, userId, scopes);
@@ -122,32 +172,5 @@ public class AuthorizationEndpoint {
             default:
                 throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         }
-        return "authorize";
-    }
-
-    @PostMapping("/authorize/confirm")
-    public void authorizeConfirm(
-            @RequestParam("client_id") String clientId,
-            @RequestParam("opinion") String opinion,
-            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
-            @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
-            @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
-            @SessionAttribute(LAST_SCOPE) String scope,
-            @SessionAttribute(LAST_STATE) String state,
-            HttpServletResponse response) throws IOException {
-        String location;
-        if (null == client || !client.getClientId().equals(clientId)) {
-            throw new AuthorizationException(INVALID_CLIENT);
-        }
-        if (!"allow".equals(opinion)) {
-            throw new AuthorizationException("signin was rejected");
-        }
-        String code = RandomSecret.create();
-        String userId = user.getId();
-        codeManager.saveCodeBinding(client, code, scopeSet(scope), redirectUri, userId);
-        location = String.format("%s?code=%s", redirectUri, code);
-        if (null != state)
-            location = String.format("%s&state=%s", location, state);
-        response.sendRedirect(location);
     }
 }
