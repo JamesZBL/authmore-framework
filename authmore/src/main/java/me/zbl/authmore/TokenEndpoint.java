@@ -70,7 +70,7 @@ public class TokenEndpoint {
             throw new OAuthException(INVALID_CLIENT);
         ClientDetails client = clients.findByClientId(clientId)
                 .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
-        String userId = null;
+        String userId;
         Set<String> scopes;
         switch (realType) {
             case AUTHORIZATION_CODE:
@@ -100,7 +100,7 @@ public class TokenEndpoint {
                 OAuthUtil.validateClientAndGrantType(client, GrantTypes.CLIENT_CREDENTIALS);
                 OAuthUtil.validateClientAndScope(client, scope);
                 scopes = OAuthUtil.scopeSet(scope);
-                token = tokenManager.create(client, userId, scopes);
+                token = tokenManager.create(client, null, scopes);
                 break;
             default:
                 throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
