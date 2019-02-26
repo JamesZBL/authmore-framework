@@ -16,9 +16,39 @@
  */
 package me.zbl.authmore;
 
+import java.util.Set;
+
 /**
  * @author JamesZBL
  * @since 2019-02-26
  */
 public class TokenCheckResponse {
+
+    private final Set<String> scope;
+    private final long exp;
+    private final String client_id;
+
+    public TokenCheckResponse(Set<String> scope, long exp, String client_id) {
+        this.scope = scope;
+        this.exp = exp;
+        this.client_id = client_id;
+    }
+
+    public TokenCheckResponse(AccessTokenBinding tokenBinding) {
+        this.scope = tokenBinding.getScopes();
+        this.exp = tokenBinding.getExpire();
+        this.client_id = tokenBinding.getClientId();
+    }
+
+    public Set<String> getScope() {
+        return scope;
+    }
+
+    public long getExp() {
+        return exp;
+    }
+
+    public String getClient_id() {
+        return client_id;
+    }
 }

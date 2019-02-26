@@ -30,10 +30,11 @@ import java.util.Set;
 public class AccessTokenBinding {
 
     @Id
-    private String accessToken;
-    private String clientId;
-    private Set<String> scopes;
-    private String userId;
+    private final String accessToken;
+    private final String clientId;
+    private final Set<String> scopes;
+    private final String userId;
+    private Long expire;
 
     public AccessTokenBinding(String accessToken, String clientId, Set<String> scopes, String userId) {
         this.accessToken = accessToken;
@@ -53,31 +54,23 @@ public class AccessTokenBinding {
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     public String getClientId() {
         return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     public Set<String> getScopes() {
         return scopes;
     }
 
-    public void setScopes(Set<String> scopes) {
-        this.scopes = scopes;
-    }
-
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public Long getExpire() {
+        return expire;
+    }
+
+    public void setExpire(Long expire) {
+        this.expire = expire;
     }
 }

@@ -18,6 +18,7 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.common.RandomSecret;
+import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -62,8 +63,12 @@ public class RedisTokenManager implements TokenManager {
         RefreshTokenBinding refreshTokenBinding = new RefreshTokenBinding(refreshToken, clientId, scopes, userId);
         tokens.save(accessTokenBinding);
         refreshTokens.save(refreshTokenBinding);
-        redisTemplate.boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + accessToken)
-                .expire(expireIn, TimeUnit.SECONDS);
+        BoundHashOperations<String, Object, Object> ops = redisTemplate
+                .boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + accessToken);
+                ops.expire(expireIn, TimeUnit.SECONDS);
+        Long expire = ops.getExpire();
+        accessTokenBinding.setExpire(expire);
+        tokens.save(accessTokenBinding);
         return new TokenResponse(accessToken, expireIn, refreshToken, scopes);
     }
 
@@ -78,6 +83,13 @@ public class RedisTokenManager implements TokenManager {
         TokenResponse newTokenResponse =
                 new TokenResponse(refreshTokenBinding, newAccessToken, accessTokenValiditySeconds);
         AccessTokenBinding newAccessTokenBinding = new AccessTokenBinding(refreshTokenBinding, newAccessToken);
+        tokens.save(newAccessTokenBinding);
+        BoundHashOperations<String, Object, Object> ops = redisTemplate
+                .boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + newAccessToken);
+        long expireIn = client.getAccessTokenValiditySeconds();
+        ops.expire(expireIn, TimeUnit.SECONDS);
+        Long expire = ops.getExpire();
+        newAccessTokenBinding.setExpire(expire);
         tokens.save(newAccessTokenBinding);
         return newTokenResponse;
     }
