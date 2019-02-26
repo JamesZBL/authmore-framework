@@ -30,11 +30,13 @@ import java.util.Set;
 public class AccessTokenBinding {
 
     @Id
-    private final String accessToken;
-    private final String clientId;
-    private final Set<String> scopes;
-    private final String userId;
+    private String accessToken;
+    private String clientId;
+    private Set<String> scopes;
+    private String userId;
     private Long expire;
+
+    public AccessTokenBinding() {}
 
     public AccessTokenBinding(String accessToken, String clientId, Set<String> scopes, String userId) {
         this.accessToken = accessToken;

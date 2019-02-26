@@ -34,6 +34,6 @@ public class TokenCheckEndpoint {
     @GetMapping("/oauth/check_token")
     public TokenCheckResponse checkToken(@RequestParam("token") String token) {
         AccessTokenBinding accessTokenBinding = tokenManager.find(token);
-        return null;
+        return new TokenCheckResponse(accessTokenBinding);
     }
 }

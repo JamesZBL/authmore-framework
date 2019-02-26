@@ -75,4 +75,8 @@ public class OAuthUtil {
         if (!valid)
             throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
     }
+
+    public static long expireAtByLiveTime(long expireIn) {
+        return System.currentTimeMillis() / 1000 + expireIn;
+    }
 }
