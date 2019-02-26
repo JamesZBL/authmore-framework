@@ -50,11 +50,18 @@ public class OAuthUtil {
     }
 
     public static void validateClientAndScope(ClientDetails client, String scope) {
+        validateClientAndScope(client, scope, true);
+    }
+
+    public static void validateClientAndScope(ClientDetails client, String scope, boolean notEmptyScope) {
         if (!isEmpty(scope)) {
             Set<String> registeredScope = client.getScope();
             boolean validScope = Arrays.stream(scope.split("\\+"))
                     .allMatch(s -> registeredScope.contains(scope));
             if (!validScope)
+                throw new OAuthException(INVALID_SCOPE);
+        } else {
+            if (notEmptyScope)
                 throw new OAuthException(INVALID_SCOPE);
         }
     }
@@ -65,7 +72,7 @@ public class OAuthUtil {
             valid = client.getAuthorizedGrantTypes().contains(grantType.getName());
         else
             valid = false;
-        if(!valid)
+        if (!valid)
             throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
     }
 }

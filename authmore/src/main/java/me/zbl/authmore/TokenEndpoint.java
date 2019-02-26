@@ -63,7 +63,8 @@ public class TokenEndpoint {
             @RequestParam(value = "client_id", required = false) String clientId,
             @RequestParam(value = "username", required = false) String username,
             @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "scope", required = false) String scope) {
+            @RequestParam(value = "scope", required = false) String scope,
+            @RequestParam(value = "refresh_token", required = false) String refreshToken) {
         GrantTypes realType = GrantTypes.eval(grantType);
         TokenResponse token;
         if (isEmpty(clientId))
@@ -89,7 +90,7 @@ public class TokenEndpoint {
                 UserDetails user = users.findByUsername(username)
                         .orElseThrow(() -> new OAuthException("invalid username"));
                 boolean matches = passwordEncoder.matches(password, user.getPassword());
-                if(!matches)
+                if (!matches)
                     throw new OAuthException("invalid password");
                 OAuthUtil.validateClientAndScope(client, scope);
                 userId = user.getId();
@@ -102,10 +103,10 @@ public class TokenEndpoint {
                 scopes = OAuthUtil.scopeSet(scope);
                 token = tokenManager.create(client, null, scopes);
                 break;
-//            case REFRESH_TOKEN:
-//                token = null;
-//
-//                break;
+            case REFRESH_TOKEN:
+                OAuthUtil.validateClientAndGrantType(client, GrantTypes.REFRESH_TOKEN);
+                token = tokenManager.refresh(refreshToken);
+                break;
             default:
                 throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
         }
