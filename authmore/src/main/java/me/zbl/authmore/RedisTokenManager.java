@@ -21,6 +21,7 @@ import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -62,10 +63,11 @@ public class RedisTokenManager implements TokenManager {
         RefreshTokenBinding refreshTokenBinding = new RefreshTokenBinding(refreshToken, clientId, scopes, userId);
         tokens.save(accessTokenBinding);
         refreshTokens.save(refreshTokenBinding);
-        redisTemplate.boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + accessToken)
-                .expire(expireIn, TimeUnit.SECONDS);
+        expireAccessTokenIn(accessToken, expireIn);
         long expireAt = OAuthUtil.expireAtByLiveTime(expireIn);
         accessTokenBinding.setExpire(expireAt);
+        Optional.ofNullable(client.getRefreshTokenValiditySeconds())
+                .ifPresent(s -> expireRefreshTokenIn(refreshToken, s));
         tokens.save(accessTokenBinding);
         return new TokenResponse(accessToken, expireIn, refreshToken, scopes);
     }
@@ -76,19 +78,29 @@ public class RedisTokenManager implements TokenManager {
                 .orElseThrow(() -> new OAuthException(INVALID_TOKEN));
         String clientId = refreshTokenBinding.getClientId();
         ClientDetails client = clients.findByClientId(clientId).orElseThrow(() -> new OAuthException(INVALID_CLIENT));
-        long accessTokenValiditySeconds = client.getAccessTokenValiditySeconds();
+        long expireIn = client.getAccessTokenValiditySeconds();
         String newAccessToken = RandomSecret.create();
-        TokenResponse newTokenResponse =
-                new TokenResponse(refreshTokenBinding, newAccessToken, accessTokenValiditySeconds);
+        TokenResponse newTokenResponse = new TokenResponse(refreshTokenBinding, newAccessToken, expireIn);
         AccessTokenBinding newAccessTokenBinding = new AccessTokenBinding(refreshTokenBinding, newAccessToken);
         tokens.save(newAccessTokenBinding);
-        long expireIn = client.getAccessTokenValiditySeconds();
-        redisTemplate.boundHashOps(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING + ":" + newAccessToken)
-                .expire(expireIn, TimeUnit.SECONDS);
+        expireAccessTokenIn(newAccessToken, expireIn);
         long expireAt = OAuthUtil.expireAtByLiveTime(expireIn);
         newAccessTokenBinding.setExpire(expireAt);
         tokens.save(newAccessTokenBinding);
         return newTokenResponse;
+    }
+
+    private void expireAccessTokenIn(String token, long expireIn) {
+        expireToken(OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING, token, expireIn);
+
+    }
+
+    private void expireRefreshTokenIn(String token, long expireIn) {
+        expireToken(OAuthProperties.KEY_PREFIX_REFRESH_TOKEN_BINDING, token, expireIn);
+    }
+
+    private void expireToken(String keyPrefix, String token, long expireIn) {
+        redisTemplate.boundHashOps(keyPrefix + ":" + token).expire(expireIn, TimeUnit.SECONDS);
     }
 
     @Override

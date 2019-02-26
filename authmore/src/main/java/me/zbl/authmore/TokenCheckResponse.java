@@ -35,9 +35,7 @@ public class TokenCheckResponse {
     }
 
     public TokenCheckResponse(AccessTokenBinding tokenBinding) {
-        this.scope = tokenBinding.getScopes();
-        this.exp = tokenBinding.getExpire();
-        this.client_id = tokenBinding.getClientId();
+        this(tokenBinding.getScopes(), tokenBinding.getExpire(), tokenBinding.getClientId());
     }
 
     public Set<String> getScope() {
