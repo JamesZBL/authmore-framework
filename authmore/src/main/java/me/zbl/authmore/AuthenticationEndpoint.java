@@ -36,8 +36,8 @@ public class AuthenticationEndpoint {
 
     private static final String ERROR = "error";
 
-    private AuthenticationManager authenticationManager;
-    private SessionManager sessionManager;
+    private final AuthenticationManager authenticationManager;
+    private final SessionManager sessionManager;
 
     public AuthenticationEndpoint(AuthenticationManager authenticationManager, SessionManager sessionManager) {
         this.authenticationManager = authenticationManager;

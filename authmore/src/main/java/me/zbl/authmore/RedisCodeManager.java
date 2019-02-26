@@ -30,7 +30,7 @@ import static me.zbl.authmore.OAuthException.INVALID_CODE;
 @Component
 public class RedisCodeManager implements CodeManager {
 
-    private CodeRepository authorizationCodes;
+    private final CodeRepository authorizationCodes;
 
     public RedisCodeManager(CodeRepository authorizationCodes) {
         this.authorizationCodes = authorizationCodes;

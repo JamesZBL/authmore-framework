@@ -31,10 +31,10 @@ import static me.zbl.authmore.OAuthProperties.KEY_PREFIX_REFRESH_TOKEN_BINDING;
 public class RefreshTokenBinding {
 
     @Id
-    private String refreshToken;
-    private String clientId;
-    private Set<String> scopes;
-    private String userId;
+    private final String refreshToken;
+    private final String clientId;
+    private final Set<String> scopes;
+    private final String userId;
 
     public RefreshTokenBinding(String refreshToken, String clientId, Set<String> scopes, String userId) {
         this.refreshToken = refreshToken;
@@ -47,31 +47,15 @@ public class RefreshTokenBinding {
         return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
     public String getClientId() {
         return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     public Set<String> getScopes() {
         return scopes;
     }
 
-    public void setScopes(Set<String> scopes) {
-        this.scopes = scopes;
-    }
-
     public String getUserId() {
         return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

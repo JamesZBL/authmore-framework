@@ -30,11 +30,11 @@ import java.util.Set;
 public class CodeBinding implements Serializable {
 
     @Id
-    private String code;
-    private String clientId;
-    private Set<String> scopes;
-    private String redirectUri;
-    private String userId;
+    private final String code;
+    private final String clientId;
+    private final Set<String> scopes;
+    private final String redirectUri;
+    private final String userId;
 
     public CodeBinding(String code, String clientId, Set<String> scopes, String redirectUri, String userId) {
         this.code = code;
@@ -48,39 +48,20 @@ public class CodeBinding implements Serializable {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getClientId() {
         return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     public Set<String> getScopes() {
         return scopes;
     }
 
-    public void setScopes(Set<String> scopes) {
-        this.scopes = scopes;
-    }
-
     public String getRedirectUri() {
         return redirectUri;
-    }
-
-    public void setRedirectUri(String redirectUri) {
-        this.redirectUri = redirectUri;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }

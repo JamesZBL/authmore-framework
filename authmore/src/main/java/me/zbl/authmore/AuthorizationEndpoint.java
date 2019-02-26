@@ -47,9 +47,9 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Controller
 public class AuthorizationEndpoint {
 
-    private AuthenticationManager authenticationManager;
-    private CodeManager codeManager;
-    private TokenManager tokenManager;
+    private final AuthenticationManager authenticationManager;
+    private final CodeManager codeManager;
+    private final TokenManager tokenManager;
 
     public AuthorizationEndpoint(
             AuthenticationManager authenticationManager,

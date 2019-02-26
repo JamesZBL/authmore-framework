@@ -16,27 +16,23 @@
  */
 package me.zbl.authmore;
 
-import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author JamesZBL
- * @since 2019-02-25
+ * @since 2019-02-26
  */
 @RestController
-public class UserDetailsEndpoint {
+public class TokenCheckEndpoint {
 
-    private final UserDetailsRepository users;
+    private final TokenManager tokenManager;
 
-    public UserDetailsEndpoint(UserDetailsRepository users) {
-        this.users = users;
-    }
+    public TokenCheckEndpoint(TokenManager tokenManager) {this.tokenManager = tokenManager;}
 
-    @GetMapping("/user/details")
-    public UserDetails userDetails(
-            @RequestParam("user_id") String userId) {
-        return users.findById(userId).orElseThrow(() -> new OAuthException("no such user"));
+    @GetMapping("/oauth/check_token")
+    public TokenCheckResponse checkToken(@RequestParam("token") String token) {
+        return null;
     }
 }

@@ -34,7 +34,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 @WebFilter(urlPatterns = {"/user/details"})
 public class OAuthFilter extends OncePerRequestFilter {
 
-    private TokenManager tokens;
+    private final TokenManager tokens;
 
     public OAuthFilter(TokenManager tokens) {
         this.tokens = tokens;

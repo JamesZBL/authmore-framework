@@ -33,10 +33,10 @@ import static me.zbl.authmore.OAuthException.*;
 @Component
 public class RedisTokenManager implements TokenManager {
 
-    private AccessTokenRepository tokens;
-    private RefreshTokenRepository refreshTokens;
-    private RedisTemplate<String, String> redisTemplate;
-    private ClientDetailsRepository clients;
+    private final AccessTokenRepository tokens;
+    private final RefreshTokenRepository refreshTokens;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final ClientDetailsRepository clients;
 
     public RedisTokenManager(
             AccessTokenRepository tokens,

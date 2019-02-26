@@ -35,9 +35,9 @@ import static me.zbl.authmore.OAuthException.REDIRECT_URI_MISMATCH;
 @Service
 public class RepoAuthenticationManager implements AuthenticationManager {
 
-    private UserDetailsRepository users;
-    private ClientDetailsRepository clients;
-    private PasswordEncoder passwordEncoder;
+    private final UserDetailsRepository users;
+    private final ClientDetailsRepository clients;
+    private final PasswordEncoder passwordEncoder;
 
     public RepoAuthenticationManager(
             UserDetailsRepository users, ClientDetailsRepository clients,

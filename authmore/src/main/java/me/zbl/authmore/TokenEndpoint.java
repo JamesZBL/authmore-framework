@@ -21,6 +21,7 @@ import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,7 @@ import java.util.Set;
 
 import static me.zbl.authmore.OAuthException.*;
 import static me.zbl.authmore.OAuthProperties.GrantTypes.PASSWORD;
+import static me.zbl.authmore.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -37,18 +39,15 @@ import static org.springframework.util.StringUtils.isEmpty;
 @RestController
 public class TokenEndpoint {
 
-    private ClientDetailsRepository clients;
-    private UserDetailsRepository users;
-    private CodeManager codeManager;
-    private TokenManager tokenManager;
-    private PasswordEncoder passwordEncoder;
+    private final UserDetailsRepository users;
+    private final CodeManager codeManager;
+    private final TokenManager tokenManager;
+    private final PasswordEncoder passwordEncoder;
 
     public TokenEndpoint(
-            ClientDetailsRepository clients,
             UserDetailsRepository users, CodeManager codeManager,
             TokenManager tokenManager,
             PasswordEncoder passwordEncoder) {
-        this.clients = clients;
         this.users = users;
         this.codeManager = codeManager;
         this.tokenManager = tokenManager;
@@ -64,13 +63,12 @@ public class TokenEndpoint {
             @RequestParam(value = "username", required = false) String username,
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "scope", required = false) String scope,
-            @RequestParam(value = "refresh_token", required = false) String refreshToken) {
+            @RequestParam(value = "refresh_token", required = false) String refreshToken,
+            @RequestAttribute(CURRENT_CLIENT) ClientDetails client) {
         GrantTypes realType = GrantTypes.eval(grantType);
         TokenResponse token;
         if (isEmpty(clientId))
             throw new OAuthException(INVALID_CLIENT);
-        ClientDetails client = clients.findByClientId(clientId)
-                .orElseThrow(() -> new OAuthException(INVALID_CLIENT));
         String userId;
         Set<String> scopes;
         switch (realType) {

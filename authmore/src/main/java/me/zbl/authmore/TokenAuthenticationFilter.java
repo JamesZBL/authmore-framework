@@ -28,17 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static me.zbl.authmore.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
  * @since 2019-02-19
  */
-@WebFilter(urlPatterns = {"/oauth/token"})
+@WebFilter(urlPatterns = {"/oauth/token", "/oauth/check_token"})
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private ClientDetailsRepository clients;
-    private PasswordEncoder passwordEncoder;
+    private final ClientDetailsRepository clients;
+    private final PasswordEncoder passwordEncoder;
 
     public TokenAuthenticationFilter(ClientDetailsRepository clients, PasswordEncoder passwordEncoder) {
         this.clients = clients;
@@ -65,6 +66,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             sendUnauthorized(response);
             return;
         }
+        request.setAttribute(CURRENT_CLIENT, client);
         filterChain.doFilter(request, response);
     }
 

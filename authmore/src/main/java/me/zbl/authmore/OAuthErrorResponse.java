@@ -24,8 +24,8 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
  */
 public class OAuthErrorResponse {
 
-    private String error;
-    private String error_description;
+    private final String error;
+    private final String error_description;
 
     public OAuthErrorResponse(OAuthException e) {
         this(e.getMessage(), e.getErrorDescription());
@@ -44,15 +44,7 @@ public class OAuthErrorResponse {
         return error;
     }
 
-    public void setError(String error) {
-        this.error = error;
-    }
-
     public String getError_description() {
         return error_description;
-    }
-
-    public void setError_description(String error_description) {
-        this.error_description = error_description;
     }
 }
