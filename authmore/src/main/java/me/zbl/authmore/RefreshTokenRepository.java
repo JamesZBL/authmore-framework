@@ -16,19 +16,11 @@
  */
 package me.zbl.authmore;
 
-import me.zbl.reactivesecurity.auth.client.ClientDetails;
-
-import java.util.Set;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author JamesZBL
- * @since 2019-02-21
+ * @since 2019-02-26
  */
-public interface TokenManager {
-
-    TokenResponse create(ClientDetails client, String userId, Set<String> scopes);
-
-    TokenResponse refresh(String refreshToken);
-
-    AccessTokenBinding find(String token);
+public interface RefreshTokenRepository extends CrudRepository<RefreshTokenBinding, String> {
 }

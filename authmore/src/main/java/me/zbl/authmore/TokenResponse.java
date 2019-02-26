@@ -36,6 +36,13 @@ public class TokenResponse {
         this.scope = scope;
     }
 
+    public TokenResponse(RefreshTokenBinding refreshTokenBinding, String access_token, long expires_in) {
+        Set<String> scopes = refreshTokenBinding.getScopes();
+        this.access_token = access_token;
+        this.expires_in = expires_in;
+        this.refresh_token = refreshTokenBinding.getRefreshToken();
+    }
+
     public String getAccess_token() {
         return access_token;
     }

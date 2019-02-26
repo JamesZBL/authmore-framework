@@ -21,40 +21,34 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Set;
 
+import static me.zbl.authmore.OAuthProperties.KEY_PREFIX_REFRESH_TOKEN_BINDING;
+
 /**
  * @author JamesZBL
- * @since 2019-02-21
+ * @since 2019-02-26
  */
-@RedisHash(value = OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING,
-           timeToLive = OAuthProperties.DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS)
-public class AccessTokenBinding {
+@RedisHash(value = KEY_PREFIX_REFRESH_TOKEN_BINDING)
+public class RefreshTokenBinding {
 
     @Id
-    private String accessToken;
+    private String refreshToken;
     private String clientId;
     private Set<String> scopes;
     private String userId;
 
-    public AccessTokenBinding(String accessToken, String clientId, Set<String> scopes, String userId) {
-        this.accessToken = accessToken;
+    public RefreshTokenBinding(String refreshToken, String clientId, Set<String> scopes, String userId) {
+        this.refreshToken = refreshToken;
         this.clientId = clientId;
         this.scopes = scopes;
         this.userId = userId;
     }
 
-    public AccessTokenBinding(RefreshTokenBinding refreshTokenBinding, String accessToken) {
-        this.accessToken = accessToken;
-        this.clientId = refreshTokenBinding.getClientId();
-        this.scopes = refreshTokenBinding.getScopes();
-        this.userId = refreshTokenBinding.getUserId();
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getClientId() {

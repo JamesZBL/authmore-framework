@@ -28,6 +28,7 @@ interface OAuthProperties {
     long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 300L;
     String KEY_PREFIX_CODE_BINDING = "authmore:authorization:code";
     String KEY_PREFIX_ACCESS_TOKEN_BINDING = "authmore:authorization:access-token";
+    String KEY_PREFIX_REFRESH_TOKEN_BINDING = "authmore:authorization:refresh-token";
 
     enum GrantTypes {
 

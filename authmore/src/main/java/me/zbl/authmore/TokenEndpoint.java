@@ -102,6 +102,10 @@ public class TokenEndpoint {
                 scopes = OAuthUtil.scopeSet(scope);
                 token = tokenManager.create(client, null, scopes);
                 break;
+//            case REFRESH_TOKEN:
+//                token = null;
+//
+//                break;
             default:
                 throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
         }
