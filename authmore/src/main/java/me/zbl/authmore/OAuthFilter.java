@@ -17,6 +17,8 @@
 package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import me.zbl.reactivesecurity.auth.user.UserDetails;
+import me.zbl.reactivesecurity.auth.user.UserDetailsRepo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -42,10 +44,12 @@ public class OAuthFilter extends OncePerRequestFilter {
 
     private final TokenManager tokens;
     private final ClientDetailsRepository clients;
+    private final UserDetailsRepo users;
 
-    public OAuthFilter(TokenManager tokens, ClientDetailsRepository clients) {
+    public OAuthFilter(TokenManager tokens, ClientDetailsRepository clients, UserDetailsRepo users) {
         this.tokens = tokens;
         this.clients = clients;
+        this.users = users;
     }
 
     @Override
@@ -53,6 +57,8 @@ public class OAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         AccessTokenBinding accessTokenBinding;
+        Set<String> authorities;
+        Set<String> scopes;
         String authorization = request.getHeader("Authorization");
         if (isEmpty(authorization) || !authorization.startsWith("Bearer")) {
             sendUnauthorized(response);
@@ -73,9 +79,16 @@ public class OAuthFilter extends OncePerRequestFilter {
         String clientId = accessTokenBinding.getClientId();
         ClientDetails client = clients.findByClientId(clientId)
                 .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
-        Set<String> scopes = accessTokenBinding.getScopes();
-        Set<String> authorities = client.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        scopes = accessTokenBinding.getScopes();
+        String userId = accessTokenBinding.getUserId();
+        if (null != userId) {
+            UserDetails user = users.findById(userId).orElseThrow(() -> new OAuthException("no such user"));
+            authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toSet());
+        } else {
+            authorities = client.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        }
         request.setAttribute(REQUEST_SCOPES, scopes);
         request.setAttribute(REQUEST_AUTHORITIES, authorities);
         filterChain.doFilter(request, response);
