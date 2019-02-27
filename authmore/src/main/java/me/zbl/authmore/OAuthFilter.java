@@ -18,7 +18,6 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import me.zbl.reactivesecurity.auth.user.UserDetails;
-import me.zbl.reactivesecurity.auth.user.UserDetailsRepo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -44,9 +43,9 @@ public class OAuthFilter extends OncePerRequestFilter {
 
     private final TokenManager tokens;
     private final ClientDetailsRepository clients;
-    private final UserDetailsRepo users;
+    private final UserDetailsRepository users;
 
-    public OAuthFilter(TokenManager tokens, ClientDetailsRepository clients, UserDetailsRepo users) {
+    public OAuthFilter(TokenManager tokens, ClientDetailsRepository clients, UserDetailsRepository users) {
         this.tokens = tokens;
         this.clients = clients;
         this.users = users;
@@ -94,7 +93,7 @@ public class OAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void sendUnauthorized(HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    private void sendUnauthorized(HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
