@@ -18,6 +18,7 @@ package me.zbl.authmore;
 
 import me.zbl.reactivesecurity.auth.client.ClientDetails;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ import java.util.Optional;
  * @author JamesZBL
  * @since 2019-02-15
  */
+@Repository
 public interface ClientDetailsRepository extends MongoRepository<ClientDetails, String> {
 
     Optional<ClientDetails> findByClientId(String clientId);

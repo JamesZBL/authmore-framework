@@ -17,6 +17,7 @@
 package me.zbl.reactivesecurity.auth.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import java.util.Optional;
  * @author JamesZBL
  * @since 2019-01-28
  */
+@Repository
 public interface UserDetailsRepo extends MongoRepository<UserDetails, String> {
 
     Optional<UserDetails> findByUsername(String username);

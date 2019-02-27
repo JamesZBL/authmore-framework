@@ -17,9 +17,11 @@
 package me.zbl.authmore;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author JamesZBL
  * @since 2019-02-19
  */
+@Repository
 public interface CodeRepository extends CrudRepository<CodeBinding, String> {}
