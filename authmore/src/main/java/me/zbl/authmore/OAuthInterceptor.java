@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+import static me.zbl.authmore.OAuthProperties.REQUEST_AUTHORITIES;
 import static me.zbl.authmore.OAuthProperties.REQUEST_SCOPES;
 
 /**
@@ -34,22 +35,29 @@ import static me.zbl.authmore.OAuthProperties.REQUEST_SCOPES;
 @Component
 public class OAuthInterceptor implements HandlerInterceptor {
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws IOException {
         HandlerMethod method = (HandlerMethod) handler;
         ScopeRequired scope = method.getMethodAnnotation(ScopeRequired.class);
-        if (null != scope) {
-            Set<String> scopes = (Set<String>) request.getAttribute(REQUEST_SCOPES);
-            String[] scopesNeeded = scope.value();
-            OAuthProperties.RequireTypes type = scope.type();
-            boolean support = OAuthUtil.support(type, scopesNeeded, scopes);
-            if (!support) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                return false;
-            }
+        AuthorityRequired authority = method.getMethodAnnotation(AuthorityRequired.class);
+        if (scope != null && support(request, response, REQUEST_SCOPES, scope.value(), scope.type()))
+            return false;
+        if (authority != null) {
+            return !support(request, response, REQUEST_AUTHORITIES, authority.value(), authority.type());
         }
         return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean support(HttpServletRequest request, HttpServletResponse response, String requestScopes,
+                            String[] value, OAuthProperties.RequireTypes type) throws IOException {
+        Set<String> scopes = (Set<String>) request.getAttribute(requestScopes);
+        boolean support = OAuthUtil.support(type, value, scopes);
+        if (null == scopes || !support) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return true;
+        }
+        return false;
     }
 }
