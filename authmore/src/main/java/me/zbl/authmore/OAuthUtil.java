@@ -79,4 +79,15 @@ public class OAuthUtil {
     public static long expireAtByLiveTime(long expireIn) {
         return System.currentTimeMillis() / 1000 + expireIn;
     }
+
+    public static boolean support(OAuthProperties.RequireTypes type, String[] required, Set<String> exist) {
+        switch (type) {
+            case ANY:
+                return Arrays.stream(required).allMatch(exist::contains);
+            case ALL:
+                return Arrays.stream(required).anyMatch(exist::contains);
+            default:
+                return false;
+        }
+    }
 }

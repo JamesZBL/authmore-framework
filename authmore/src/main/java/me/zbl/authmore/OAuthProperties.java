@@ -26,6 +26,9 @@ interface OAuthProperties {
 
     long CODE_VALIDITY_SECONDS = 300L;
     long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 300L;
+    String SCOPE_USER_DETAILS = "PROFILE";
+    String REQUEST_SCOPES = "REQUEST_SCOPES";
+    String REQUEST_AUTHORITIES = "REQUEST_AUTHORITIES";
     String KEY_PREFIX_CODE_BINDING = "authmore:authorization:code";
     String KEY_PREFIX_ACCESS_TOKEN_BINDING = "authmore:authorization:access-token";
     String KEY_PREFIX_REFRESH_TOKEN_BINDING = "authmore:authorization:refresh-token";
@@ -75,5 +78,10 @@ interface OAuthProperties {
                     .filter(t -> t.getName().equals(name)).findFirst()
                     .orElseThrow(() -> new OAuthException(OAuthException.UNSUPPORTED_RESPONSE_TYPE));
         }
+    }
+
+    enum RequireTypes {
+
+        ALL, ANY
     }
 }

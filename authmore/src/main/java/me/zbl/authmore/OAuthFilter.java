@@ -16,6 +16,8 @@
  */
 package me.zbl.authmore;
 
+import me.zbl.reactivesecurity.auth.client.ClientDetails;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,7 +26,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import static me.zbl.authmore.OAuthProperties.REQUEST_AUTHORITIES;
+import static me.zbl.authmore.OAuthProperties.REQUEST_SCOPES;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -35,14 +41,18 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class OAuthFilter extends OncePerRequestFilter {
 
     private final TokenManager tokens;
+    private final ClientDetailsRepository clients;
 
-    public OAuthFilter(TokenManager tokens) {
+    public OAuthFilter(TokenManager tokens, ClientDetailsRepository clients) {
         this.tokens = tokens;
+        this.clients = clients;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
+        AccessTokenBinding accessTokenBinding;
         String authorization = request.getHeader("Authorization");
         if (isEmpty(authorization) || !authorization.startsWith("Bearer")) {
             sendUnauthorized(response);
@@ -55,11 +65,19 @@ public class OAuthFilter extends OncePerRequestFilter {
         }
         String token = words[1];
         try {
-            tokens.find(token);
+            accessTokenBinding = tokens.find(token);
         } catch (OAuthException e) {
             sendUnauthorized(response);
             return;
         }
+        String clientId = accessTokenBinding.getClientId();
+        ClientDetails client = clients.findByClientId(clientId)
+                .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
+        Set<String> scopes = accessTokenBinding.getScopes();
+        Set<String> authorities = client.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        request.setAttribute(REQUEST_SCOPES, scopes);
+        request.setAttribute(REQUEST_AUTHORITIES, authorities);
         filterChain.doFilter(request, response);
     }
 
