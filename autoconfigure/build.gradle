@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'me.zbl.authmore:authmore:0.0.1-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'me.zbl.authmore'
+            artifactId = 'authmore-autoconfigure'
+            version = '0.0.1-SNAPSHOT'
+
+            from components.java
+        }
+    }
+}

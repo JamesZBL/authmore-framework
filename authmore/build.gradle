@@ -1,16 +1,18 @@
 plugins {
     id 'org.springframework.boot' version '2.1.2.RELEASE'
+    id 'maven-publish'
     id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'me.zbl.reactive-security'
+group = 'me.zbl.authmore'
 version = '0.0.1-SNAPSHOT'
 description = 'authmore'
 sourceCompatibility = '1.8'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url = 'https://maven.aliyun.com/repository/public'
@@ -23,8 +25,8 @@ ext {
 }
 
 dependencies {
-    implementation project(':auth')
-    implementation project(':common')
+    implementation 'me.zbl.authmore:auth:0.0.1-SNAPSHOT'
+    implementation 'me.zbl.authmore:common:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
@@ -41,4 +43,20 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'me.zbl.authmore'
+            artifactId = 'authmore'
+            version = '0.0.1-SNAPSHOT'
+
+            from components.java
+        }
+    }
+}
+
+jar {
+    enabled = true
 }

@@ -16,8 +16,12 @@
  */
 package me.zbl.authmore;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.Filter;
 
 /**
  * @author JamesZBL
@@ -26,14 +30,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-//    private final OAuthInterceptor oAuthInterceptor;
-//
-//    public WebConfiguration(OAuthInterceptor oAuthInterceptor) {
-//        this.oAuthInterceptor = oAuthInterceptor;
-//    }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(oAuthInterceptor);
-//    }
+    private final ResourceServerFilter resourceServerFilter;
+
+    public WebConfiguration(ResourceServerFilter resourceServerFilter) {
+        this.resourceServerFilter = resourceServerFilter;
+    }
+
+    @Bean
+    FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
+        bean.addUrlPatterns("/user/details");
+        bean.setFilter(resourceServerFilter);
+        return bean;
+    }
 }

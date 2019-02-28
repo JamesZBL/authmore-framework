@@ -10,4 +10,5 @@ include(':cart')
 include(':gates')
 include(':message')
 include(':user')
+include 'autoconfigure'
 

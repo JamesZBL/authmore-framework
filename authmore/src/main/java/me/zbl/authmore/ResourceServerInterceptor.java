@@ -33,12 +33,12 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @author JamesZBL
  * @since 2019-02-27
  */
-public class OAuthInterceptor implements HandlerInterceptor {
+public class ResourceServerInterceptor implements HandlerInterceptor {
 
-    private final OAuthResourceProperties oAuthResourceProperties;
+    private final ResourceServerProperties resourceServerProperties;
 
-    public OAuthInterceptor(OAuthResourceProperties oAuthResourceProperties) {
-        this.oAuthResourceProperties = oAuthResourceProperties;
+    public ResourceServerInterceptor(ResourceServerProperties resourceServerProperties) {
+        this.resourceServerProperties = resourceServerProperties;
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +48,7 @@ public class OAuthInterceptor implements HandlerInterceptor {
         HandlerMethod method = (HandlerMethod) handler;
         ScopeRequired scope = method.getMethodAnnotation(ScopeRequired.class);
         AuthorityRequired authority = method.getMethodAnnotation(AuthorityRequired.class);
-        String requireResourceId = oAuthResourceProperties.getResourceId();
+        String requireResourceId = resourceServerProperties.getResourceId();
         Set<String> resourceIds = (Set<String>) request.getAttribute(OAuthProperties.REQUEST_RESOURCE_IDS);
         if (scope != null) {
             if (!support(request, response, REQUEST_SCOPES, scope.value(), scope.type()))

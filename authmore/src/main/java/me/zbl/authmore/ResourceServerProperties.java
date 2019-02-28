@@ -23,9 +23,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2019-02-28
  */
 @ConfigurationProperties(prefix = "authmore")
-public class OAuthResourceProperties {
+public class ResourceServerProperties {
 
     private String resourceId;
+
+    private String tokenInfoUrl;
 
     public String getResourceId() {
         return resourceId;
@@ -33,5 +35,13 @@ public class OAuthResourceProperties {
 
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public String getTokenInfoUrl() {
+        return tokenInfoUrl;
+    }
+
+    public void setTokenInfoUrl(String tokenInfoUrl) {
+        this.tokenInfoUrl = tokenInfoUrl;
     }
 }

@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':common')
+    implementation 'me.zbl.authmore:common:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -50,6 +50,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.2.RELEASE'
     testCompile 'org.springframework.security:spring-security-test:5.1.3.RELEASE'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'me.zbl.authmore'
+            artifactId = 'auth'
+            version = '0.0.1-SNAPSHOT'
+
+            from components.java
+        }
+    }
 }
 
 
