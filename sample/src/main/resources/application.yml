@@ -1,0 +1,3 @@
+authmore:
+#  resource-id: SAMPLE
+  token-info-url: http://localhost:8086/oauth/check_token

@@ -11,4 +11,5 @@ include(':gates')
 include(':message')
 include(':user')
 include 'autoconfigure'
+include 'sample'
 

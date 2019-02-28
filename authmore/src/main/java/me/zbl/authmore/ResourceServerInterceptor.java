@@ -71,6 +71,8 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
     private boolean support(HttpServletRequest request, HttpServletResponse response, String requestScopes,
                             String[] value, RequireTypes type) throws IOException {
         Set<String> scopes = (Set<String>) request.getAttribute(requestScopes);
+        if(null == scopes)
+            return false;
         boolean support = OAuthUtil.support(type, value, scopes);
         if (null == scopes || !support) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

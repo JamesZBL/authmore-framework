@@ -16,7 +16,6 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 2019-02-28
  */
 @Configuration
-@AutoConfigureAfter(WebMvcConfigurer.class)
 @ConditionalOnClass({ResourceServerFilter.class, ResourceServerFilter.class})
 @EnableConfigurationProperties({ResourceServerProperties.class})
 public class ResourceServerAutoConfiguration implements WebMvcConfigurer {
