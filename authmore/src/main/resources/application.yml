@@ -7,3 +7,6 @@ server:
         name: AUTHMORE_SESSION
   tomcat:
     max-threads: 5
+
+authmore:
+  resourceId: USER

@@ -29,6 +29,7 @@ interface OAuthProperties {
     String SCOPE_USER_DETAILS = "PROFILE";
     String REQUEST_SCOPES = "REQUEST_SCOPES";
     String REQUEST_AUTHORITIES = "REQUEST_AUTHORITIES";
+    String REQUEST_RESOURCE_IDS = "REQUEST_RESOURCE_IDS";
     String KEY_PREFIX_CODE_BINDING = "authmore:authorization:code";
     String KEY_PREFIX_ACCESS_TOKEN_BINDING = "authmore:authorization:access-token";
     String KEY_PREFIX_REFRESH_TOKEN_BINDING = "authmore:authorization:refresh-token";

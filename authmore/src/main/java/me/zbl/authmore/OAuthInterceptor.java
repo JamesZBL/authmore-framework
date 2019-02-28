@@ -16,7 +16,7 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.stereotype.Component;
+import me.zbl.authmore.OAuthProperties.RequireTypes;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -27,37 +27,55 @@ import java.util.Set;
 
 import static me.zbl.authmore.OAuthProperties.REQUEST_AUTHORITIES;
 import static me.zbl.authmore.OAuthProperties.REQUEST_SCOPES;
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
  * @since 2019-02-27
  */
-@Component
 public class OAuthInterceptor implements HandlerInterceptor {
 
+    private final OAuthResourceProperties oAuthResourceProperties;
+
+    public OAuthInterceptor(OAuthResourceProperties oAuthResourceProperties) {
+        this.oAuthResourceProperties = oAuthResourceProperties;
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws IOException {
         HandlerMethod method = (HandlerMethod) handler;
         ScopeRequired scope = method.getMethodAnnotation(ScopeRequired.class);
         AuthorityRequired authority = method.getMethodAnnotation(AuthorityRequired.class);
-        if (scope != null && support(request, response, REQUEST_SCOPES, scope.value(), scope.type()))
-            return false;
+        String requireResourceId = oAuthResourceProperties.getResourceId();
+        Set<String> resourceIds = (Set<String>) request.getAttribute(OAuthProperties.REQUEST_RESOURCE_IDS);
+        if (scope != null) {
+            if (!support(request, response, REQUEST_SCOPES, scope.value(), scope.type()))
+                return false;
+        }
         if (authority != null) {
-            return !support(request, response, REQUEST_AUTHORITIES, authority.value(), authority.type());
+            if (!support(request, response, REQUEST_AUTHORITIES, authority.value(), authority.type()))
+                return false;
+        }
+        if (!isEmpty(requireResourceId)) {
+            if(null == resourceIds || !resourceIds.contains(requireResourceId)){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return false;
+            }
         }
         return true;
     }
 
     @SuppressWarnings("unchecked")
     private boolean support(HttpServletRequest request, HttpServletResponse response, String requestScopes,
-                            String[] value, OAuthProperties.RequireTypes type) throws IOException {
+                            String[] value, RequireTypes type) throws IOException {
         Set<String> scopes = (Set<String>) request.getAttribute(requestScopes);
         boolean support = OAuthUtil.support(type, value, scopes);
         if (null == scopes || !support) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

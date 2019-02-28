@@ -30,8 +30,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static me.zbl.authmore.OAuthProperties.REQUEST_AUTHORITIES;
-import static me.zbl.authmore.OAuthProperties.REQUEST_SCOPES;
+import static me.zbl.authmore.OAuthProperties.*;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -58,6 +57,7 @@ public class OAuthFilter extends OncePerRequestFilter {
         AccessTokenBinding accessTokenBinding;
         Set<String> authorities;
         Set<String> scopes;
+        Set<String> resourceIds;
         String authorization = request.getHeader("Authorization");
         if (isEmpty(authorization) || !authorization.startsWith("Bearer")) {
             sendUnauthorized(response);
@@ -79,6 +79,7 @@ public class OAuthFilter extends OncePerRequestFilter {
         ClientDetails client = clients.findByClientId(clientId)
                 .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
         scopes = accessTokenBinding.getScopes();
+        resourceIds = client.getResourceIds();
         String userId = accessTokenBinding.getUserId();
         if (null != userId) {
             UserDetails user = users.findById(userId).orElseThrow(() -> new OAuthException("no such user"));
@@ -90,6 +91,7 @@ public class OAuthFilter extends OncePerRequestFilter {
         }
         request.setAttribute(REQUEST_SCOPES, scopes);
         request.setAttribute(REQUEST_AUTHORITIES, authorities);
+        request.setAttribute(REQUEST_RESOURCE_IDS, resourceIds);
         filterChain.doFilter(request, response);
     }
 

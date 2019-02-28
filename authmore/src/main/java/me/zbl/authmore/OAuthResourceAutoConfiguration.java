@@ -16,24 +16,29 @@
  */
 package me.zbl.authmore;
 
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author JamesZBL
- * @since 2019-02-27
+ * @since 2019-02-28
  */
 @Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+@AutoConfigureAfter(WebMvcConfigurer.class)
+@EnableConfigurationProperties({OAuthResourceProperties.class})
+public class OAuthResourceAutoConfiguration implements WebMvcConfigurer {
 
-//    private final OAuthInterceptor oAuthInterceptor;
-//
-//    public WebConfiguration(OAuthInterceptor oAuthInterceptor) {
-//        this.oAuthInterceptor = oAuthInterceptor;
-//    }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(oAuthInterceptor);
-//    }
+    private final OAuthResourceProperties resourceProperties;
+
+    public OAuthResourceAutoConfiguration(OAuthResourceProperties resourceProperties) {
+        this.resourceProperties = resourceProperties;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new OAuthInterceptor(resourceProperties));
+    }
 }

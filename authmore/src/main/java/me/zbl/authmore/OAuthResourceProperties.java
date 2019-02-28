@@ -16,24 +16,22 @@
  */
 package me.zbl.authmore;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author JamesZBL
- * @since 2019-02-27
+ * @since 2019-02-28
  */
-@Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+@ConfigurationProperties(prefix = "authmore")
+public class OAuthResourceProperties {
 
-//    private final OAuthInterceptor oAuthInterceptor;
-//
-//    public WebConfiguration(OAuthInterceptor oAuthInterceptor) {
-//        this.oAuthInterceptor = oAuthInterceptor;
-//    }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(oAuthInterceptor);
-//    }
+    private String resourceId;
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
 }
