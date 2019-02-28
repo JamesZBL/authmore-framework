@@ -14,24 +14,19 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
-/**
- * @author JamesZBL
- * @since 2019-02-28
- */
-@RestController
-public class SampleEndpoint {
+@ServletComponentScan
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+public class AuthmoreApplication {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    public static void main(String[] args) {
+        SpringApplication.run(AuthmoreApplication.class, args);
     }
 }
+

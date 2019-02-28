@@ -14,30 +14,32 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.ResourceServerFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-27
  */
 @Configuration
-public class ResourceServerConfiguration {
+public class WebConfiguration implements WebMvcConfigurer {
 
     private final ResourceServerFilter resourceServerFilter;
 
-    public ResourceServerConfiguration(ResourceServerFilter resourceServerFilter) {
+    public WebConfiguration(ResourceServerFilter resourceServerFilter) {
         this.resourceServerFilter = resourceServerFilter;
     }
 
-    public FilterRegistrationBean filterRegistrationBean() {
+    @Bean
+    FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
-        bean.addUrlPatterns("/");
+        bean.addUrlPatterns("/user/details");
         bean.setFilter(resourceServerFilter);
         return bean;
     }

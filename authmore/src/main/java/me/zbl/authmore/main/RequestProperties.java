@@ -14,24 +14,13 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
-
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package me.zbl.authmore.main;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-26
  */
-@RestController
-public class SampleEndpoint {
+public interface RequestProperties {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
-    }
+    String CURRENT_CLIENT = "current_client";
 }

@@ -14,24 +14,24 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.auth.endpoint;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-01-29
  */
 @RestController
-public class SampleEndpoint {
+@EnableResourceServer
+public class UserDetailsEndpoint {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    @GetMapping("/about/me")
+    public Principal user(Principal principal) {
+        return principal;
     }
 }

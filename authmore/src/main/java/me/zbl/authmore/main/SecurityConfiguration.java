@@ -14,31 +14,22 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.ResourceServerFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import me.zbl.authmore.core.PasswordEncoderFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.servlet.Filter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-15
  */
 @Configuration
-public class ResourceServerConfiguration {
+public class SecurityConfiguration {
 
-    private final ResourceServerFilter resourceServerFilter;
-
-    public ResourceServerConfiguration(ResourceServerFilter resourceServerFilter) {
-        this.resourceServerFilter = resourceServerFilter;
-    }
-
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
-        bean.addUrlPatterns("/");
-        bean.setFilter(resourceServerFilter);
-        return bean;
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactory.createDelegatingPasswordEncoder();
     }
 }

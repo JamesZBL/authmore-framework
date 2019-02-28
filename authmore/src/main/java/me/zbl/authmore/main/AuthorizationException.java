@@ -14,24 +14,23 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
-
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package me.zbl.authmore.main;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-18
  */
-@RestController
-public class SampleEndpoint {
+public class AuthorizationException extends RuntimeException {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    public AuthorizationException() {
+        super("authorization_error");
+    }
+
+    public AuthorizationException(String message) {
+        super(message);
+    }
+
+    public AuthorizationException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -14,24 +14,19 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
-
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package me.zbl.authmore.main;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-15
  */
-@RestController
-public class SampleEndpoint {
+public class AuthenticationException extends Exception {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    public static final String INVALID_USERNAME = "Invalid username";
+    public static final String INVALID_PASSWORD = "Invalid password";
+    public static final String ACCOUNT_DISABLED = "Account is disabled";
+
+    public AuthenticationException(String message) {
+        super(message);
     }
 }

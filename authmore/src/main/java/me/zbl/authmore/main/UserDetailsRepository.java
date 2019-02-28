@@ -14,24 +14,20 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.zbl.authmore.core.UserDetails;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-14
  */
-@RestController
-public class SampleEndpoint {
+@Repository
+public interface UserDetailsRepository extends MongoRepository<UserDetails, String> {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
-    }
+    Optional<UserDetails> findByUsername(String userName);
 }

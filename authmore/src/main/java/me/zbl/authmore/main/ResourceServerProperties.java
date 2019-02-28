@@ -14,24 +14,34 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author JamesZBL
  * @since 2019-02-28
  */
-@RestController
-public class SampleEndpoint {
+@ConfigurationProperties(prefix = "authmore")
+public class ResourceServerProperties {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    private String resourceId;
+
+    private String tokenInfoUrl;
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getTokenInfoUrl() {
+        return tokenInfoUrl;
+    }
+
+    public void setTokenInfoUrl(String tokenInfoUrl) {
+        this.tokenInfoUrl = tokenInfoUrl;
     }
 }

@@ -14,24 +14,27 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.auth;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.zbl.authmore.core.PasswordHolder;
+import me.zbl.reactivesecurity.common.BasicController;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-05
  */
-@RestController
-public class SampleEndpoint {
+public class AuthController extends BasicController {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
+    private PasswordEncoder passwordEncoder;
+
+    public AuthController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    protected void encodePassword(PasswordHolder holder) {
+        String raw = holder.getPassword();
+        String encoded = passwordEncoder.encode(raw);
+        holder.setPassword(encoded);
     }
 }

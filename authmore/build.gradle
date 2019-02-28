@@ -25,13 +25,14 @@ ext {
 }
 
 dependencies {
-    implementation 'me.zbl.authmore:auth:0.0.1-SNAPSHOT'
+    implementation 'me.zbl.authmore:core:0.0.1-SNAPSHOT'
     implementation 'me.zbl.authmore:common:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
-    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
+    compileOnly 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
     implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     

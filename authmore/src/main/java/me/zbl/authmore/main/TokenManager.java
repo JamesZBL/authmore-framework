@@ -14,24 +14,21 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.zbl.authmore.core.ClientDetails;
+
+import java.util.Set;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-21
  */
-@RestController
-public class SampleEndpoint {
+public interface TokenManager {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
-    }
+    TokenResponse create(ClientDetails client, String userId, Set<String> scopes);
+
+    TokenResponse refresh(String refreshToken);
+
+    AccessTokenBinding find(String token);
 }

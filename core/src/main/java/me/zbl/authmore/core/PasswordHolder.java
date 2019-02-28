@@ -14,24 +14,15 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
-
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package me.zbl.authmore.core;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-05
  */
-@RestController
-public class SampleEndpoint {
+public interface PasswordHolder {
 
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
-    }
+    String getPassword();
+
+    void setPassword(String encoded);
 }

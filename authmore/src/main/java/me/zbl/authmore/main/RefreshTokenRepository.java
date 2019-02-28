@@ -14,24 +14,15 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.sample;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author JamesZBL
- * @since 2019-02-28
+ * @since 2019-02-26
  */
-@RestController
-public class SampleEndpoint {
-
-    @GetMapping()
-    @ScopeRequired("PROFILE")
-    @AuthorityRequired("SA")
-    public String sample() {
-        return "sample";
-    }
+@Repository
+public interface RefreshTokenRepository extends CrudRepository<RefreshTokenBinding, String> {
 }
