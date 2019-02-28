@@ -31,7 +31,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @since 2019-02-28
  */
 @Configuration
-@ConditionalOnClass({ResourceServerFilter.class, ResourceServerFilter.class})
+@ConditionalOnClass({ResourceServerFilter.class})
 @EnableConfigurationProperties({ResourceServerProperties.class})
 public class ResourceServerAutoConfiguration implements WebMvcConfigurer, SmartInitializingSingleton {
 
