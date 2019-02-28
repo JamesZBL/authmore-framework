@@ -19,6 +19,7 @@ package me.zbl.authmore.main;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.OAuthProperties.GrantTypes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
@@ -89,5 +90,17 @@ public class OAuthUtil {
             default:
                 return false;
         }
+    }
+
+    public static String extractToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (isEmpty(authorization) || !authorization.startsWith("Bearer")) {
+            throw new OAuthException("invalid token");
+        }
+        String[] words = authorization.split(" ");
+        if (2 > words.length) {
+            throw new OAuthException("invalid token");
+        }
+        return words[1];
     }
 }

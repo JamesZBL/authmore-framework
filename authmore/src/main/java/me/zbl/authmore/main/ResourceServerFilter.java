@@ -16,19 +16,22 @@
  */
 package me.zbl.authmore.main;
 
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author JamesZBL
  * @since 2019-02-28
  */
-public class ResourceServerFilter extends OncePerRequestFilter {
+public class ResourceServerFilter extends OAuthFilter {
 
     private final ResourceServerProperties resourceServerProperties;
 
@@ -37,8 +40,34 @@ public class ResourceServerFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String token;
+        String tokenInfoUrl;
+        String clientId;
+        String clientSecret;
+        TokenCheckResponse tokenInfo;
+        try {
+            token = OAuthUtil.extractToken(request);
+        } catch (Exception e) {
+            reject(response);
+            return;
+        }
+        tokenInfoUrl = resourceServerProperties.getTokenInfoUrl();
+        clientId = resourceServerProperties.getClientId();
+        clientSecret = resourceServerProperties.getClientSecret();
+        RestTemplate rest = new RestTemplate();
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("client_id", clientId);
+        params.put("client_secret", clientSecret);
+        tokenInfo = rest.getForObject(tokenInfoUrl, TokenCheckResponse.class, params);
+        if (null == tokenInfo) {
+            reject(response);
+            return;
+        }
+        Set<String> existScopes = tokenInfo.getScope();
+        request.setAttribute(OAuthProperties.REQUEST_SCOPES, existScopes);
         filterChain.doFilter(request, response);
     }
 }

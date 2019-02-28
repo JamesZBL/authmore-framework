@@ -29,6 +29,10 @@ public class ResourceServerProperties {
 
     private String tokenInfoUrl;
 
+    private String clientId;
+
+    private String clientSecret;
+
     public String getResourceId() {
         return resourceId;
     }
@@ -43,5 +47,21 @@ public class ResourceServerProperties {
 
     public void setTokenInfoUrl(String tokenInfoUrl) {
         this.tokenInfoUrl = tokenInfoUrl;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 }

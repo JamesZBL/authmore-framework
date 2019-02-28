@@ -16,12 +16,15 @@
  */
 package me.zbl.authmore.main;
 
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 /**
  * @author JamesZBL
@@ -30,7 +33,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @ConditionalOnClass({ResourceServerFilter.class, ResourceServerFilter.class})
 @EnableConfigurationProperties({ResourceServerProperties.class})
-public class ResourceServerAutoConfiguration implements WebMvcConfigurer {
+public class ResourceServerAutoConfiguration implements WebMvcConfigurer, SmartInitializingSingleton {
 
     private final ResourceServerProperties resourceProperties;
 
@@ -46,5 +49,17 @@ public class ResourceServerAutoConfiguration implements WebMvcConfigurer {
     @Bean
     public ResourceServerFilter oAuthResourceServerFilter() {
         return new ResourceServerFilter(resourceProperties);
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        String tokenInfoUrl = resourceProperties.getTokenInfoUrl();
+        String clientId = resourceProperties.getClientId();
+        String clientSecret = resourceProperties.getClientSecret();
+        if (!isEmpty(tokenInfoUrl)) {
+            if (isEmpty(clientId) || isEmpty(clientSecret))
+                throw new IllegalStateException("If token-info-url value is specified, a client-id " +
+                        "and a client-secret is also required.");
+        }
     }
 }
