@@ -10,4 +10,4 @@ include 'core'
 include 'resource-sample'
 include 'resource-autoconfigure'
 include 'client-autoconfigure'
-
+include 'client-sample'

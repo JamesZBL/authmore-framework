@@ -1,4 +1,4 @@
-package me.zbl.authmore.sample;
+package me.zbl.authmore.clientsample;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SampleApplicationTests {
+public class ClientSampleApplicationTests {
 
     @Test
     public void contextLoads() {

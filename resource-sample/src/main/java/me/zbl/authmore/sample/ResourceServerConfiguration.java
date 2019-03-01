@@ -18,6 +18,7 @@ package me.zbl.authmore.sample;
 
 import me.zbl.authmore.main.ResourceServerFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
@@ -35,6 +36,7 @@ public class ResourceServerConfiguration {
         this.resourceServerFilter = resourceServerFilter;
     }
 
+    @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
         bean.addUrlPatterns("/");
