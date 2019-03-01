@@ -7,7 +7,7 @@ include(':common')
 include(':auth')
 include(':authmore')
 include 'core'
-include 'sample'
+include 'resource-sample'
 include 'resource-autoconfigure'
 include 'client-autoconfigure'
 
