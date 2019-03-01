@@ -28,6 +28,6 @@ import java.io.IOException;
 public abstract class OAuthFilter extends OncePerRequestFilter {
 
     public void reject(HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "oauth unauthorized");
     }
 }
