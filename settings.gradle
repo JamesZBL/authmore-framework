@@ -6,10 +6,6 @@ rootProject.name = 'reactive-security'
 include(':common')
 include(':auth')
 include(':authmore')
-include(':cart')
-include(':gates')
-include(':message')
-include(':user')
 include 'autoconfigure'
 include 'sample'
 include 'core'
