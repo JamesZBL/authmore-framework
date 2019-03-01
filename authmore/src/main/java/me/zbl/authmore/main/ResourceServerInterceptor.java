@@ -58,7 +58,7 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
         }
         if (!isEmpty(requireResourceId)) {
             if (null == resourceIds || !resourceIds.contains(requireResourceId)) {
-                response.sendError(SC_UNAUTHORIZED, "no permission for resource: " + requireResourceId);
+                response.sendError(SC_UNAUTHORIZED, "no access to resource: " + requireResourceId);
                 return false;
             }
         }
