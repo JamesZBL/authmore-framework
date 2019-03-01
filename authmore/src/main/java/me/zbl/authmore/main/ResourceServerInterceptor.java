@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -56,8 +57,8 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
                 return false;
         }
         if (!isEmpty(requireResourceId)) {
-            if(null == resourceIds || !resourceIds.contains(requireResourceId)){
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            if (null == resourceIds || !resourceIds.contains(requireResourceId)) {
+                response.sendError(SC_UNAUTHORIZED, "no permission for resource: " + requireResourceId);
                 return false;
             }
         }
@@ -68,11 +69,11 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
     private boolean support(HttpServletRequest request, HttpServletResponse response, String requestScopes,
                             String[] value, OAuthProperties.RequireTypes type) throws IOException {
         Set<String> scopes = (Set<String>) request.getAttribute(requestScopes);
-        if(null == scopes)
+        if (null == scopes)
             return false;
         boolean support = OAuthUtil.support(type, value, scopes);
-        if (null == scopes || !support) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        if (!support) {
+            response.sendError(SC_UNAUTHORIZED, "invalid scope or authority to access this resource");
             return false;
         }
         return true;
