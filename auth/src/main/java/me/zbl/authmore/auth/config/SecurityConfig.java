@@ -16,7 +16,7 @@
  */
 package me.zbl.authmore.auth.config;
 
-import me.zbl.authmore.auth.PasswordEncoderFactory;
+import me.zbl.authmore.core.PasswordEncoderFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
