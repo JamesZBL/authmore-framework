@@ -16,14 +16,19 @@
  */
 package me.zbl.authmore.main;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author JamesZBL
- * @since 2019-02-27
+ * @since 2019-03-01
  */
-@Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+public class RequestUtil {
 
+    public static String queryStringOf(Map<String, Object> params) {
+        List<String> stringParis = new ArrayList<>();
+        params.forEach((k, v) -> stringParis.add(String.format("%s=%s", String.valueOf(k), String.valueOf(v))));
+        return String.join("&", stringParis);
+    }
 }

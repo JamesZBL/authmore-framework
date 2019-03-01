@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static me.zbl.authmore.main.RequestUtil.queryStringOf;
+
 /**
  * @author JamesZBL
  * @since 2019-02-28
@@ -56,18 +58,22 @@ public class ResourceServerFilter extends OAuthFilter {
         tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
         clientId = resourceServerConfigurationProperties.getClientId();
         clientSecret = resourceServerConfigurationProperties.getClientSecret();
+
         RestTemplate rest = new RestTemplate();
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("token", token);
         params.put("client_id", clientId);
         params.put("client_secret", clientSecret);
-        tokenInfo = rest.getForObject(tokenInfoUrl, TokenCheckResponse.class, params);
+        tokenInfo = rest.getForObject(
+                tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
         if (null == tokenInfo) {
             reject(response);
             return;
         }
-        Set<String> existScopes = tokenInfo.getScope();
-        request.setAttribute(OAuthProperties.REQUEST_SCOPES, existScopes);
+        Set<String> tokenScopes = tokenInfo.getScope();
+        Set<String> authorities = tokenInfo.getAuthorities();
+        request.setAttribute(OAuthProperties.REQUEST_SCOPES, tokenScopes);
+        request.setAttribute(OAuthProperties.REQUEST_AUTHORITIES, authorities);
         filterChain.doFilter(request, response);
     }
 }

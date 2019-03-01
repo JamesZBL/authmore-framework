@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-me.zbl.authmore.main.ClientAutoConfiguration
+me.zbl.authmore.configuration.ClientAutoConfiguration

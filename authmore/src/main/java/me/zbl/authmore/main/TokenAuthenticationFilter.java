@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 import static me.zbl.authmore.main.RequestProperties.CURRENT_CLIENT;
@@ -50,8 +51,20 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String clientId = request.getParameter("client_id");
-        String clientSecret = request.getParameter("client_secret");
+        String clientId;
+        String clientSecret;
+        clientId = request.getParameter("client_id");
+        clientSecret = request.getParameter("client_secret");
+        if (isEmpty(clientId) || isEmpty(clientSecret)) {
+            String authorization = request.getHeader("Authorization");
+            if (null == authorization || !authorization.startsWith("Basic")) {
+                sendUnauthorized(response);
+                return;
+            }
+            Map<String, String> client = OAuthUtil.extractClientFrom(request);
+            clientId = client.get("client_id");
+            clientSecret = client.get("client_secret");
+        }
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
             sendUnauthorized(response);
             return;

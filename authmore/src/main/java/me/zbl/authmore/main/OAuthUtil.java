@@ -20,9 +20,7 @@ import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.OAuthProperties.GrantTypes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static me.zbl.authmore.main.OAuthException.INVALID_SCOPE;
@@ -82,6 +80,8 @@ public class OAuthUtil {
     }
 
     public static boolean support(OAuthProperties.RequireTypes type, String[] required, Set<String> exist) {
+        if (required.length < 1)
+            return true;
         switch (type) {
             case ANY:
                 return Arrays.stream(required).allMatch(exist::contains);
@@ -93,8 +93,27 @@ public class OAuthUtil {
     }
 
     public static String extractToken(HttpServletRequest request) {
+        return extractAuthorizationFrom(request, "Bearer");
+    }
+
+    public static Map<String, String> extractClientFrom(HttpServletRequest request) {
+        String basic = extractAuthorizationFrom(request, "Basic");
+        byte[] decode = Base64.getDecoder().decode(basic);
+        String principle = new String(decode);
+        String[] values = principle.split(":");
+        if (2 > values.length)
+            throw new OAuthException("invalid credentials");
+        String clientId = values[0];
+        String clientSecret = values[1];
+        Map<String, String> result = new HashMap<>();
+        result.put("client_id", clientId);
+        result.put("client_secret", clientSecret);
+        return result;
+    }
+
+    public static String extractAuthorizationFrom(HttpServletRequest request, String prefix) {
         String authorization = request.getHeader("Authorization");
-        if (isEmpty(authorization) || !authorization.startsWith("Bearer")) {
+        if (isEmpty(authorization) || !authorization.startsWith(prefix)) {
             throw new OAuthException("invalid token");
         }
         String[] words = authorization.split(" ");

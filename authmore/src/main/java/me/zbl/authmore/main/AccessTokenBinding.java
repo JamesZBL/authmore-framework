@@ -36,6 +36,8 @@ public class AccessTokenBinding {
     private String userId;
     private Long expire;
 
+    public AccessTokenBinding() {}
+
     public AccessTokenBinding(String accessToken, String clientId, Set<String> scopes, String userId) {
         this.accessToken = accessToken;
         this.clientId = clientId;

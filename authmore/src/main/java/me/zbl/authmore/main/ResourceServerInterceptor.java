@@ -66,12 +66,12 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean support(HttpServletRequest request, HttpServletResponse response, String requestScopes,
-                            String[] value, OAuthProperties.RequireTypes type) throws IOException {
-        Set<String> scopes = (Set<String>) request.getAttribute(requestScopes);
-        if (null == scopes)
+    private boolean support(HttpServletRequest request, HttpServletResponse response, String attributeName,
+                            String[] requiredValues, OAuthProperties.RequireTypes type) throws IOException {
+        Set<String> requestValues = (Set<String>) request.getAttribute(attributeName);
+        if (null == requestValues)
             return false;
-        boolean support = OAuthUtil.support(type, value, scopes);
+        boolean support = OAuthUtil.support(type, requiredValues, requestValues);
         if (!support) {
             response.sendError(SC_UNAUTHORIZED, "invalid scope or authority to access this resource");
             return false;

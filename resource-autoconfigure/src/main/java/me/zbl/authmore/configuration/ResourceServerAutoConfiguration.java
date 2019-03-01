@@ -14,8 +14,11 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.main;
+package me.zbl.authmore.configuration;
 
+import me.zbl.authmore.main.ResourceServerConfigurationProperties;
+import me.zbl.authmore.main.ResourceServerFilter;
+import me.zbl.authmore.main.ResourceServerInterceptor;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
