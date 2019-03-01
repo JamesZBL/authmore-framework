@@ -1,9 +1,9 @@
+server:
+  port: 8011
+
 authmore:
   resource:
-  #  resource-id: SAMPLE
+    #  resource-id: SAMPLE
     token-info-url: http://localhost:8086/oauth/check_token
     client-id: cartapp
     client-secret: 123456
-
-server:
-  port: 8011

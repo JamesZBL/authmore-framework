@@ -1,0 +1,7 @@
+server:
+  port: 8012
+
+authmore:
+  client:
+    client-id: cartapp
+    client-secret: 123456
