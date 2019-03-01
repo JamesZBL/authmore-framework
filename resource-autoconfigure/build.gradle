@@ -20,7 +20,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = 'me.zbl.authmore'
-            artifactId = 'authmore-autoconfigure'
+            artifactId = 'resource-autoconfigure'
             version = '0.0.1-SNAPSHOT'
 
             from components.java

@@ -6,7 +6,8 @@ rootProject.name = 'reactive-security'
 include(':common')
 include(':auth')
 include(':authmore')
-include 'autoconfigure'
-include 'sample'
 include 'core'
+include 'sample'
+include 'resource-autoconfigure'
+include 'client-autoconfigure'
 

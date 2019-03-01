@@ -32,12 +32,12 @@ import static org.springframework.util.StringUtils.isEmpty;
  */
 @Configuration
 @ConditionalOnClass({ResourceServerFilter.class})
-@EnableConfigurationProperties({ResourceServerProperties.class})
+@EnableConfigurationProperties({ResourceServerConfigurationProperties.class})
 public class ResourceServerAutoConfiguration implements WebMvcConfigurer, SmartInitializingSingleton {
 
-    private final ResourceServerProperties resourceProperties;
+    private final ResourceServerConfigurationProperties resourceProperties;
 
-    public ResourceServerAutoConfiguration(ResourceServerProperties resourceProperties) {
+    public ResourceServerAutoConfiguration(ResourceServerConfigurationProperties resourceProperties) {
         this.resourceProperties = resourceProperties;
     }
 

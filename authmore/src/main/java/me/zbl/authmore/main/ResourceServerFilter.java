@@ -33,10 +33,10 @@ import java.util.Set;
  */
 public class ResourceServerFilter extends OAuthFilter {
 
-    private final ResourceServerProperties resourceServerProperties;
+    private final ResourceServerConfigurationProperties resourceServerConfigurationProperties;
 
-    public ResourceServerFilter(ResourceServerProperties resourceServerProperties) {
-        this.resourceServerProperties = resourceServerProperties;
+    public ResourceServerFilter(ResourceServerConfigurationProperties resourceServerConfigurationProperties) {
+        this.resourceServerConfigurationProperties = resourceServerConfigurationProperties;
     }
 
     @Override
@@ -53,9 +53,9 @@ public class ResourceServerFilter extends OAuthFilter {
             reject(response);
             return;
         }
-        tokenInfoUrl = resourceServerProperties.getTokenInfoUrl();
-        clientId = resourceServerProperties.getClientId();
-        clientSecret = resourceServerProperties.getClientSecret();
+        tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
+        clientId = resourceServerConfigurationProperties.getClientId();
+        clientSecret = resourceServerConfigurationProperties.getClientSecret();
         RestTemplate rest = new RestTemplate();
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
