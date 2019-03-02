@@ -26,9 +26,13 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static me.zbl.authmore.main.RequestProperties.CURRENT_CLIENT;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -50,8 +54,20 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String clientId = request.getParameter("client_id");
-        String clientSecret = request.getParameter("client_secret");
+        String clientId;
+        String clientSecret;
+        clientId = request.getParameter(PARAM_CLIENT_ID);
+        clientSecret = request.getParameter(PARAM_CLIENT_SECRET);
+        if (isEmpty(clientId) || isEmpty(clientSecret)) {
+            String authorization = request.getHeader(AUTHORIZATION);
+            if (null == authorization || !authorization.startsWith("Basic")) {
+                sendUnauthorized(response);
+                return;
+            }
+            Map<String, String> client = OAuthUtil.extractClientFrom(request);
+            clientId = client.get(PARAM_CLIENT_ID);
+            clientSecret = client.get(PARAM_CLIENT_SECRET);
+        }
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
             sendUnauthorized(response);
             return;

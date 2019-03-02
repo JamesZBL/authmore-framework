@@ -16,12 +16,8 @@
  */
 package me.zbl.authmore.main;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.Filter;
 
 /**
  * @author JamesZBL
@@ -30,17 +26,4 @@ import javax.servlet.Filter;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final ResourceServerFilter resourceServerFilter;
-
-    public WebConfiguration(ResourceServerFilter resourceServerFilter) {
-        this.resourceServerFilter = resourceServerFilter;
-    }
-
-    @Bean
-    FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
-        bean.addUrlPatterns("/user/details");
-        bean.setFilter(resourceServerFilter);
-        return bean;
-    }
 }

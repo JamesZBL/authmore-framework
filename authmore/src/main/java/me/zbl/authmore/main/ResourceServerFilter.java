@@ -27,16 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
+import static me.zbl.authmore.main.RequestUtil.queryStringOf;
+
 /**
  * @author JamesZBL
  * @since 2019-02-28
  */
 public class ResourceServerFilter extends OAuthFilter {
 
-    private final ResourceServerProperties resourceServerProperties;
+    private final ResourceServerConfigurationProperties resourceServerConfigurationProperties;
 
-    public ResourceServerFilter(ResourceServerProperties resourceServerProperties) {
-        this.resourceServerProperties = resourceServerProperties;
+    public ResourceServerFilter(ResourceServerConfigurationProperties resourceServerConfigurationProperties) {
+        this.resourceServerConfigurationProperties = resourceServerConfigurationProperties;
     }
 
     @Override
@@ -53,21 +57,25 @@ public class ResourceServerFilter extends OAuthFilter {
             reject(response);
             return;
         }
-        tokenInfoUrl = resourceServerProperties.getTokenInfoUrl();
-        clientId = resourceServerProperties.getClientId();
-        clientSecret = resourceServerProperties.getClientSecret();
+        tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
+        clientId = resourceServerConfigurationProperties.getClientId();
+        clientSecret = resourceServerConfigurationProperties.getClientSecret();
+
         RestTemplate rest = new RestTemplate();
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
-        params.put("client_id", clientId);
-        params.put("client_secret", clientSecret);
-        tokenInfo = rest.getForObject(tokenInfoUrl, TokenCheckResponse.class, params);
+        params.put(PARAM_CLIENT_ID, clientId);
+        params.put(PARAM_CLIENT_SECRET, clientSecret);
+        tokenInfo = rest.getForObject(
+                tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
         if (null == tokenInfo) {
             reject(response);
             return;
         }
-        Set<String> existScopes = tokenInfo.getScope();
-        request.setAttribute(OAuthProperties.REQUEST_SCOPES, existScopes);
+        Set<String> tokenScopes = tokenInfo.getScope();
+        Set<String> authorities = tokenInfo.getAuthorities();
+        request.setAttribute(OAuthProperties.REQUEST_SCOPES, tokenScopes);
+        request.setAttribute(OAuthProperties.REQUEST_AUTHORITIES, authorities);
         filterChain.doFilter(request, response);
     }
 }

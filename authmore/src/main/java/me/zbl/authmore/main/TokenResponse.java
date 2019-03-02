@@ -16,7 +16,9 @@
  */
 package me.zbl.authmore.main;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author JamesZBL
@@ -24,10 +26,12 @@ import java.util.Set;
  */
 public class TokenResponse {
 
-    private final String access_token;
-    private final long expires_in;
-    private final String refresh_token;
-    private final Set<String> scope;
+    private String access_token;
+    private long expires_in;
+    private String refresh_token;
+    private Set<String> scope;
+
+    public TokenResponse() {}
 
     public TokenResponse(String access_token, long expires_in, String refresh_token, Set<String> scope) {
         this.access_token = access_token;
@@ -58,5 +62,21 @@ public class TokenResponse {
 
     public String getScope() {
         return String.join(",", scope);
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
+    public void setExpires_in(long expires_in) {
+        this.expires_in = expires_in;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
+    }
+
+    public void setScope(String scope) {
+        this.scope = Arrays.stream(scope.split(",")).collect(Collectors.toSet());
     }
 }

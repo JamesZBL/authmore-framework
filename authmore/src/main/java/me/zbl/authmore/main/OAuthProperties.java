@@ -22,10 +22,18 @@ import java.util.Arrays;
  * @author JamesZBL
  * @since 2019-02-14
  */
-interface OAuthProperties {
+public interface OAuthProperties {
 
-    long CODE_VALIDITY_SECONDS = 300L;
-    long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 300L;
+    long CODE_VALIDITY_SECONDS = 5 * 60;
+    long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 24 * 60 * 60;
+    String PARAM_CLIENT_ID = "client_id";
+    String PARAM_CLIENT_SECRET = "client_secret";
+    String PARAM_USERNAME = "username";
+    String PARAM_PASSWORD = "password";
+    String PARAM_SCOPE = "scope";
+    String PARAM_GRANT_TYPE = "grant_type";
+    String PARAM_CODE = "code";
+    String PARAM_REFRESH_TOKEN = "refresh_token";
     String SCOPE_USER_DETAILS = "PROFILE";
     String REQUEST_SCOPES = "REQUEST_SCOPES";
     String REQUEST_AUTHORITIES = "REQUEST_AUTHORITIES";
