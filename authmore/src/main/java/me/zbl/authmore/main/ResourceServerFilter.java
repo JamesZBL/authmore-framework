@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static me.zbl.authmore.main.RequestUtil.queryStringOf;
 
 /**
@@ -60,10 +62,10 @@ public class ResourceServerFilter extends OAuthFilter {
         clientSecret = resourceServerConfigurationProperties.getClientSecret();
 
         RestTemplate rest = new RestTemplate();
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("token", token);
-        params.put("client_id", clientId);
-        params.put("client_secret", clientSecret);
+        params.put(PARAM_CLIENT_ID, clientId);
+        params.put(PARAM_CLIENT_SECRET, clientSecret);
         tokenInfo = rest.getForObject(
                 tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
         if (null == tokenInfo) {

@@ -29,7 +29,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static me.zbl.authmore.main.RequestProperties.CURRENT_CLIENT;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -53,17 +56,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         String clientId;
         String clientSecret;
-        clientId = request.getParameter("client_id");
-        clientSecret = request.getParameter("client_secret");
+        clientId = request.getParameter(PARAM_CLIENT_ID);
+        clientSecret = request.getParameter(PARAM_CLIENT_SECRET);
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
-            String authorization = request.getHeader("Authorization");
+            String authorization = request.getHeader(AUTHORIZATION);
             if (null == authorization || !authorization.startsWith("Basic")) {
                 sendUnauthorized(response);
                 return;
             }
             Map<String, String> client = OAuthUtil.extractClientFrom(request);
-            clientId = client.get("client_id");
-            clientSecret = client.get("client_secret");
+            clientId = client.get(PARAM_CLIENT_ID);
+            clientSecret = client.get(PARAM_CLIENT_SECRET);
         }
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
             sendUnauthorized(response);

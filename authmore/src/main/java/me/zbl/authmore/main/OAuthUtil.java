@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 
 import static me.zbl.authmore.main.OAuthException.INVALID_SCOPE;
 import static me.zbl.authmore.main.OAuthException.UNSUPPORTED_GRANT_TYPE;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -106,8 +108,8 @@ public class OAuthUtil {
         String clientId = values[0];
         String clientSecret = values[1];
         Map<String, String> result = new HashMap<>();
-        result.put("client_id", clientId);
-        result.put("client_secret", clientSecret);
+        result.put(PARAM_CLIENT_ID, clientId);
+        result.put(PARAM_CLIENT_SECRET, clientSecret);
         return result;
     }
 
