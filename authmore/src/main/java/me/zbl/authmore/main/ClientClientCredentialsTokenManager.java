@@ -16,13 +16,27 @@
  */
 package me.zbl.authmore.main;
 
-import java.util.Map;
+import org.springframework.web.client.RestTemplate;
+
+import static me.zbl.authmore.main.OAuthProperties.GrantTypes;
+import static me.zbl.authmore.main.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
  * @author JamesZBL
  * @since 2019-03-02
  */
-public interface ClientTokenOperations {
+public class ClientClientCredentialsTokenManager extends ClientAbstractTokenManager {
 
-    TokenResponse getToken(String scope, Map<String, String> restParams);
+    public ClientClientCredentialsTokenManager(
+            RestTemplate client,
+            String clientId,
+            String clientSecret,
+            String tokenIssueUrl) {
+        super(client, clientId, clientSecret, tokenIssueUrl);
+    }
+
+    @Override
+    protected final GrantTypes getGrantType() {
+        return CLIENT_CREDENTIALS;
+    }
 }

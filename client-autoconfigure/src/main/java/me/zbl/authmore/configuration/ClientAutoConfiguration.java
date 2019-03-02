@@ -25,13 +25,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_ID;
-import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -54,12 +47,6 @@ public class ClientAutoConfiguration implements SmartInitializingSingleton {
     @Bean
     public ClientRestTemplate restTemplate() {
         ClientRestTemplate template = new ClientRestTemplate();
-        ClientHttpClientInterceptor interceptor = new ClientHttpClientInterceptor(clientId, clientSecret);
-        template.setInterceptors(Stream.of(interceptor).collect(Collectors.toList()));
-        Map<String, Object> params = new HashMap<>();
-        params.put(PARAM_CLIENT_ID, clientId);
-        params.put(PARAM_CLIENT_SECRET, clientSecret);
-        template.setDefaultUriVariables(params);
         return template;
     }
 

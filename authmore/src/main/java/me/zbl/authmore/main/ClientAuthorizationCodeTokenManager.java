@@ -20,16 +20,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-import static me.zbl.authmore.main.OAuthProperties.*;
-import static me.zbl.authmore.main.OAuthProperties.GrantTypes.PASSWORD;
+import static me.zbl.authmore.main.OAuthProperties.GrantTypes;
+import static me.zbl.authmore.main.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_CODE;
 
 /**
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientPasswordTokenManager extends ClientAbstractTokenManager {
+public class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenManager {
 
-    public ClientPasswordTokenManager(
+    public ClientAuthorizationCodeTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -39,14 +40,12 @@ public class ClientPasswordTokenManager extends ClientAbstractTokenManager {
 
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
-        String userName = params.get(PARAM_USERNAME);
-        String password = params.get(PARAM_PASSWORD);
-        Assert.notEmpty(userName, "username cannot be empty");
-        Assert.notEmpty(password, "password cannot be empty");
+        String code = params.get(PARAM_CODE);
+        Assert.notEmpty(code, "code cannot be empty");
     }
 
     @Override
     protected final GrantTypes getGrantType() {
-        return PASSWORD;
+        return AUTHORIZATION_CODE;
     }
 }
