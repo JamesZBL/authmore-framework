@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils;
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class Assert extends org.springframework.util.Assert {
+public class Assert {
 
     public static void notEmpty(@Nullable String value, String message) {
         if (StringUtils.isEmpty(value))
