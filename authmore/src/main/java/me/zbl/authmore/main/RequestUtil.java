@@ -24,7 +24,9 @@ import java.util.Map;
  * @author JamesZBL
  * @since 2019-03-01
  */
-public class RequestUtil {
+public final class RequestUtil {
+
+    private RequestUtil() {}
 
     public static String queryStringOf(Map<String, String> params) {
         List<String> stringParis = new ArrayList<>();

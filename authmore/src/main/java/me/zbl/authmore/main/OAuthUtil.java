@@ -33,10 +33,12 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @author JamesZBL
  * @since 2019-02-19
  */
-public class OAuthUtil {
+public final class OAuthUtil {
 
     private static final String SCOPE_DELIMITER = "\\+";
     private static final String AUTHORITY_DELIMITER = ",";
+
+    private OAuthUtil() {}
 
     public static Set<String> scopeSet(String scope) {
         if (isEmpty(scope))
