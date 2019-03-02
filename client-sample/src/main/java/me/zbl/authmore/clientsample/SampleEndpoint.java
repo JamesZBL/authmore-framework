@@ -44,7 +44,7 @@ public class SampleEndpoint {
     }
 
     @GetMapping
-    public String resource() {
+    public String password() {
         Map<String, Object> params = new HashMap<>();
         params.put("client_id", "cartapp");
         params.put("client_secret", "123456");
