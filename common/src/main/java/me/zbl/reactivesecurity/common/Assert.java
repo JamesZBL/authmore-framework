@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package me.zbl.authmore.main;
+package me.zbl.reactivesecurity.common;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
