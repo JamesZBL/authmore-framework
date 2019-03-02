@@ -39,6 +39,7 @@ public class ClientPasswordTokenManager extends ClientAbstractTokenManager {
 
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
+        super.enhanceQueryParams(params);
         String userName = params.get(PARAM_USERNAME);
         String password = params.get(PARAM_PASSWORD);
         Assert.notEmpty(userName, "username cannot be empty");

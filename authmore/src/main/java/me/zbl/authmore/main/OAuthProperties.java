@@ -33,6 +33,7 @@ public interface OAuthProperties {
     String PARAM_SCOPE = "scope";
     String PARAM_GRANT_TYPE = "grant_type";
     String PARAM_CODE = "code";
+    String PARAM_REFRESH_TOKEN = "refresh_token";
     String SCOPE_USER_DETAILS = "PROFILE";
     String REQUEST_SCOPES = "REQUEST_SCOPES";
     String REQUEST_AUTHORITIES = "REQUEST_AUTHORITIES";

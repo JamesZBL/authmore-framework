@@ -21,16 +21,16 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 import static me.zbl.authmore.main.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
-import static me.zbl.authmore.main.OAuthProperties.PARAM_CODE;
+import static me.zbl.authmore.main.OAuthProperties.GrantTypes.REFRESH_TOKEN;
+import static me.zbl.authmore.main.OAuthProperties.PARAM_REFRESH_TOKEN;
 
 /**
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenManager {
+public class ClientRefreshTokenManager extends ClientAbstractTokenManager {
 
-    public ClientAuthorizationCodeTokenManager(
+    public ClientRefreshTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -41,12 +41,12 @@ public class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenMana
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
         super.enhanceQueryParams(params);
-        String code = params.get(PARAM_CODE);
-        Assert.notEmpty(code, "code cannot be empty");
+        String refreshToken = params.get(PARAM_REFRESH_TOKEN);
+        Assert.notEmpty(refreshToken, refreshToken);
     }
 
     @Override
     protected final GrantTypes getGrantType() {
-        return AUTHORIZATION_CODE;
+        return REFRESH_TOKEN;
     }
 }
