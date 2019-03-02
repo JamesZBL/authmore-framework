@@ -17,15 +17,14 @@
 package me.zbl.authmore.main;
 
 import me.zbl.authmore.core.ClientDetails;
-import me.zbl.authmore.core.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import me.zbl.authmore.main.OAuthProperties.GrantTypes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
-
+import static me.zbl.authmore.main.OAuthException.INVALID_CLIENT;
+import static me.zbl.authmore.main.OAuthException.UNSUPPORTED_GRANT_TYPE;
 import static me.zbl.authmore.main.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -36,19 +35,20 @@ import static org.springframework.util.StringUtils.isEmpty;
 @RestController
 public class TokenEndpoint {
 
-    private final UserDetailsRepository users;
-    private final CodeManager codeManager;
-    private final TokenManager tokenManager;
-    private final PasswordEncoder passwordEncoder;
+    private final TokenAuthorizationCodeTokenIssuer authorizationCodeTokenIssuer;
+    private final TokenPasswordTokenIssuer passwordTokenIssuer;
+    private final TokenClientCredentialsTokenIssuer clientCredentialsTokenIssuer;
+    private final TokenRefreshTokenIssuer refreshTokenIssuer;
 
     public TokenEndpoint(
-            UserDetailsRepository users, CodeManager codeManager,
-            TokenManager tokenManager,
-            PasswordEncoder passwordEncoder) {
-        this.users = users;
-        this.codeManager = codeManager;
-        this.tokenManager = tokenManager;
-        this.passwordEncoder = passwordEncoder;
+            TokenAuthorizationCodeTokenIssuer authorizationCodeTokenIssuer,
+            TokenPasswordTokenIssuer passwordTokenIssuer,
+            TokenClientCredentialsTokenIssuer clientCredentialsTokenIssuer,
+            TokenRefreshTokenIssuer refreshTokenIssuer) {
+        this.authorizationCodeTokenIssuer = authorizationCodeTokenIssuer;
+        this.passwordTokenIssuer = passwordTokenIssuer;
+        this.clientCredentialsTokenIssuer = clientCredentialsTokenIssuer;
+        this.refreshTokenIssuer = refreshTokenIssuer;
     }
 
     @PostMapping("/oauth/token")
@@ -62,49 +62,20 @@ public class TokenEndpoint {
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "refresh_token", required = false) String refreshToken,
             @RequestAttribute(CURRENT_CLIENT) ClientDetails client) {
-        OAuthProperties.GrantTypes realType = OAuthProperties.GrantTypes.eval(grantType);
-        TokenResponse token;
+        GrantTypes realType = GrantTypes.eval(grantType);
         if (isEmpty(clientId))
-            throw new OAuthException(OAuthException.INVALID_CLIENT);
-        String userId;
-        Set<String> scopes;
+            throw new OAuthException(INVALID_CLIENT);
         switch (realType) {
             case AUTHORIZATION_CODE:
-                CodeBinding codeBinding = codeManager.getCodeDetails(clientId, code);
-                scopes = codeBinding.getScopes();
-                String requestRedirectUri = codeBinding.getRedirectUri();
-                if (isEmpty(redirectUri) || !redirectUri.equals(requestRedirectUri)) {
-                    throw new OAuthException(OAuthException.REDIRECT_URI_MISMATCH);
-                }
-                codeManager.expireCode(code);
-                userId = codeBinding.getUserId();
-                token = tokenManager.create(client, userId, scopes);
-                break;
+                return authorizationCodeTokenIssuer.issue(client, redirectUri, code);
             case PASSWORD:
-                OAuthUtil.validateClientAndGrantType(client, OAuthProperties.GrantTypes.PASSWORD);
-                UserDetails user = users.findByUsername(username)
-                        .orElseThrow(() -> new OAuthException("invalid username"));
-                boolean matches = passwordEncoder.matches(password, user.getPassword());
-                if (!matches)
-                    throw new OAuthException("invalid password");
-                OAuthUtil.validateClientAndScope(client, scope);
-                userId = user.getId();
-                scopes = OAuthUtil.scopeSet(scope);
-                token = tokenManager.create(client, userId, scopes);
-                break;
+                return passwordTokenIssuer.issue(client, username, password, scope);
             case CLIENT_CREDENTIALS:
-                OAuthUtil.validateClientAndGrantType(client, OAuthProperties.GrantTypes.CLIENT_CREDENTIALS);
-                OAuthUtil.validateClientAndScope(client, scope);
-                scopes = OAuthUtil.scopeSet(scope);
-                token = tokenManager.create(client, null, scopes);
-                break;
+                return clientCredentialsTokenIssuer.issue(client, scope);
             case REFRESH_TOKEN:
-                OAuthUtil.validateClientAndGrantType(client, OAuthProperties.GrantTypes.REFRESH_TOKEN);
-                token = tokenManager.refresh(refreshToken);
-                break;
+                return refreshTokenIssuer.issue(client, refreshToken);
             default:
-                throw new OAuthException(OAuthException.UNSUPPORTED_GRANT_TYPE);
+                throw new OAuthException(UNSUPPORTED_GRANT_TYPE);
         }
-        return token;
     }
 }
