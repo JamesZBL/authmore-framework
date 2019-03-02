@@ -30,10 +30,10 @@ import static me.zbl.authmore.main.OAuthProperties.*;
  */
 public abstract class ClientAbstractTokenManager implements ClientTokenOperations {
 
-    protected final RestTemplate client;
-    protected final String clientId;
-    protected final String clientSecret;
-    protected final String tokenIssueUrl;
+    private final RestTemplate client;
+    private final String clientId;
+    private final String clientSecret;
+    private final String tokenIssueUrl;
 
     ClientAbstractTokenManager(
             RestTemplate client,
