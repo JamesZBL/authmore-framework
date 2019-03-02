@@ -17,6 +17,7 @@
 package me.zbl.authmore.main;
 
 import me.zbl.authmore.main.OAuthProperties.*;
+import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;

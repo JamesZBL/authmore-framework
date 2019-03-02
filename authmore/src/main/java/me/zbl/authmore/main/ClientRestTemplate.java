@@ -16,6 +16,7 @@
  */
 package me.zbl.authmore.main;
 
+import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
