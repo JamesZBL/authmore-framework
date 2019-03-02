@@ -29,6 +29,8 @@ public class ClientConfigurationProperties {
 
     private String clientSecret;
 
+    private String tokenIssueUrl;
+
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -43,5 +45,13 @@ public class ClientConfigurationProperties {
 
     public String getClientSecret() {
         return clientSecret;
+    }
+
+    public String getTokenIssueUrl() {
+        return tokenIssueUrl;
+    }
+
+    public void setTokenIssueUrl(String tokenIssueUrl) {
+        this.tokenIssueUrl = tokenIssueUrl;
     }
 }

@@ -54,10 +54,10 @@ public abstract class ClientAbstractTokenManager implements ClientTokenOperation
         restParams.put(PARAM_SCOPE, scope);
         enhanceQueryParams(restParams);
         String queryUrlWithParams = queryUrlWithParams(restParams);
-        return client.getForObject(queryUrlWithParams, TokenResponse.class);
+        return client.postForObject(queryUrlWithParams, null, TokenResponse.class);
     }
 
-    protected void enhanceQueryParams(Map<String, String> params){
+    protected void enhanceQueryParams(Map<String, String> params) {
         String scope = params.get(PARAM_SCOPE);
         Assert.notEmpty(scope, "scope cannot be empty");
         Assert.notEmpty(clientId, "client_id cannot be empty");
