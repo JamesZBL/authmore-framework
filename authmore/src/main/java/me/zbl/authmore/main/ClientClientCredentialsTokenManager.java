@@ -25,7 +25,7 @@ import static me.zbl.authmore.main.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientClientCredentialsTokenManager extends ClientAbstractTokenManager {
+public final class ClientClientCredentialsTokenManager extends ClientAbstractTokenManager {
 
     public ClientClientCredentialsTokenManager(
             RestTemplate client,

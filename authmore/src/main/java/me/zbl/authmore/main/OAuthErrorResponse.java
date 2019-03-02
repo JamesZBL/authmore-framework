@@ -22,7 +22,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
  * @author JamesZBL
  * @since 2019-02-19
  */
-public class OAuthErrorResponse {
+public final class OAuthErrorResponse {
 
     private final String error;
     private final String error_description;

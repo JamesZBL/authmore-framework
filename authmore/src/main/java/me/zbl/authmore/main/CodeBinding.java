@@ -27,7 +27,7 @@ import java.util.Set;
  * @since 2019-02-19
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_CODE_BINDING, timeToLive = OAuthProperties.CODE_VALIDITY_SECONDS)
-public class CodeBinding implements Serializable {
+public final class CodeBinding implements Serializable {
 
     @Id
     private final String code;

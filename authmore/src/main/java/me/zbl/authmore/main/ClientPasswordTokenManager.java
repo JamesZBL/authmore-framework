@@ -28,7 +28,7 @@ import static me.zbl.authmore.main.OAuthProperties.GrantTypes.PASSWORD;
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientPasswordTokenManager extends ClientAbstractTokenManager {
+public final class ClientPasswordTokenManager extends ClientAbstractTokenManager {
 
     public ClientPasswordTokenManager(
             RestTemplate client,

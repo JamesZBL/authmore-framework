@@ -27,7 +27,7 @@ import java.util.Set;
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING,
            timeToLive = OAuthProperties.DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS)
-public class AccessTokenBinding {
+public final class AccessTokenBinding {
 
     @Id
     private String accessToken;

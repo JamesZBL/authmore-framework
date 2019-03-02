@@ -29,7 +29,7 @@ import static me.zbl.authmore.main.OAuthProperties.PARAM_CODE;
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenManager {
+public final class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenManager {
 
     public ClientAuthorizationCodeTokenManager(
             RestTemplate client,

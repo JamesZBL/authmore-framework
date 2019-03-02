@@ -35,7 +35,7 @@ import static me.zbl.authmore.main.SessionProperties.LAST_URL;
  * @since 2019-02-14
  */
 @WebFilter(urlPatterns = {"/authorize"})
-public class AuthenticationFilter extends OncePerRequestFilter {
+public final class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

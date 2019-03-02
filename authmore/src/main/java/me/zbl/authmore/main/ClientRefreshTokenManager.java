@@ -29,7 +29,7 @@ import static me.zbl.authmore.main.OAuthProperties.PARAM_REFRESH_TOKEN;
  * @author JamesZBL
  * @since 2019-03-02
  */
-public class ClientRefreshTokenManager extends ClientAbstractTokenManager {
+public final class ClientRefreshTokenManager extends ClientAbstractTokenManager {
 
     public ClientRefreshTokenManager(
             RestTemplate client,

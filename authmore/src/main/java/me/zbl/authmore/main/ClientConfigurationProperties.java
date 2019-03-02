@@ -23,7 +23,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2019-03-01
  */
 @ConfigurationProperties(prefix = "authmore.client")
-public class ClientConfigurationProperties {
+public final class ClientConfigurationProperties {
 
     private String clientId;
 

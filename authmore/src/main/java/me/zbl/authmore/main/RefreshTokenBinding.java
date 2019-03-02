@@ -26,7 +26,7 @@ import java.util.Set;
  * @since 2019-02-26
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_REFRESH_TOKEN_BINDING)
-public class RefreshTokenBinding {
+public final class RefreshTokenBinding {
 
     @Id
     private final String refreshToken;
