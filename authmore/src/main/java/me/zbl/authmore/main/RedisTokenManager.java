@@ -21,7 +21,6 @@ import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -54,22 +53,21 @@ public class RedisTokenManager implements TokenManager {
     public TokenResponse create(ClientDetails client, String userId, Set<String> scopes) {
         String clientId = client.getClientId();
         long expireIn = client.getAccessTokenValiditySeconds();
-        boolean validScope = client.getScope().containsAll(scopes);
-        if (!validScope)
-            throw new OAuthException(INVALID_SCOPE);
-        String accessToken = RandomSecret.create();
+        assertValidateScopes(client, scopes);
+        AccessTokenBinding accessTokenBinding = createAccessTokenBinding(clientId, scopes, userId);
         String refreshToken = RandomSecret.create();
-        AccessTokenBinding accessTokenBinding = new AccessTokenBinding(accessToken, clientId, scopes, userId);
         RefreshTokenBinding refreshTokenBinding = new RefreshTokenBinding(refreshToken, clientId, scopes, userId);
         tokens.save(accessTokenBinding);
         refreshTokens.save(refreshTokenBinding);
-        expireAccessTokenIn(accessToken, expireIn);
+        expireAccessTokenIn(accessTokenBinding.getAccessToken(), expireIn);
         long expireAt = OAuthUtil.expireAtByLiveTime(expireIn);
         accessTokenBinding.setExpire(expireAt);
-        Optional.ofNullable(client.getRefreshTokenValiditySeconds())
-                .ifPresent(s -> expireRefreshTokenIn(refreshToken, s));
+        Integer refreshTokenValiditySeconds = client.getRefreshTokenValiditySeconds();
+        if (null != refreshTokenValiditySeconds && 0 != refreshTokenValiditySeconds) {
+            expireRefreshTokenIn(refreshToken, refreshTokenValiditySeconds);
+        }
         tokens.save(accessTokenBinding);
-        return new TokenResponse(accessToken, expireIn, refreshToken, scopes);
+        return new TokenResponse(accessTokenBinding.getAccessToken(), expireIn, refreshToken, scopes);
     }
 
     @Override
@@ -80,14 +78,7 @@ public class RedisTokenManager implements TokenManager {
         ClientDetails client = clients.findByClientId(clientId).orElseThrow(() -> new OAuthException(INVALID_CLIENT));
         long expireIn = client.getAccessTokenValiditySeconds();
         String newAccessToken = RandomSecret.create();
-        Integer refreshTokenValiditySeconds = client.getRefreshTokenValiditySeconds();
-        if (null != refreshTokenValiditySeconds && 0 != refreshTokenValiditySeconds) {
-            String newRefreshToken = RandomSecret.create();
-            Set<String> scopes = refreshTokenBinding.getScopes();
-            String userId = refreshTokenBinding.getUserId();
-            refreshTokenBinding = new RefreshTokenBinding(newRefreshToken, clientId, scopes, userId);
-            refreshTokens.save(refreshTokenBinding);
-        }
+        refreshTokenBinding = freshRefreshTokenBinding(client, refreshTokenBinding);
         TokenResponse newTokenResponse = new TokenResponse(refreshTokenBinding, newAccessToken, expireIn);
         AccessTokenBinding newAccessTokenBinding = new AccessTokenBinding(refreshTokenBinding, newAccessToken);
         tokens.save(newAccessTokenBinding);
@@ -96,6 +87,31 @@ public class RedisTokenManager implements TokenManager {
         newAccessTokenBinding.setExpire(expireAt);
         tokens.save(newAccessTokenBinding);
         return newTokenResponse;
+    }
+
+    private AccessTokenBinding createAccessTokenBinding(String clientId, Set<String> scopes, String userId) {
+        String accessToken = RandomSecret.create();
+        return new AccessTokenBinding(accessToken, clientId, scopes, userId);
+    }
+
+    private void assertValidateScopes(ClientDetails client, Set<String> scopes) {
+        boolean validScope = client.getScope().containsAll(scopes);
+        if (!validScope)
+            throw new OAuthException(INVALID_SCOPE);
+    }
+
+    private RefreshTokenBinding freshRefreshTokenBinding(ClientDetails client, RefreshTokenBinding refreshTokenBinding) {
+        Integer refreshTokenValiditySeconds = client.getRefreshTokenValiditySeconds();
+        if (null != refreshTokenValiditySeconds && 0 != refreshTokenValiditySeconds) {
+            String newRefreshToken = RandomSecret.create();
+            Set<String> scopes = refreshTokenBinding.getScopes();
+            String userId = refreshTokenBinding.getUserId();
+            String clientId = client.getClientId();
+            refreshTokenBinding = new RefreshTokenBinding(newRefreshToken, clientId, scopes, userId);
+            refreshTokens.save(refreshTokenBinding);
+            expireRefreshTokenIn(newRefreshToken, refreshTokenValiditySeconds);
+        }
+        return refreshTokenBinding;
     }
 
     private void expireAccessTokenIn(String token, long expireIn) {
