@@ -24,7 +24,7 @@ import java.util.Set;
 import static me.zbl.authmore.main.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-03
  */
 @Component

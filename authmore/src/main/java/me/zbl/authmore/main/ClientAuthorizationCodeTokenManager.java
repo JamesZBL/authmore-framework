@@ -26,7 +26,7 @@ import static me.zbl.authmore.main.OAuthProperties.GrantTypes.AUTHORIZATION_CODE
 import static me.zbl.authmore.main.OAuthProperties.PARAM_CODE;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public final class ClientAuthorizationCodeTokenManager extends ClientAbstractTokenManager {

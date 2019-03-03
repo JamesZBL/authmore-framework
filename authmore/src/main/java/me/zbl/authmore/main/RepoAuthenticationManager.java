@@ -29,7 +29,7 @@ import static me.zbl.authmore.main.OAuthException.INVALID_CLIENT;
 import static me.zbl.authmore.main.OAuthException.REDIRECT_URI_MISMATCH;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-15
  */
 @Service

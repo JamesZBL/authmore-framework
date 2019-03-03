@@ -30,7 +30,7 @@ import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-19
  */
 public final class OAuthUtil {

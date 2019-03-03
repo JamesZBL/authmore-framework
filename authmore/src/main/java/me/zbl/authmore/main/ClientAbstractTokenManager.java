@@ -25,7 +25,7 @@ import java.util.Map;
 import static me.zbl.authmore.main.OAuthProperties.*;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public abstract class ClientAbstractTokenManager implements ClientTokenOperations {

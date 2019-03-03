@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-26
  */
 public class TokenCheckResponse {

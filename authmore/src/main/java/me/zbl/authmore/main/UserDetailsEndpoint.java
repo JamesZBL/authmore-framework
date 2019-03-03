@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static me.zbl.authmore.main.OAuthProperties.SCOPE_USER_DETAILS;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-25
  */
 @RestController

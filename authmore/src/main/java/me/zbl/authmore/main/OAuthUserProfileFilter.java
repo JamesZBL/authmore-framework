@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import static me.zbl.authmore.main.OAuthProperties.*;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-25
  */
 @WebFilter(urlPatterns = {"/user/details"})

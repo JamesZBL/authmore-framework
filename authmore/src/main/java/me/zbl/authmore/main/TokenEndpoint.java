@@ -29,7 +29,7 @@ import static me.zbl.authmore.main.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-18
  */
 @RestController

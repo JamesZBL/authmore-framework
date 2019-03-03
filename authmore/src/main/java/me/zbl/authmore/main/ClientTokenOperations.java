@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import java.util.Map;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public interface ClientTokenOperations {

@@ -21,7 +21,7 @@ import me.zbl.authmore.core.ClientDetails;
 import java.util.Set;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-21
  */
 public interface TokenManager {

@@ -28,7 +28,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-27
  */
 public class ResourceServerInterceptor implements HandlerInterceptor {

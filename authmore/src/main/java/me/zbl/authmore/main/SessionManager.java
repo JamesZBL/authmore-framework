@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import me.zbl.authmore.core.UserDetails;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-15
  */
 public interface SessionManager {

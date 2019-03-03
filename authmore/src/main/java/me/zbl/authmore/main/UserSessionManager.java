@@ -25,7 +25,7 @@ import static me.zbl.authmore.main.SessionProperties.CURRENT_USER;
 import static me.zbl.authmore.main.SessionProperties.CURRENT_USER_DETAILS;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-15
  */
 @Service

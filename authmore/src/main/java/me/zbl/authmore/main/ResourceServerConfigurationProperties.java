@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-28
  */
 @ConfigurationProperties(prefix = "authmore.resource")

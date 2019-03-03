@@ -22,7 +22,7 @@ import static me.zbl.authmore.main.OAuthProperties.GrantTypes;
 import static me.zbl.authmore.main.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public final class ClientClientCredentialsTokenManager extends ClientAbstractTokenManager {

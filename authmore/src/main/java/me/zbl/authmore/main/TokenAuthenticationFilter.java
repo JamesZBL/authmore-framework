@@ -36,7 +36,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-19
  */
 @WebFilter(urlPatterns = {"/oauth/token", "/oauth/check_token"})

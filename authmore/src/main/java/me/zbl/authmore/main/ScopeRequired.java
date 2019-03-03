@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import java.lang.annotation.*;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-27
  */
 @Target(ElementType.METHOD)

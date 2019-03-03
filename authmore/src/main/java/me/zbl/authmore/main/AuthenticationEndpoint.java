@@ -28,7 +28,7 @@ import static me.zbl.authmore.main.SessionProperties.LAST_URL;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-15
  */
 @Controller

@@ -32,7 +32,7 @@ import static me.zbl.authmore.main.OAuthProperties.PARAM_CLIENT_SECRET;
 import static me.zbl.authmore.main.RequestUtil.queryStringOf;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-28
  */
 public class ResourceServerFilter extends OAuthFilter {

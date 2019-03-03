@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import java.util.Arrays;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-14
  */
 public interface OAuthProperties {

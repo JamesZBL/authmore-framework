@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import static me.zbl.authmore.main.OAuthException.INVALID_CODE;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-18
  */
 public class RedisCodeManager extends AbstractCodeManager {

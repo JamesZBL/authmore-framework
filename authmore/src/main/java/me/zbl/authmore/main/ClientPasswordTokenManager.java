@@ -25,7 +25,7 @@ import static me.zbl.authmore.main.OAuthProperties.*;
 import static me.zbl.authmore.main.OAuthProperties.GrantTypes.PASSWORD;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public final class ClientPasswordTokenManager extends ClientAbstractTokenManager {

@@ -26,7 +26,7 @@ import static me.zbl.authmore.main.OAuthProperties.GrantTypes.REFRESH_TOKEN;
 import static me.zbl.authmore.main.OAuthProperties.PARAM_REFRESH_TOKEN;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-02
  */
 public final class ClientRefreshTokenManager extends ClientAbstractTokenManager {

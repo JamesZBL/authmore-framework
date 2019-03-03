@@ -19,7 +19,7 @@ package me.zbl.authmore.main;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-19
  */
 public final class OAuthErrorResponse {

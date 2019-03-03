@@ -31,7 +31,7 @@ import static me.zbl.authmore.main.SessionProperties.CURRENT_USER_DETAILS;
 import static me.zbl.authmore.main.SessionProperties.LAST_URL;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-14
  */
 @WebFilter(urlPatterns = {"/authorize"})

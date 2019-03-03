@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import static me.zbl.authmore.main.OAuthException.INVALID_TOKEN;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-21
  */
 public class RedisTokenManager extends AbstractTokenManager {

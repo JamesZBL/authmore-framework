@@ -22,7 +22,7 @@ import org.springframework.data.redis.core.RedisHash;
 import java.util.Set;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-21
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING,

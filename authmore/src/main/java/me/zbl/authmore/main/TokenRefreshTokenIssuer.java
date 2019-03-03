@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import static me.zbl.authmore.main.OAuthProperties.GrantTypes.REFRESH_TOKEN;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-03
  */
 @Component

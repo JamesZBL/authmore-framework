@@ -25,7 +25,7 @@ import static me.zbl.authmore.main.OAuthException.INVALID_CLIENT;
 import static me.zbl.authmore.main.OAuthException.INVALID_SCOPE;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-21
  */
 public abstract class AbstractTokenManager implements TokenManager {

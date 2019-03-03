@@ -17,7 +17,7 @@
 package me.zbl.authmore.main;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-02-26
  */
 public interface RequestProperties {
