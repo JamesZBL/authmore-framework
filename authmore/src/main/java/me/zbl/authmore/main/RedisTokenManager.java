@@ -80,6 +80,14 @@ public class RedisTokenManager implements TokenManager {
         ClientDetails client = clients.findByClientId(clientId).orElseThrow(() -> new OAuthException(INVALID_CLIENT));
         long expireIn = client.getAccessTokenValiditySeconds();
         String newAccessToken = RandomSecret.create();
+        Integer refreshTokenValiditySeconds = client.getRefreshTokenValiditySeconds();
+        if (null != refreshTokenValiditySeconds && 0 != refreshTokenValiditySeconds) {
+            String newRefreshToken = RandomSecret.create();
+            Set<String> scopes = refreshTokenBinding.getScopes();
+            String userId = refreshTokenBinding.getUserId();
+            refreshTokenBinding = new RefreshTokenBinding(newRefreshToken, clientId, scopes, userId);
+            refreshTokens.save(refreshTokenBinding);
+        }
         TokenResponse newTokenResponse = new TokenResponse(refreshTokenBinding, newAccessToken, expireIn);
         AccessTokenBinding newAccessTokenBinding = new AccessTokenBinding(refreshTokenBinding, newAccessToken);
         tokens.save(newAccessTokenBinding);
