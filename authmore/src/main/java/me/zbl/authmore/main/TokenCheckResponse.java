@@ -41,6 +41,7 @@ public class TokenCheckResponse {
         this.exp = exp;
         this.client_id = client_id;
         this.authorities = authorities;
+        this.resourceIds = resourceIds;
     }
 
     public TokenCheckResponse(AccessTokenBinding tokenBinding, Set<String> authorities, Set<String> resourceIds) {
