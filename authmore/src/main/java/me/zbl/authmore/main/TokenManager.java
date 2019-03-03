@@ -30,5 +30,17 @@ public interface TokenManager {
 
     TokenResponse refresh(String refreshToken);
 
-    AccessTokenBinding find(String token);
+    AccessTokenBinding findAccessToken(String token);
+
+    RefreshTokenBinding findRefreshToken(String token);
+
+    void saveAccessToken(AccessTokenBinding accessTokenBinding);
+
+    void saveRefreshToken(RefreshTokenBinding refreshTokenBinding);
+
+    void expireAccessToken(String token, long expireIn);
+
+    void expireRefreshToken(String token, long expireIn);
+
+    RefreshTokenBinding freshRefreshTokenBinding(ClientDetails client, RefreshTokenBinding refreshTokenBinding);
 }

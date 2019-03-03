@@ -46,7 +46,7 @@ public class TokenCheckEndpoint {
 
     @GetMapping("/oauth/check_token")
     public TokenCheckResponse checkToken(@RequestParam(value = "token", required = false) String token) {
-        AccessTokenBinding accessTokenBinding = tokenManager.find(token);
+        AccessTokenBinding accessTokenBinding = tokenManager.findAccessToken(token);
         String userId = accessTokenBinding.getUserId();
         String clientId = accessTokenBinding.getClientId();
         Set<String> authorities = new HashSet<>();

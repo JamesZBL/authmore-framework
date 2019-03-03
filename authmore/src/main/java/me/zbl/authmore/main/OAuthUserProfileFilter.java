@@ -64,7 +64,7 @@ public class OAuthUserProfileFilter extends OAuthFilter {
             return;
         }
         try {
-            accessTokenBinding = tokens.find(token);
+            accessTokenBinding = tokens.findAccessToken(token);
         } catch (OAuthException e) {
             reject(response);
             return;
