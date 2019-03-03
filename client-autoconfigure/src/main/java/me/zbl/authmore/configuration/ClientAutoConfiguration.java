@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 JamesZBL
+ * Copyright 2019 ZHENG BAO LE
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
- * @author JamesZBL
+ * @author ZHENG BAO LE
  * @since 2019-03-01
  */
 @Configuration
