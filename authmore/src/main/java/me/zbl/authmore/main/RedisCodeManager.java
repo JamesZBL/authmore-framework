@@ -16,30 +16,23 @@
  */
 package me.zbl.authmore.main;
 
-import me.zbl.authmore.core.ClientDetails;
-import org.springframework.stereotype.Component;
-
-import java.util.Set;
-
 import static me.zbl.authmore.main.OAuthException.INVALID_CODE;
 
 /**
  * @author JamesZBL
  * @since 2019-02-18
  */
-@Component
-public class RedisCodeManager implements CodeManager {
+public class RedisCodeManager extends AbstractCodeManager {
 
     private final CodeRepository authorizationCodes;
 
     public RedisCodeManager(CodeRepository authorizationCodes) {
+        super();
         this.authorizationCodes = authorizationCodes;
     }
 
     @Override
-    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId) {
-        String clientId = client.getClientId();
-        CodeBinding codeBinding = new CodeBinding(code, clientId, scopes, redirectUri, userId);
+    void saveCode(CodeBinding codeBinding) {
         authorizationCodes.save(codeBinding);
     }
 

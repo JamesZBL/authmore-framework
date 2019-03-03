@@ -24,11 +24,14 @@ import java.util.Set;
  * @author JamesZBL
  * @since 2019-02-18
  */
-public interface CodeManager {
+public abstract class AbstractCodeManager implements CodeManager {
 
-    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId);
+    @Override
+    public void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId) {
+        String clientId = client.getClientId();
+        CodeBinding codeBinding = new CodeBinding(code, clientId, scopes, redirectUri, userId);
+        saveCode(codeBinding);
+    }
 
-    CodeBinding getCodeDetails(String clientId, String code);
-
-    void expireCode(String code);
+    abstract void saveCode(CodeBinding codeBinding);
 }

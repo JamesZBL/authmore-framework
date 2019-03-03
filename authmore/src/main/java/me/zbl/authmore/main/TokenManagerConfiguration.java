@@ -32,21 +32,30 @@ public class TokenManagerConfiguration {
     private final RefreshTokenRepository refreshTokens;
     private final RedisTemplate<String, String> redisTemplate;
     private final ClientDetailsRepository clients;
+    private final CodeRepository codes;
 
     public TokenManagerConfiguration(
             AccessTokenRepository tokens,
             RefreshTokenRepository refreshTokens,
             RedisTemplate<String, String> redisTemplate,
-            ClientDetailsRepository clients) {
+            ClientDetailsRepository clients,
+            CodeRepository codes) {
         this.tokens = tokens;
         this.refreshTokens = refreshTokens;
         this.redisTemplate = redisTemplate;
         this.clients = clients;
+        this.codes = codes;
     }
 
     @Bean
     @ConditionalOnMissingBean({TokenManager.class})
     public TokenManager tokenManager() {
         return new RedisTokenManager(tokens, refreshTokens, redisTemplate, clients);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean({CodeManager.class})
+    public CodeManager codeManager() {
+        return new RedisCodeManager(codes);
     }
 }
