@@ -57,6 +57,7 @@ public class TokenCheckEndpoint {
         ClientDetails client = clients.findByClientId(clientId).orElseThrow(() -> new OAuthException("no such client"));
         authorities.addAll(
                 client.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()));
-        return new TokenCheckResponse(accessTokenBinding, authorities);
+        Set<String> resourceIds = client.getResourceIds();
+        return new TokenCheckResponse(accessTokenBinding, authorities, resourceIds);
     }
 }

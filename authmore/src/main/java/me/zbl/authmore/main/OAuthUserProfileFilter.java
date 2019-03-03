@@ -28,7 +28,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static me.zbl.authmore.main.OAuthProperties.*;
+import static me.zbl.authmore.main.OAuthProperties.REQUEST_AUTHORITIES;
+import static me.zbl.authmore.main.OAuthProperties.REQUEST_SCOPES;
 
 /**
  * @author ZHENG BAO LE
@@ -54,7 +55,6 @@ public class OAuthUserProfileFilter extends OAuthFilter {
         AccessTokenBinding accessTokenBinding;
         Set<String> authorities;
         Set<String> scopes;
-        Set<String> resourceIds;
         String token;
         try {
             token = OAuthUtil.extractToken(request);
@@ -72,7 +72,6 @@ public class OAuthUserProfileFilter extends OAuthFilter {
         ClientDetails client = clients.findByClientId(clientId)
                 .orElseThrow(() -> new OAuthException(OAuthException.INVALID_CLIENT));
         scopes = accessTokenBinding.getScopes();
-        resourceIds = client.getResourceIds();
         String userId = accessTokenBinding.getUserId();
         if (null != userId) {
             UserDetails user = users.findById(userId).orElseThrow(() -> new OAuthException("no such user"));
@@ -84,7 +83,6 @@ public class OAuthUserProfileFilter extends OAuthFilter {
         }
         request.setAttribute(REQUEST_SCOPES, scopes);
         request.setAttribute(REQUEST_AUTHORITIES, authorities);
-        request.setAttribute(REQUEST_RESOURCE_IDS, resourceIds);
         filterChain.doFilter(request, response);
     }
 }

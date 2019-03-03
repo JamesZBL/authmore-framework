@@ -15,7 +15,6 @@
  */
 package me.zbl.authmore.main;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -28,22 +27,24 @@ public class TokenCheckResponse {
     private long exp;
     private String client_id;
     private Set<String> authorities;
+    private Set<String> resourceIds;
 
     public TokenCheckResponse() {}
 
-    public TokenCheckResponse(Set<String> scope, long exp, String client_id, Set<String> authorities) {
+    public TokenCheckResponse(
+            Set<String> scope,
+            long exp,
+            String client_id,
+            Set<String> authorities,
+            Set<String> resourceIds) {
         this.scope = scope;
         this.exp = exp;
         this.client_id = client_id;
         this.authorities = authorities;
     }
 
-    public TokenCheckResponse(AccessTokenBinding tokenBinding) {
-        this(tokenBinding.getScopes(), tokenBinding.getExpire(), tokenBinding.getClientId(), Collections.emptySet());
-    }
-
-    public TokenCheckResponse(AccessTokenBinding tokenBinding, Set<String> authorities) {
-        this(tokenBinding.getScopes(), tokenBinding.getExpire(), tokenBinding.getClientId(), authorities);
+    public TokenCheckResponse(AccessTokenBinding tokenBinding, Set<String> authorities, Set<String> resourceIds) {
+        this(tokenBinding.getScopes(), tokenBinding.getExpire(), tokenBinding.getClientId(), authorities, resourceIds);
     }
 
     public Set<String> getScope() {
@@ -76,5 +77,13 @@ public class TokenCheckResponse {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<String> getResourceIds() {
+        return resourceIds;
+    }
+
+    public void setResourceIds(Set<String> resourceIds) {
+        this.resourceIds = resourceIds;
     }
 }

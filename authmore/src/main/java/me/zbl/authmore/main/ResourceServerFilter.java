@@ -73,8 +73,10 @@ public class ResourceServerFilter extends OAuthFilter {
         }
         Set<String> tokenScopes = tokenInfo.getScope();
         Set<String> authorities = tokenInfo.getAuthorities();
+        Set<String> resourceIds = tokenInfo.getResourceIds();
         request.setAttribute(OAuthProperties.REQUEST_SCOPES, tokenScopes);
         request.setAttribute(OAuthProperties.REQUEST_AUTHORITIES, authorities);
+        request.setAttribute(OAuthProperties.REQUEST_RESOURCE_IDS, resourceIds);
         filterChain.doFilter(request, response);
     }
 }
