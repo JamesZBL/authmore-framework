@@ -15,8 +15,6 @@
  */
 package me.zbl.authmore.main.resource;
 
-import me.zbl.authmore.main.annotations.AuthorityRequired;
-import me.zbl.authmore.main.annotations.ScopeRequired;
 import me.zbl.authmore.main.oauth.OAuthProperties;
 import me.zbl.authmore.main.oauth.OAuthUtil;
 import org.springframework.web.method.HandlerMethod;

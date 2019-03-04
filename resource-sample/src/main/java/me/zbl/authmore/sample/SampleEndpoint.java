@@ -15,8 +15,8 @@
  */
 package me.zbl.authmore.sample;
 
-import me.zbl.authmore.main.AuthorityRequired;
-import me.zbl.authmore.main.ScopeRequired;
+import me.zbl.authmore.main.resource.AuthorityRequired;
+import me.zbl.authmore.main.resource.ScopeRequired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

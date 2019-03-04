@@ -15,7 +15,7 @@
  */
 package me.zbl.authmore.sample;
 
-import me.zbl.authmore.main.ResourceServerFilter;
+import me.zbl.authmore.main.resource.ResourceServerFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

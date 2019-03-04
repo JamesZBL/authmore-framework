@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.annotations;
+package me.zbl.authmore.main.resource;
 
 import me.zbl.authmore.main.oauth.OAuthProperties;
 
@@ -26,9 +26,9 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface AuthorityRequired {
+public @interface ScopeRequired {
 
-    OAuthProperties.RequireTypes type() default OAuthProperties.RequireTypes.ANY;
+    OAuthProperties.RequireTypes type() default OAuthProperties.RequireTypes.ALL;
 
     String[] value() default {};
 }
