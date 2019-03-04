@@ -15,9 +15,9 @@
  */
 package me.zbl.authmore.clientsample;
 
-import me.zbl.authmore.main.ClientPasswordTokenManager;
-import me.zbl.authmore.main.ClientRestTemplate;
-import me.zbl.authmore.main.TokenResponse;
+import me.zbl.authmore.main.client.ClientRestTemplate;
+import me.zbl.authmore.main.oauth.PasswordTokenManager;
+import me.zbl.authmore.main.oauth.TokenResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -32,11 +32,11 @@ import java.util.Map;
 @RestController
 public class SampleEndpoint {
 
-    private final ClientPasswordTokenManager passwordTokenManager;
+    private final PasswordTokenManager passwordTokenManager;
     private final ClientRestTemplate grantedClient;
 
     public SampleEndpoint(
-            ClientPasswordTokenManager passwordTokenManager,
+            PasswordTokenManager passwordTokenManager,
             ClientRestTemplate grantedClient) {
         this.passwordTokenManager = passwordTokenManager;
         this.grantedClient = grantedClient;
