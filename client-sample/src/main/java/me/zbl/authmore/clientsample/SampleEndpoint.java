@@ -33,9 +33,13 @@ import java.util.Map;
 public class SampleEndpoint {
 
     private final ClientPasswordTokenManager passwordTokenManager;
+    private final ClientRestTemplate grantedClient;
 
-    public SampleEndpoint(ClientPasswordTokenManager passwordTokenManager) {
+    public SampleEndpoint(
+            ClientPasswordTokenManager passwordTokenManager,
+            ClientRestTemplate grantedClient) {
         this.passwordTokenManager = passwordTokenManager;
+        this.grantedClient = grantedClient;
     }
 
     @GetMapping
@@ -47,5 +51,10 @@ public class SampleEndpoint {
         TokenResponse token = passwordTokenManager.getToken("PROFILE", params);
         RestTemplate template = new ClientRestTemplate(token.getAccess_token());
         return template.getForObject("http://localhost:8011/", String.class);
+    }
+
+    @GetMapping
+    public String clientCredentials() {
+        return this.grantedClient.getForObject("http://localhost:8011/", String.class);
     }
 }

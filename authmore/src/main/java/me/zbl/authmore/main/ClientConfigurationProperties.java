@@ -30,6 +30,10 @@ public final class ClientConfigurationProperties {
 
     private String tokenIssueUrl;
 
+    private Boolean requestTokenOnStartup = false;
+
+    private String scope;
+
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -52,5 +56,21 @@ public final class ClientConfigurationProperties {
 
     public void setTokenIssueUrl(String tokenIssueUrl) {
         this.tokenIssueUrl = tokenIssueUrl;
+    }
+
+    public boolean isRequestTokenOnStartup() {
+        return requestTokenOnStartup;
+    }
+
+    public void setRequestTokenOnStartup(boolean requestTokenOnStartup) {
+        this.requestTokenOnStartup = requestTokenOnStartup;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }

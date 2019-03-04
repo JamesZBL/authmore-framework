@@ -19,8 +19,10 @@ import me.zbl.authmore.main.OAuthProperties.*;
 import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.EMPTY_MAP;
 import static me.zbl.authmore.main.OAuthProperties.*;
 
 /**
@@ -51,6 +53,8 @@ public abstract class ClientAbstractTokenManager implements ClientTokenOperation
 
     @Override
     public final TokenResponse getToken(String scope, Map<String, String> restParams) {
+        if (null == restParams || restParams == EMPTY_MAP)
+            restParams = new HashMap<>();
         restParams.put(PARAM_SCOPE, scope);
         enhanceQueryParams(restParams);
         String queryUrlWithParams = queryUrlWithParams(restParams);

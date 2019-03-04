@@ -6,3 +6,5 @@ authmore:
     client-id: cartapp
     client-secret: 123456
     token-issue-url: http://localhost:8086/oauth/token
+    request-token-on-startup: true
+    scope: PROFILE

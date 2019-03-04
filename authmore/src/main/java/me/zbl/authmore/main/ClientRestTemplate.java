@@ -33,6 +33,8 @@ import java.util.stream.Stream;
  */
 public class ClientRestTemplate extends RestTemplate {
 
+    public ClientRestTemplate() {}
+
     public ClientRestTemplate(String token) {
         Assert.notEmpty(token, "empty token");
         addTokenInterceptor(token);
@@ -54,6 +56,7 @@ public class ClientRestTemplate extends RestTemplate {
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
                 throws IOException {
+            Assert.notEmpty(token, "token cannot be empty");
             HttpHeaders headers = request.getHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
             return execution.execute(request, body);

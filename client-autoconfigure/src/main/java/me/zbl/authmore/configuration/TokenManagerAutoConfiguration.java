@@ -33,13 +33,14 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Configuration
 @ConditionalOnClass({ClientRestTemplate.class})
 @EnableConfigurationProperties({ClientConfigurationProperties.class})
-public class ClientAutoConfiguration implements SmartInitializingSingleton {
+public class TokenManagerAutoConfiguration implements SmartInitializingSingleton {
 
     private final String clientId;
     private final String clientSecret;
     private final String tokenIssueUrl;
 
-    public ClientAutoConfiguration(ClientConfigurationProperties clientConfigurationProperties) {
+    public TokenManagerAutoConfiguration(
+            ClientConfigurationProperties clientConfigurationProperties) {
         this.clientId = clientConfigurationProperties.getClientId();
         this.clientSecret = clientConfigurationProperties.getClientSecret();
         this.tokenIssueUrl = clientConfigurationProperties.getTokenIssueUrl();

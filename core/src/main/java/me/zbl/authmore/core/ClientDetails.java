@@ -70,6 +70,31 @@ public class ClientDetails implements org.springframework.security.oauth2.provid
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;
     }
 
+    public ClientDetails(String clientId, String grantTypes, String scopes, String clientSecret,
+                         String registeredRedirectUri, Integer accessTokenValiditySeconds, String resourceIds) {
+        this.clientId = clientId;
+        this.authorizedGrantTypes = grantTypes;
+        this.scope = scopes;
+        this.clientSecret = clientSecret;
+        this.registeredRedirectUri = registeredRedirectUri;
+        this.accessTokenValiditySeconds = accessTokenValiditySeconds;
+        this.resourceIds = resourceIds;
+    }
+
+    public ClientDetails(
+            String clientId, String grantTypes, String scopes, String clientSecret,
+            String registeredRedirectUri, Integer accessTokenValiditySeconds, String resourceIds,
+            String authorities) {
+        this.clientId = clientId;
+        this.authorizedGrantTypes = grantTypes;
+        this.scope = scopes;
+        this.clientSecret = clientSecret;
+        this.registeredRedirectUri = registeredRedirectUri;
+        this.accessTokenValiditySeconds = accessTokenValiditySeconds;
+        this.resourceIds = resourceIds;
+        this.authorities = authorities;
+    }
+
     @Override
     public String getClientId() {
         return clientId;
