@@ -15,7 +15,7 @@
  */
 package me.zbl.authmore.main.authorization;
 
-import me.zbl.authmore.main.server.OAuthProperties;
+import me.zbl.authmore.main.oauth.OAuthProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 

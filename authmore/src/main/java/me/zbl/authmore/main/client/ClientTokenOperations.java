@@ -15,7 +15,7 @@
  */
 package me.zbl.authmore.main.client;
 
-import me.zbl.authmore.main.server.TokenResponse;
+import me.zbl.authmore.main.oauth.TokenResponse;
 
 import java.util.Map;
 

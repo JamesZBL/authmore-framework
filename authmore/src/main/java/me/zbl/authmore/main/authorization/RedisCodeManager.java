@@ -15,9 +15,9 @@
  */
 package me.zbl.authmore.main.authorization;
 
-import me.zbl.authmore.main.server.OAuthException;
+import me.zbl.authmore.main.oauth.OAuthException;
 
-import static me.zbl.authmore.main.server.OAuthException.INVALID_CODE;
+import static me.zbl.authmore.main.oauth.OAuthException.INVALID_CODE;
 
 /**
  * @author ZHENG BAO LE

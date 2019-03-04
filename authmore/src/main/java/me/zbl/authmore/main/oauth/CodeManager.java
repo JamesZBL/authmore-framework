@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import me.zbl.authmore.core.ClientDetails;
+import me.zbl.authmore.main.authorization.CodeBinding;
+
+import java.util.Set;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-02-21
+ * @since 2019-02-18
  */
-@Repository
-public interface AccessTokenRepository extends CrudRepository<AccessTokenBinding, String> {}
+public interface CodeManager {
+
+    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId);
+
+    CodeBinding getCodeDetails(String clientId, String code);
+
+    void expireCode(String code);
+}

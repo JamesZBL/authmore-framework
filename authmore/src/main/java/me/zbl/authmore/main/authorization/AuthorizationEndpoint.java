@@ -17,11 +17,11 @@ package me.zbl.authmore.main.authorization;
 
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
-import me.zbl.authmore.main.server.CodeManager;
-import me.zbl.authmore.main.server.OAuthProperties.ResponseTypes;
-import me.zbl.authmore.main.server.OAuthUtil;
-import me.zbl.authmore.main.server.TokenManager;
-import me.zbl.authmore.main.server.TokenResponse;
+import me.zbl.authmore.main.oauth.CodeManager;
+import me.zbl.authmore.main.oauth.OAuthProperties.ResponseTypes;
+import me.zbl.authmore.main.oauth.OAuthUtil;
+import me.zbl.authmore.main.oauth.TokenManager;
+import me.zbl.authmore.main.oauth.TokenResponse;
 import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,11 +36,11 @@ import java.io.IOException;
 import java.util.Set;
 
 import static me.zbl.authmore.main.authorization.SessionProperties.*;
-import static me.zbl.authmore.main.server.OAuthException.*;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.IMPLICIT;
-import static me.zbl.authmore.main.server.OAuthProperties.ResponseTypes.*;
-import static me.zbl.authmore.main.server.OAuthUtil.scopeSet;
+import static me.zbl.authmore.main.oauth.OAuthException.*;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.IMPLICIT;
+import static me.zbl.authmore.main.oauth.OAuthProperties.ResponseTypes.*;
+import static me.zbl.authmore.main.oauth.OAuthUtil.scopeSet;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**

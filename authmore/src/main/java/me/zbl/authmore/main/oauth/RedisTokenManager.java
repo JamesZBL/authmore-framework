@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.main.client.ClientDetailsRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
 
-import static me.zbl.authmore.main.server.OAuthException.INVALID_TOKEN;
+import static me.zbl.authmore.main.oauth.OAuthException.INVALID_TOKEN;
 
 /**
  * @author ZHENG BAO LE

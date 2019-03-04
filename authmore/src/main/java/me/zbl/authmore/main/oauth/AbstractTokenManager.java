@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
@@ -21,8 +21,8 @@ import me.zbl.reactivesecurity.common.RandomSecret;
 
 import java.util.Set;
 
-import static me.zbl.authmore.main.server.OAuthException.INVALID_CLIENT;
-import static me.zbl.authmore.main.server.OAuthException.INVALID_SCOPE;
+import static me.zbl.authmore.main.oauth.OAuthException.INVALID_CLIENT;
+import static me.zbl.authmore.main.oauth.OAuthException.INVALID_SCOPE;
 
 /**
  * @author ZHENG BAO LE

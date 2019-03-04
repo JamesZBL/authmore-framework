@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
  * @author ZHENG BAO LE

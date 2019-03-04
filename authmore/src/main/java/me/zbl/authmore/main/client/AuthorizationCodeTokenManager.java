@@ -20,9 +20,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
-import static me.zbl.authmore.main.server.OAuthProperties.PARAM_CODE;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.AUTHORIZATION_CODE;
+import static me.zbl.authmore.main.oauth.OAuthProperties.PARAM_CODE;
 
 /**
  * @author ZHENG BAO LE

@@ -16,7 +16,7 @@
 package me.zbl.authmore.main.authorization;
 
 import me.zbl.authmore.core.ClientDetails;
-import me.zbl.authmore.main.server.CodeManager;
+import me.zbl.authmore.main.oauth.CodeManager;
 
 import java.util.Set;
 

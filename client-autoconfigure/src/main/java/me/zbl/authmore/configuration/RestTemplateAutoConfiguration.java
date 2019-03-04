@@ -15,10 +15,10 @@
  */
 package me.zbl.authmore.configuration;
 
-import me.zbl.authmore.main.ClientClientCredentialsTokenManager;
-import me.zbl.authmore.main.ClientConfigurationProperties;
-import me.zbl.authmore.main.ClientRestTemplate;
-import me.zbl.authmore.main.TokenResponse;
+import me.zbl.authmore.main.client.ClientCredentialsTokenManager;
+import me.zbl.authmore.main.client.ClientProperties;
+import me.zbl.authmore.main.client.ClientRestTemplate;
+import me.zbl.authmore.main.oauth.TokenResponse;
 import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,16 +34,16 @@ import java.util.Collections;
  */
 @Configuration
 @Import({TokenManagerAutoConfiguration.class})
-@EnableConfigurationProperties({ClientConfigurationProperties.class})
+@EnableConfigurationProperties({ClientProperties.class})
 public class RestTemplateAutoConfiguration {
 
     private final boolean isRequestTokenOnStartup;
     private final String scope;
-    private final ClientClientCredentialsTokenManager tokenManager;
+    private final ClientCredentialsTokenManager tokenManager;
 
     public RestTemplateAutoConfiguration(
-            ClientConfigurationProperties clientConfigurationProperties,
-            ClientClientCredentialsTokenManager tokenManager) {
+            ClientProperties clientConfigurationProperties,
+            ClientCredentialsTokenManager tokenManager) {
         this.isRequestTokenOnStartup = clientConfigurationProperties.isRequestTokenOnStartup();
         this.scope = clientConfigurationProperties.getScope();
         this.tokenManager = tokenManager;

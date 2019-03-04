@@ -17,7 +17,7 @@ package me.zbl.authmore.main.authorization;
 
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
-import me.zbl.authmore.main.server.OAuthException;
+import me.zbl.authmore.main.oauth.OAuthException;
 
 /**
  * @author ZHENG BAO LE

@@ -15,7 +15,9 @@
  */
 package me.zbl.authmore.configuration;
 
-import me.zbl.authmore.main.*;
+import me.zbl.authmore.main.client.*;
+import me.zbl.authmore.main.oauth.PasswordTokenManager;
+import me.zbl.authmore.main.oauth.RefreshTokenManager;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,7 +34,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  */
 @Configuration
 @ConditionalOnClass({ClientRestTemplate.class})
-@EnableConfigurationProperties({ClientConfigurationProperties.class})
+@EnableConfigurationProperties({ClientProperties.class})
 public class TokenManagerAutoConfiguration implements SmartInitializingSingleton {
 
     private final String clientId;
@@ -40,36 +42,36 @@ public class TokenManagerAutoConfiguration implements SmartInitializingSingleton
     private final String tokenIssueUrl;
 
     public TokenManagerAutoConfiguration(
-            ClientConfigurationProperties clientConfigurationProperties) {
+            ClientProperties clientConfigurationProperties) {
         this.clientId = clientConfigurationProperties.getClientId();
         this.clientSecret = clientConfigurationProperties.getClientSecret();
         this.tokenIssueUrl = clientConfigurationProperties.getTokenIssueUrl();
     }
 
     @Bean
-    @ConditionalOnMissingBean({ClientAuthorizationCodeTokenManager.class})
-    public ClientAuthorizationCodeTokenManager clientAuthorizationCodeTokenManager() {
-        return new ClientAuthorizationCodeTokenManager(
+    @ConditionalOnMissingBean({AuthorizationCodeTokenManager.class})
+    public AuthorizationCodeTokenManager clientAuthorizationCodeTokenManager() {
+        return new AuthorizationCodeTokenManager(
                 createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
     }
 
     @Bean
-    @ConditionalOnMissingBean({ClientPasswordTokenManager.class})
-    public ClientPasswordTokenManager clientPasswordTokenManager() {
-        return new ClientPasswordTokenManager(createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
+    @ConditionalOnMissingBean({PasswordTokenManager.class})
+    public PasswordTokenManager clientPasswordTokenManager() {
+        return new PasswordTokenManager(createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
     }
 
     @Bean
-    @ConditionalOnMissingBean({ClientClientCredentialsTokenManager.class})
-    public ClientClientCredentialsTokenManager clientClientCredentialsTokenManager() {
-        return new ClientClientCredentialsTokenManager(
+    @ConditionalOnMissingBean({ClientCredentialsTokenManager.class})
+    public ClientCredentialsTokenManager clientClientCredentialsTokenManager() {
+        return new ClientCredentialsTokenManager(
                 createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
     }
 
     @Bean
-    @ConditionalOnMissingBean({ClientRefreshTokenManager.class})
-    public ClientRefreshTokenManager clientRefreshTokenManager() {
-        return new ClientRefreshTokenManager(createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
+    @ConditionalOnMissingBean({RefreshTokenManager.class})
+    public RefreshTokenManager clientRefreshTokenManager() {
+        return new RefreshTokenManager(createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
     }
 
     private RestTemplate createTokenRestTemplate() {

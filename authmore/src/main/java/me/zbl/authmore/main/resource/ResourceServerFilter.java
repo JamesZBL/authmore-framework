@@ -15,10 +15,10 @@
  */
 package me.zbl.authmore.main.resource;
 
-import me.zbl.authmore.main.server.OAuthFilter;
-import me.zbl.authmore.main.server.OAuthProperties;
-import me.zbl.authmore.main.server.OAuthUtil;
-import me.zbl.authmore.main.server.TokenCheckResponse;
+import me.zbl.authmore.main.oauth.OAuthFilter;
+import me.zbl.authmore.main.oauth.OAuthProperties;
+import me.zbl.authmore.main.oauth.OAuthUtil;
+import me.zbl.authmore.main.oauth.TokenCheckResponse;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
@@ -30,9 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static me.zbl.authmore.main.server.OAuthProperties.PARAM_CLIENT_ID;
-import static me.zbl.authmore.main.server.OAuthProperties.PARAM_CLIENT_SECRET;
-import static me.zbl.authmore.main.server.RequestUtil.queryStringOf;
+import static me.zbl.authmore.main.oauth.OAuthProperties.PARAM_CLIENT_ID;
+import static me.zbl.authmore.main.oauth.OAuthProperties.PARAM_CLIENT_SECRET;
+import static me.zbl.authmore.main.oauth.RequestUtil.queryStringOf;
 
 /**
  * @author ZHENG BAO LE

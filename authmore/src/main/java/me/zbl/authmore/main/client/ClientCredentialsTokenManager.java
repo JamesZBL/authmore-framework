@@ -17,8 +17,8 @@ package me.zbl.authmore.main.client;
 
 import org.springframework.web.client.RestTemplate;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
  * @author ZHENG BAO LE

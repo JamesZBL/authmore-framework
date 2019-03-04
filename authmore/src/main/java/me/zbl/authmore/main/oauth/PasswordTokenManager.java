@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.main.client.AbstractTokenManager;
 import me.zbl.reactivesecurity.common.Assert;
@@ -21,17 +21,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.REFRESH_TOKEN;
-import static me.zbl.authmore.main.server.OAuthProperties.PARAM_REFRESH_TOKEN;
-
 /**
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class RefreshTokenManager extends AbstractTokenManager {
+public final class PasswordTokenManager extends AbstractTokenManager {
 
-    public RefreshTokenManager(
+    public PasswordTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -42,12 +38,14 @@ public final class RefreshTokenManager extends AbstractTokenManager {
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
         super.enhanceQueryParams(params);
-        String refreshToken = params.get(PARAM_REFRESH_TOKEN);
-        Assert.notEmpty(refreshToken, refreshToken);
+        String userName = params.get(OAuthProperties.PARAM_USERNAME);
+        String password = params.get(OAuthProperties.PARAM_PASSWORD);
+        Assert.notEmpty(userName, "username cannot be empty");
+        Assert.notEmpty(password, "password cannot be empty");
     }
 
     @Override
-    protected final GrantTypes getGrantType() {
-        return REFRESH_TOKEN;
+    protected final OAuthProperties.GrantTypes getGrantType() {
+        return OAuthProperties.GrantTypes.PASSWORD;
     }
 }

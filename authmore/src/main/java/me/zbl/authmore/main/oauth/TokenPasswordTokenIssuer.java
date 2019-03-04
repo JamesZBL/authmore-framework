@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
@@ -22,8 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.PASSWORD;
 
 /**
  * @author ZHENG BAO LE
@@ -46,7 +44,7 @@ public final class TokenPasswordTokenIssuer {
     }
 
     public TokenResponse issue(ClientDetails client, String username, String password, String scope) {
-        OAuthUtil.validateClientAndGrantType(client, PASSWORD);
+        OAuthUtil.validateClientAndGrantType(client, OAuthProperties.GrantTypes.PASSWORD);
         UserDetails user = users.findByUsername(username)
                 .orElseThrow(() -> new OAuthException("invalid username"));
         boolean matches = passwordEncoder.matches(password, user.getPassword());

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
 import org.springframework.stereotype.Component;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.REFRESH_TOKEN;
+import static me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes.REFRESH_TOKEN;
 
 /**
  * @author ZHENG BAO LE

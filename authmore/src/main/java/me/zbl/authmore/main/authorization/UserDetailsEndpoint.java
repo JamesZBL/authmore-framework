@@ -17,12 +17,12 @@ package me.zbl.authmore.main.authorization;
 
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.annotations.ScopeRequired;
-import me.zbl.authmore.main.server.OAuthException;
+import me.zbl.authmore.main.oauth.OAuthException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static me.zbl.authmore.main.server.OAuthProperties.SCOPE_USER_DETAILS;
+import static me.zbl.authmore.main.oauth.OAuthProperties.SCOPE_USER_DETAILS;
 
 /**
  * @author ZHENG BAO LE

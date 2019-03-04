@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.server;
+package me.zbl.authmore.main.oauth;
 
-import me.zbl.authmore.core.ClientDetails;
-import me.zbl.authmore.main.authorization.CodeBinding;
-
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-02-18
+ * @since 2019-03-01
  */
-public interface CodeManager {
+public final class RequestUtil {
 
-    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId);
+    private RequestUtil() {}
 
-    CodeBinding getCodeDetails(String clientId, String code);
-
-    void expireCode(String code);
+    public static String queryStringOf(Map<String, String> params) {
+        List<String> stringParis = new ArrayList<>();
+        params.forEach((k, v) -> stringParis.add(String.format("%s=%s", String.valueOf(k), String.valueOf(v))));
+        return String.join("&", stringParis);
+    }
 }
