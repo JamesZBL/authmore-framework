@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main;
+package me.zbl.authmore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@ServletComponentScan
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class BootStrap {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BootstrapTests {
 
-    public static void main(String[] args) {
-        SpringApplication.run(BootStrap.class, args);
+    @Test
+    public void contextLoads() {
     }
+
 }
 
