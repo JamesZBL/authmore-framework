@@ -42,7 +42,7 @@ public class SampleEndpoint {
         this.grantedClient = grantedClient;
     }
 
-    @GetMapping
+    @GetMapping("/password")
     public String password() {
         Map<String, String> params = new HashMap<>();
         params.put("scope", "PROFILE");
@@ -53,7 +53,7 @@ public class SampleEndpoint {
         return template.getForObject("http://localhost:8011/", String.class);
     }
 
-    @GetMapping
+    @GetMapping("/client")
     public String clientCredentials() {
         return this.grantedClient.getForObject("http://localhost:8011/", String.class);
     }
