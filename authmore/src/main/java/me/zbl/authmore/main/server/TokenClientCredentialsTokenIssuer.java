@@ -13,29 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
-import org.springframework.web.client.RestTemplate;
+import me.zbl.authmore.core.ClientDetails;
+import org.springframework.stereotype.Component;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
+import java.util.Set;
+
 import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-02
+ * @since 2019-03-03
  */
-public final class ClientCredentialsTokenManager extends AbstractTokenManager {
+@Component
+public final class TokenClientCredentialsTokenIssuer {
 
-    public ClientCredentialsTokenManager(
-            RestTemplate client,
-            String clientId,
-            String clientSecret,
-            String tokenIssueUrl) {
-        super(client, clientId, clientSecret, tokenIssueUrl);
+    private final TokenManager tokenManager;
+
+    public TokenClientCredentialsTokenIssuer(TokenManager tokenManager) {
+        this.tokenManager = tokenManager;
     }
 
-    @Override
-    protected final GrantTypes getGrantType() {
-        return CLIENT_CREDENTIALS;
+    public TokenResponse issue(ClientDetails client, String scope) {
+        OAuthUtil.validateClientAndGrantType(client, CLIENT_CREDENTIALS);
+        OAuthUtil.validateClientAndScope(client, scope);
+        Set<String> scopes = OAuthUtil.scopeSet(scope);
+        return tokenManager.create(client, null, scopes);
     }
 }

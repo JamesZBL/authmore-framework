@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.server.TokenResponse;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import java.util.Map;
+@ServletComponentScan
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+public class BootStrap {
 
-/**
- * @author ZHENG BAO LE
- * @since 2019-03-02
- */
-public interface ClientTokenOperations {
-
-    TokenResponse getToken(String scope, Map<String, String> restParams);
+    public static void main(String[] args) {
+        SpringApplication.run(BootStrap.class, args);
+    }
 }
+

@@ -18,11 +18,7 @@ package me.zbl.authmore.main.authorization;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
-import me.zbl.authmore.main.oauth.OAuthException;
-import me.zbl.authmore.main.oauth.OAuthFilter;
-import me.zbl.authmore.main.oauth.OAuthUtil;
-import me.zbl.authmore.main.token.AccessTokenBinding;
-import me.zbl.authmore.main.token.TokenManager;
+import me.zbl.authmore.main.server.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.FilterChain;
@@ -34,8 +30,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static me.zbl.authmore.main.oauth.OAuthProperties.REQUEST_AUTHORITIES;
-import static me.zbl.authmore.main.oauth.OAuthProperties.REQUEST_SCOPES;
+import static me.zbl.authmore.main.server.OAuthProperties.REQUEST_AUTHORITIES;
+import static me.zbl.authmore.main.server.OAuthProperties.REQUEST_SCOPES;
 
 /**
  * @author ZHENG BAO LE

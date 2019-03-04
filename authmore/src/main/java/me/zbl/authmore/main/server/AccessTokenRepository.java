@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
-import me.zbl.authmore.main.server.TokenResponse;
-
-import java.util.Map;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-02
+ * @since 2019-02-21
  */
-public interface ClientTokenOperations {
-
-    TokenResponse getToken(String scope, Map<String, String> restParams);
-}
+@Repository
+public interface AccessTokenRepository extends CrudRepository<AccessTokenBinding, String> {}

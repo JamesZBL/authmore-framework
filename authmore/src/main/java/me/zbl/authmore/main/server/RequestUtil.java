@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
-import me.zbl.authmore.main.server.TokenResponse;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-02
+ * @since 2019-03-01
  */
-public interface ClientTokenOperations {
+public final class RequestUtil {
 
-    TokenResponse getToken(String scope, Map<String, String> restParams);
+    private RequestUtil() {}
+
+    public static String queryStringOf(Map<String, String> params) {
+        List<String> stringParis = new ArrayList<>();
+        params.forEach((k, v) -> stringParis.add(String.format("%s=%s", String.valueOf(k), String.valueOf(v))));
+        return String.join("&", stringParis);
+    }
 }

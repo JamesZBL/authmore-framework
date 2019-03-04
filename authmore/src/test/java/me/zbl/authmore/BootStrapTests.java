@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore;
 
-import me.zbl.authmore.main.server.TokenResponse;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BootStrapTests {
 
-/**
- * @author ZHENG BAO LE
- * @since 2019-03-02
- */
-public interface ClientTokenOperations {
+    @Test
+    public void contextLoads() {
+    }
 
-    TokenResponse getToken(String scope, Map<String, String> restParams);
 }
+

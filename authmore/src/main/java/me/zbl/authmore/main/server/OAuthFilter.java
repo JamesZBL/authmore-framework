@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
-import me.zbl.authmore.main.server.TokenResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-02
+ * @since 2019-03-01
  */
-public interface ClientTokenOperations {
+public abstract class OAuthFilter extends OncePerRequestFilter {
 
-    TokenResponse getToken(String scope, Map<String, String> restParams);
+    public void reject(HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "oauth unauthorized");
+    }
 }

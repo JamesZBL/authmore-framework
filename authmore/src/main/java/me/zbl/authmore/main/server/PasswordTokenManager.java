@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
+import me.zbl.authmore.main.client.AbstractTokenManager;
+import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
 
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
+import java.util.Map;
+
+import static me.zbl.authmore.main.server.OAuthProperties.*;
+import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.PASSWORD;
 
 /**
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class ClientCredentialsTokenManager extends AbstractTokenManager {
+public final class PasswordTokenManager extends AbstractTokenManager {
 
-    public ClientCredentialsTokenManager(
+    public PasswordTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -35,7 +39,16 @@ public final class ClientCredentialsTokenManager extends AbstractTokenManager {
     }
 
     @Override
+    protected void enhanceQueryParams(Map<String, String> params) {
+        super.enhanceQueryParams(params);
+        String userName = params.get(PARAM_USERNAME);
+        String password = params.get(PARAM_PASSWORD);
+        Assert.notEmpty(userName, "username cannot be empty");
+        Assert.notEmpty(password, "password cannot be empty");
+    }
+
+    @Override
     protected final GrantTypes getGrantType() {
-        return CLIENT_CREDENTIALS;
+        return PASSWORD;
     }
 }

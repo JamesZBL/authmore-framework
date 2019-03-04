@@ -15,7 +15,7 @@
  */
 package me.zbl.authmore.main.annotations;
 
-import me.zbl.authmore.main.oauth.OAuthProperties;
+import me.zbl.authmore.main.server.OAuthProperties;
 
 import java.lang.annotation.*;
 

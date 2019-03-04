@@ -15,9 +15,9 @@
  */
 package me.zbl.authmore.main.client;
 
-import me.zbl.authmore.main.oauth.OAuthProperties.*;
-import me.zbl.authmore.main.oauth.RequestUtil;
-import me.zbl.authmore.main.token.TokenResponse;
+import me.zbl.authmore.main.server.OAuthProperties.*;
+import me.zbl.authmore.main.server.RequestUtil;
+import me.zbl.authmore.main.server.TokenResponse;
 import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.EMPTY_MAP;
-import static me.zbl.authmore.main.oauth.OAuthProperties.*;
+import static me.zbl.authmore.main.server.OAuthProperties.*;
 
 /**
  * @author ZHENG BAO LE

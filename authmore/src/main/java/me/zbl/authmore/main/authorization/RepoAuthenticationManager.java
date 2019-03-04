@@ -18,8 +18,8 @@ package me.zbl.authmore.main.authorization;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
-import me.zbl.authmore.main.oauth.OAuthException;
-import me.zbl.authmore.main.oauth.OAuthUtil;
+import me.zbl.authmore.main.server.OAuthException;
+import me.zbl.authmore.main.server.OAuthUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static me.zbl.authmore.main.authorization.AuthenticationException.*;
-import static me.zbl.authmore.main.oauth.OAuthException.INVALID_CLIENT;
-import static me.zbl.authmore.main.oauth.OAuthException.REDIRECT_URI_MISMATCH;
+import static me.zbl.authmore.main.server.OAuthException.INVALID_CLIENT;
+import static me.zbl.authmore.main.server.OAuthException.REDIRECT_URI_MISMATCH;
 
 /**
  * @author ZHENG BAO LE

@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.authorization;
+package me.zbl.authmore.main.server;
 
 import me.zbl.authmore.core.ClientDetails;
-import me.zbl.authmore.core.UserDetails;
-import me.zbl.authmore.main.server.OAuthException;
+import org.springframework.stereotype.Component;
+
+import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.REFRESH_TOKEN;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-02-15
+ * @since 2019-03-03
  */
-public interface AuthenticationManager {
+@Component
+public final class TokenRefreshTokenIssuer {
 
-    UserDetails userValidate(String principal, String credential) throws AuthenticationException;
+    private final TokenManager tokenManager;
 
-    ClientDetails clientValidate(String clientId, String scope) throws OAuthException;
+    public TokenRefreshTokenIssuer(TokenManager tokenManager) {
+        this.tokenManager = tokenManager;
+    }
 
-    ClientDetails clientValidate(String clientId, String redirectUri, String scope) throws AuthorizationException;
+    public TokenResponse issue(ClientDetails client, String refreshToken) {
+        OAuthUtil.validateClientAndGrantType(client, REFRESH_TOKEN);
+        return tokenManager.refresh(refreshToken);
+    }
 }

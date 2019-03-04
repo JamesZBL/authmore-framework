@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
-import me.zbl.authmore.main.server.TokenResponse;
+import me.zbl.authmore.core.ClientDetails;
+import me.zbl.authmore.main.authorization.CodeBinding;
 
-import java.util.Map;
+import java.util.Set;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-02
+ * @since 2019-02-18
  */
-public interface ClientTokenOperations {
+public interface CodeManager {
 
-    TokenResponse getToken(String scope, Map<String, String> restParams);
+    void saveCodeBinding(ClientDetails client, String code, Set<String> scopes, String redirectUri, String userId);
+
+    CodeBinding getCodeDetails(String clientId, String code);
+
+    void expireCode(String code);
 }

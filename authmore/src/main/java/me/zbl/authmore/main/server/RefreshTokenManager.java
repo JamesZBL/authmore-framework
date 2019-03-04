@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.client;
+package me.zbl.authmore.main.server;
 
+import me.zbl.authmore.main.client.AbstractTokenManager;
+import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes;
-import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
+import static me.zbl.authmore.main.server.OAuthProperties.GrantTypes.REFRESH_TOKEN;
+import static me.zbl.authmore.main.server.OAuthProperties.PARAM_REFRESH_TOKEN;
 
 /**
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class ClientCredentialsTokenManager extends AbstractTokenManager {
+public final class RefreshTokenManager extends AbstractTokenManager {
 
-    public ClientCredentialsTokenManager(
+    public RefreshTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -35,7 +40,14 @@ public final class ClientCredentialsTokenManager extends AbstractTokenManager {
     }
 
     @Override
+    protected void enhanceQueryParams(Map<String, String> params) {
+        super.enhanceQueryParams(params);
+        String refreshToken = params.get(PARAM_REFRESH_TOKEN);
+        Assert.notEmpty(refreshToken, refreshToken);
+    }
+
+    @Override
     protected final GrantTypes getGrantType() {
-        return CLIENT_CREDENTIALS;
+        return REFRESH_TOKEN;
     }
 }
