@@ -15,13 +15,14 @@
  */
 package me.zbl.authmore.main.oauth;
 
+import me.zbl.authmore.main.ErrorResponse;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
 /**
  * @author ZHENG BAO LE
  * @since 2019-02-19
  */
-public final class OAuthErrorResponse {
+public final class OAuthErrorResponse implements ErrorResponse {
 
     private final String error;
     private final String error_description;
@@ -43,6 +44,7 @@ public final class OAuthErrorResponse {
         return error;
     }
 
+    @Override
     public String getError_description() {
         return error_description;
     }
