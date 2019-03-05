@@ -50,8 +50,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
 }
 
 dependencyManagement {
