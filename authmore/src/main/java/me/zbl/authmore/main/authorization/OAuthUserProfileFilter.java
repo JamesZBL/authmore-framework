@@ -60,14 +60,14 @@ public class OAuthUserProfileFilter extends OAuthFilter {
         String token;
         try {
             token = OAuthUtil.extractToken(request);
-        } catch (Exception e) {
-            reject(response);
+        } catch (OAuthException e) {
+            sendError(response, e.getMessage());
             return;
         }
         try {
             accessTokenBinding = tokens.findAccessToken(token);
         } catch (OAuthException e) {
-            reject(response);
+            sendError(response, e.getMessage());
             return;
         }
         String clientId = accessTokenBinding.getClientId();

@@ -18,7 +18,6 @@ package me.zbl.authmore.main.oauth;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,7 +37,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @since 2019-02-19
  */
 @WebFilter(urlPatterns = {"/oauth/token", "/oauth/check_token"})
-public class TokenAuthenticationFilter extends OncePerRequestFilter {
+public class TokenAuthenticationFilter extends OAuthFilter {
 
     private final ClientDetailsRepository clients;
     private final PasswordEncoder passwordEncoder;
@@ -59,7 +58,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
             String authorization = request.getHeader(AUTHORIZATION);
             if (null == authorization || !authorization.startsWith("Basic")) {
-                sendUnauthorized(response);
+                sendError(response, "basic authentication is required");
                 return;
             }
             Map<String, String> client = OAuthUtil.extractClientFrom(request);
@@ -67,24 +66,20 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             clientSecret = client.get(OAuthProperties.PARAM_CLIENT_SECRET);
         }
         if (isEmpty(clientId) || isEmpty(clientSecret)) {
-            sendUnauthorized(response);
+            sendError(response, "client_id or client_secret is required");
             return;
         }
         Optional<ClientDetails> find = clients.findByClientId(clientId);
         if (!find.isPresent()) {
-            sendUnauthorized(response);
+            sendError(response, "invalid client");
             return;
         }
         ClientDetails client = find.get();
         if (!passwordEncoder.matches(clientSecret, client.getPassword())) {
-            sendUnauthorized(response);
+            sendError(response, "invalid password");
             return;
         }
         request.setAttribute(CURRENT_CLIENT, client);
         filterChain.doFilter(request, response);
-    }
-
-    private void sendUnauthorized(HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

@@ -16,7 +16,6 @@
 package me.zbl.authmore.main.client;
 
 import me.zbl.authmore.main.oauth.OAuthProperties.*;
-import me.zbl.authmore.main.oauth.RequestUtil;
 import me.zbl.authmore.main.oauth.TokenResponse;
 import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +25,7 @@ import java.util.Map;
 
 import static java.util.Collections.EMPTY_MAP;
 import static me.zbl.authmore.main.oauth.OAuthProperties.*;
+import static me.zbl.authmore.main.oauth.RequestUtil.queryStringOf;
 
 /**
  * @author ZHENG BAO LE
@@ -50,7 +50,7 @@ public abstract class AbstractTokenManager implements ClientTokenOperations {
     }
 
     private String queryUrlWithParams(Map<String, String> params) {
-        return tokenIssueUrl + "?" + RequestUtil.queryStringOf(params);
+        return tokenIssueUrl + "?" + queryStringOf(params);
     }
 
     @Override

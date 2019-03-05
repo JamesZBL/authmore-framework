@@ -15,10 +15,7 @@
  */
 package me.zbl.authmore.main.resource;
 
-import me.zbl.authmore.main.oauth.OAuthFilter;
-import me.zbl.authmore.main.oauth.OAuthProperties;
-import me.zbl.authmore.main.oauth.OAuthUtil;
-import me.zbl.authmore.main.oauth.TokenCheckResponse;
+import me.zbl.authmore.main.oauth.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
@@ -56,8 +53,8 @@ public class ResourceServerFilter extends OAuthFilter {
         TokenCheckResponse tokenInfo;
         try {
             token = OAuthUtil.extractToken(request);
-        } catch (Exception e) {
-            reject(response);
+        } catch (OAuthException e) {
+            sendError(response, e.getMessage());
             return;
         }
         tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
@@ -69,10 +66,9 @@ public class ResourceServerFilter extends OAuthFilter {
         params.put("token", token);
         params.put(PARAM_CLIENT_ID, clientId);
         params.put(PARAM_CLIENT_SECRET, clientSecret);
-        tokenInfo = rest.getForObject(
-                tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
+        tokenInfo = rest.getForObject(tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
         if (null == tokenInfo) {
-            reject(response);
+            sendError(response, "invalid token");
             return;
         }
         Set<String> tokenScopes = tokenInfo.getScope();
