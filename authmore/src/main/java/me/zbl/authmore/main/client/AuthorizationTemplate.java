@@ -17,6 +17,7 @@ package me.zbl.authmore.main.client;
 
 import me.zbl.authmore.main.oauth.OAuthProperties.*;
 import me.zbl.authmore.main.oauth.RequestUtil;
+import me.zbl.reactivesecurity.common.Assert;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class AuthorizationTemplate implements AuthorizationOperations {
     @Override
     public void redirectToUserAuthorize(HttpServletResponse response, ResponseTypes type, String scope)
             throws IOException {
+        Assert.notEmpty(redirectUrl, "redirect url is required");
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_RESPONSE_TYPE, type.getName());
         params.put(PARAM_CLIENT_ID, clientId);
