@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 me.zbl.authmore.configuration.TokenManagerAutoConfiguration,\
-me.zbl.authmore.configuration.RestTemplateAutoConfiguration
+me.zbl.authmore.configuration.RestTemplateAutoConfiguration,\
+me.zbl.authmore.configuration.AuthorizeAutoConfiguration

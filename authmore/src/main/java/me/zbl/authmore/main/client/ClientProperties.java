@@ -30,9 +30,13 @@ public final class ClientProperties {
 
     private String tokenIssueUrl;
 
+    private String authorizeUrl;
+
     private Boolean requestTokenOnStartup = false;
 
     private String scope;
+
+    private String redirectUri;
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -72,5 +76,21 @@ public final class ClientProperties {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getAuthorizeUri() {
+        return authorizeUrl;
+    }
+
+    public void setAuthorizeUri(String authorizeUrl) {
+        this.authorizeUrl = authorizeUrl;
+    }
+
+    public String getRedirectUri() {
+        return redirectUri;
+    }
+
+    public void setRedirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
     }
 }

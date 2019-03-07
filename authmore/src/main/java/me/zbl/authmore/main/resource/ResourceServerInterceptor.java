@@ -16,6 +16,7 @@
 package me.zbl.authmore.main.resource;
 
 import me.zbl.authmore.main.oauth.OAuthProperties;
+import me.zbl.authmore.main.oauth.OAuthProperties.RequireTypes;
 import me.zbl.authmore.main.oauth.OAuthUtil;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -68,7 +69,7 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
 
     @SuppressWarnings("unchecked")
     private boolean support(HttpServletRequest request, HttpServletResponse response, String attributeName,
-                            String[] requiredValues, OAuthProperties.RequireTypes type) throws IOException {
+                            String[] requiredValues, RequireTypes type) throws IOException {
         Set<String> requestValues = (Set<String>) request.getAttribute(attributeName);
         if (null == requestValues)
             return false;
