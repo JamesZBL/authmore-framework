@@ -2,7 +2,7 @@ version: "3"
 
 services:
   authmore:
-    image: letec/authmore
+    image: registry.cn-beijing.aliyuncs.com/letec/authmore
     build:
       context: ./authmore
       dockerfile: Dockerfile.test
@@ -17,7 +17,7 @@ services:
       - redis
 
   auth:
-    image: letec/auth
+    image: registry.cn-beijing.aliyuncs.com/letec/auth
     build:
       context: ./auth
       dockerfile: Dockerfile.test
