@@ -2,7 +2,7 @@ version: "3"
 
 services:
   authmore:
-    image: registry.cn-beijing.aliyuncs.com/letec/authmore
+    image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore
     build:
       context: ./authmore
       dockerfile: Dockerfile.test
@@ -17,7 +17,7 @@ services:
       - redis
 
   auth:
-    image: registry.cn-beijing.aliyuncs.com/letec/auth
+    image: registry-vpc.cn-beijing.aliyuncs.com/letec/auth
     build:
       context: ./auth
       dockerfile: Dockerfile.test
@@ -32,7 +32,7 @@ services:
       - redis
 
   authmore-ui:
-    image: letec/authmore-ui
+    image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore-ui
     container_name: authmore-ui
     restart: unless-stop
     networks:
