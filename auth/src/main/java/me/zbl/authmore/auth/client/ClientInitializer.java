@@ -34,12 +34,12 @@ public class ClientInitializer implements SmartInitializingSingleton {
 
     @Override
     public void afterSingletonsInstantiated() {
-        ClientDetails client = new ClientDetails("cartapp",
+        ClientDetails client = new ClientDetails("5cb0dd412dc963313f1a90b1",
                 "authorization_code,password,implicit,client_credentials,refresh_token", "PROFILE",
                 "{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0",
-                "http://localhost:8084/login", 999999,
+                "", 999999,
                 "SAMPLE", "SA");
-
+        client.setClientName("平台管理");
         clientDetailsRepo.save(client);
     }
 }
