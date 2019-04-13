@@ -42,10 +42,13 @@ public class UserInitializer implements SmartInitializingSingleton {
         String randomPassword = RandomSecret.create();
         String rootUsername = "root";
         UserDetails user = users.findByUsername(rootUsername).orElse(
-                new UserDetails("root", "SA")).setUserPassword(randomPassword);
+                new UserDetails("root", "SA"))
+                .setUserPassword(passwordEncoder.encode(randomPassword));
         try {
             users.save(user);
         } catch (DuplicateKeyException ignored) {
         }
+
+        System.out.println("\n\nAuthmore root password: " + randomPassword + "\n\n");
     }
 }
