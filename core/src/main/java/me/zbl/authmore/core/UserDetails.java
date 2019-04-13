@@ -114,9 +114,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
         this.id = id;
     }
 
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
-    }
 
     public void setUsername(String username) {
         this.username = username;
