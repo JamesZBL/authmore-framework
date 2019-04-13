@@ -44,6 +44,11 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     public UserDetails() {}
 
+    public UserDetails(String username, String authorities) {
+        this.username = username;
+        this.authorities = authorities;
+    }
+
     public UserDetails(String username, String password, String authorities) {
         this.password = password;
         this.username = username;
@@ -64,6 +69,11 @@ public class UserDetails implements org.springframework.security.core.userdetail
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setPassword(String encoded) {
+        this.password = encoded;
     }
 
     @Override
@@ -95,8 +105,9 @@ public class UserDetails implements org.springframework.security.core.userdetail
         isEnabled = enabled;
     }
 
-    public void setPassword(String password) {
+    public UserDetails setUserPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public void setAuthorities(List<String> authorities) {

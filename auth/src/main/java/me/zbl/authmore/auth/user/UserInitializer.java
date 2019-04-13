@@ -16,6 +16,7 @@
 package me.zbl.authmore.auth.user;
 
 import me.zbl.authmore.core.UserDetails;
+import me.zbl.reactivesecurity.common.RandomSecret;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,10 @@ public class UserInitializer implements SmartInitializingSingleton {
 
     @Override
     public void afterSingletonsInstantiated() {
-        UserDetails user = new UserDetails("james", passwordEncoder.encode("123456"), "SA");
+        String randomPassword = RandomSecret.create();
+        String rootUsername = "root";
+        UserDetails user = users.findByUsername(rootUsername).orElse(
+                new UserDetails("root", "SA")).setUserPassword(randomPassword);
         try {
             users.save(user);
         } catch (DuplicateKeyException ignored) {

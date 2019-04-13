@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientInitializer implements SmartInitializingSingleton {
 
+    private static final String ROOT_APP_ID = "5cb0dd412dc963313f1a90b1";
     private ClientDetailsRepo clientDetailsRepo;
 
     public ClientInitializer(ClientDetailsRepo clientDetailsRepo) {
@@ -34,7 +35,7 @@ public class ClientInitializer implements SmartInitializingSingleton {
 
     @Override
     public void afterSingletonsInstantiated() {
-        ClientDetails client = new ClientDetails("5cb0dd412dc963313f1a90b1",
+        ClientDetails client = new ClientDetails(ROOT_APP_ID,
                 "authorization_code,password,implicit,client_credentials,refresh_token", "PROFILE",
                 "{pbkdf2}30d47c8ef17066e65750bb6469b951dbaf8b40d4cf4b421490ffff92da00804700c8b8fb92cc9ce0",
                 "", 999999,
