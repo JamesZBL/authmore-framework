@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   profiles:
     active: dev
