@@ -34,7 +34,7 @@ services:
   authmore-ui:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore-ui
     container_name: authmore-ui
-    restart: unless-stop
+    restart: unless-stopped
     networks:
       - authmore
     ports:
