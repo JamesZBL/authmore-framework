@@ -1,6 +1,3 @@
 logging:
   level:
     org.springframework.security: debug
-
-server:
-  port: 8083

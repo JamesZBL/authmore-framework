@@ -33,7 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Order(1)
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
