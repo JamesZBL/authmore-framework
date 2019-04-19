@@ -1,3 +1,3 @@
-# authmore
+# Authmore
 
-Cross-domain authentication and authorization system with implementing for OAuth2 protocol.
+基于 OAuth2.0 协议的跨域认证授权开发套件
