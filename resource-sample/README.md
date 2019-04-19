@@ -1,0 +1,1 @@
+# Authmore Sample - 邮箱（资源服务）
