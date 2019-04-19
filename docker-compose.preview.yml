@@ -38,7 +38,7 @@ services:
     networks:
       - authmore
     ports:
-      - "80:80"
+      - "3002:80"
     depends_on:
       - auth
 
