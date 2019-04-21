@@ -17,33 +17,16 @@
 apply plugin: 'java'
 apply plugin: "maven-publish"
 
-build.finalizedBy publishToMavenLocal
-
 group = 'me.zbl.authmoreframework'
 version = '0.0.1-SNAPSHOT'
 description = 'common'
 sourceCompatibility = '1.8'
-
-repositories {
-    mavenCentral()
-    maven {
-        url = 'https://maven.aliyun.com/repository/public'
-    }
-    maven { url 'https://repo.spring.io/milestone' }
-}
 
 dependencies {
     implementation 'org.springframework:spring-web:5.1.4.RELEASE'
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testCompile 'org.slf4j:slf4j-log4j12:1.7.25'
     testCompile 'commons-codec:commons-codec:1.11'
-}
-
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://maven.aliyun.com/repository/public'
-    }
 }
 
 publishing {

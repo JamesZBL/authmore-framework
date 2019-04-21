@@ -15,7 +15,9 @@
  */
 package me.zbl.authmore.main.client;
 
-import me.zbl.authmore.main.oauth.OAuthProperties.*;
+import me.zbl.authmore.main.oauth.OAuthProperties;
+import me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes;
+import me.zbl.authmore.main.oauth.RequestUtil;
 import me.zbl.authmore.main.oauth.TokenResponse;
 import me.zbl.reactivesecurity.common.Assert;
 import org.springframework.web.client.RestTemplate;
@@ -24,8 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.EMPTY_MAP;
-import static me.zbl.authmore.main.oauth.OAuthProperties.*;
-import static me.zbl.authmore.main.oauth.RequestUtil.queryStringOf;
 
 /**
  * @author ZHENG BAO LE
@@ -50,27 +50,27 @@ public abstract class AbstractTokenManager implements ClientTokenOperations {
     }
 
     private String queryUrlWithParams(Map<String, String> params) {
-        return tokenIssueUrl + "?" + queryStringOf(params);
+        return tokenIssueUrl + "?" + RequestUtil.queryStringOf(params);
     }
 
     @Override
     public final TokenResponse getToken(String scope, Map<String, String> restParams) {
         if (null == restParams || restParams == EMPTY_MAP)
             restParams = new HashMap<>();
-        restParams.put(PARAM_SCOPE, scope);
+        restParams.put(OAuthProperties.PARAM_SCOPE, scope);
         enhanceQueryParams(restParams);
         String queryUrlWithParams = queryUrlWithParams(restParams);
         return client.postForObject(queryUrlWithParams, null, TokenResponse.class);
     }
 
     protected void enhanceQueryParams(Map<String, String> params) {
-        String scope = params.get(PARAM_SCOPE);
+        String scope = params.get(OAuthProperties.PARAM_SCOPE);
         Assert.notEmpty(scope, "scope cannot be empty");
         Assert.notEmpty(clientId, "client_id cannot be empty");
         Assert.notEmpty(clientSecret, "client_secret cannot be empty");
-        params.put(PARAM_CLIENT_ID, clientId);
-        params.put(PARAM_CLIENT_SECRET, clientSecret);
-        params.put(PARAM_GRANT_TYPE, getGrantType().getName());
+        params.put(OAuthProperties.PARAM_CLIENT_ID, clientId);
+        params.put(OAuthProperties.PARAM_CLIENT_SECRET, clientSecret);
+        params.put(OAuthProperties.PARAM_GRANT_TYPE, getGrantType().getName());
     }
 
     protected abstract GrantTypes getGrantType();

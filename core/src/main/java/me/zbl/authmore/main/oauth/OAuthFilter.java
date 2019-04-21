@@ -20,8 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-
 /**
  * @author ZHENG BAO LE
  * @since 2019-03-01
@@ -29,11 +27,11 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 public abstract class OAuthFilter extends OncePerRequestFilter {
 
     public void sendError(HttpServletResponse response) throws IOException {
-        response.sendError(SC_UNAUTHORIZED, "oauth unauthorized");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "oauth unauthorized");
     }
 
     public void sendError(HttpServletResponse response, String message) throws IOException {
-        response.sendError(SC_UNAUTHORIZED, message);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, message);
     }
 
     public void sendError(HttpServletResponse response, String message, int status) throws IOException {

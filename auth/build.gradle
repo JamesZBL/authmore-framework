@@ -39,24 +39,9 @@ jar {
     enabled = true
 }
 
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://maven.aliyun.com/repository/public'
-    }
-
-    maven {
-        url = 'https://repo.spring.io/milestone'
-    }
-
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
-    }
-}
-
 dependencies {
-    implementation 'me.zbl.authmore:core:0.0.1-SNAPSHOT'
-    implementation 'me.zbl.authmore:common:0.0.1-SNAPSHOT'
+    implementation project(':core')
+    implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'

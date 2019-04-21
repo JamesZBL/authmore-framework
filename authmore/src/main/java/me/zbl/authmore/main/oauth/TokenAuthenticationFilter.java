@@ -16,6 +16,7 @@
 package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
+import me.zbl.authmore.main.authorization.RequestProperties;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,7 +29,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
-import static me.zbl.authmore.main.authorization.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -79,7 +79,7 @@ public class TokenAuthenticationFilter extends OAuthFilter {
             sendError(response, "invalid password");
             return;
         }
-        request.setAttribute(CURRENT_CLIENT, client);
+        request.setAttribute(RequestProperties.CURRENT_CLIENT, client);
         filterChain.doFilter(request, response);
     }
 }

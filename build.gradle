@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-allprojects {
-    apply plugin: 'java'
-}
-
 subprojects {
+
+    apply plugin: 'java'
+
     repositories {
         mavenLocal()
         maven {
@@ -32,7 +31,5 @@ subprojects {
     }
 }
 
-def common = ':common:publishToMavenLocal'
-def core = ':core:publishToMavenLocal'
-project(':auth').build.dependsOn(common).dependsOn(core)
-project(':authmore').build.dependsOn(common).dependsOn(core)
+project(':client-sample').build.enabled = false
+project(':resource-sample').build.enabled = false

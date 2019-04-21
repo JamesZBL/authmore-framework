@@ -21,36 +21,25 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'me.zbl.authmore'
+group = 'me.zbl.authmoreframework'
 version = '0.0.1-SNAPSHOT'
 description = 'authmore'
 sourceCompatibility = '1.8'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven {
-        url = 'https://maven.aliyun.com/repository/public'
-    }
-    maven { url 'https://repo.spring.io/milestone' }
-}
 
 ext {
     set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
 dependencies {
-    implementation 'me.zbl.authmore:core:0.0.1-SNAPSHOT'
-    implementation 'me.zbl.authmore:common:0.0.1-SNAPSHOT'
+    implementation project(':core')
+    implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
 }

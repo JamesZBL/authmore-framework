@@ -16,13 +16,13 @@
 package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
+import me.zbl.authmore.main.authorization.RequestProperties;
 import me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static me.zbl.authmore.main.authorization.RequestProperties.CURRENT_CLIENT;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -58,7 +58,7 @@ public class TokenEndpoint {
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "scope", required = false) String scope,
             @RequestParam(value = "refresh_token", required = false) String refreshToken,
-            @RequestAttribute(CURRENT_CLIENT) ClientDetails client) {
+            @RequestAttribute(RequestProperties.CURRENT_CLIENT) ClientDetails client) {
         GrantTypes realType = GrantTypes.eval(grantType);
         if (isEmpty(clientId))
             throw new OAuthException(OAuthException.INVALID_CLIENT);
