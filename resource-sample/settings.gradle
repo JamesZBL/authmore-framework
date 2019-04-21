@@ -18,4 +18,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'sample'
+rootProject.name = 'resource-sample'
