@@ -17,7 +17,9 @@
 apply plugin: 'java'
 apply plugin: "maven-publish"
 
-group = 'me.zbl.reactive-security'
+build.finalizedBy publishToMavenLocal
+
+group = 'me.zbl.authmoreframework'
 version = '0.0.1-SNAPSHOT'
 description = 'common'
 sourceCompatibility = '1.8'

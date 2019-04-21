@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.auth;
+package me.zbl.reactivesecurity.auth;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import me.zbl.authmore.auth.AdminApplication;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootApplication
-public class AuthApplication {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {AdminApplication.class})
+public class AdminApplicationTests {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AuthApplication.class, args);
-    }
+    @Test
+    public void contextLoads() {}
 }
 
