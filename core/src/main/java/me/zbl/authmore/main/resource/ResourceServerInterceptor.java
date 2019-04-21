@@ -20,13 +20,13 @@ import me.zbl.authmore.main.oauth.OAuthProperties.RequireTypes;
 import me.zbl.authmore.main.oauth.OAuthUtil;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -60,12 +60,18 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
         }
         if (!isEmpty(requireResourceId)) {
             if (null == resourceIds || !resourceIds.contains(requireResourceId)) {
-                response.sendError(SC_UNAUTHORIZED, "no access to resource: " + requireResourceId);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "no access to resource: " + requireResourceId);
                 return false;
             }
         }
         return true;
     }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {}
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {}
 
     @SuppressWarnings("unchecked")
     private boolean support(HttpServletRequest request, HttpServletResponse response, String attributeName,
@@ -75,7 +81,7 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
             return false;
         boolean support = OAuthUtil.support(type, requiredValues, requestValues);
         if (!support) {
-            response.sendError(SC_UNAUTHORIZED, "invalid scope or authority to access this resource");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "invalid scope or authority to access this resource");
             return false;
         }
         return true;

@@ -22,12 +22,12 @@ version 'unspecified'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    implementation 'me.zbl.authmore:authmore:0.0.1-SNAPSHOT'
+    implementation project(":core")
+    implementation project(":common")
+    implementation 'org.springframework:spring-webmvc:5.1.5.RELEASE'
+    implementation 'org.springframework.security:spring-security-core:5.1.4.RELEASE'
+    compileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.1.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 

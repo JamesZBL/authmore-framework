@@ -18,22 +18,20 @@ plugins {
     id 'maven-publish'
 }
 
-build.finalizedBy publishToMavenLocal
-
 group = 'me.zbl.authmoreframework'
 version = '0.0.1-SNAPSHOT'
 description = 'common'
 sourceCompatibility = '1.8'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
+    implementation project(':common')
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.springframework.security:spring-security-core:5.1.4.RELEASE'
+    compileOnly 'org.springframework:spring-web:5.1.5.RELEASE'
     compileOnly 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.1.2.RELEASE'
+    compileOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.14'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.1.2.RELEASE'
+    compileOnly 'org.springframework.data:spring-data-redis:2.1.4.RELEASE'
 }
 
 publishing {

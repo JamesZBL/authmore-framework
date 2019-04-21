@@ -23,6 +23,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 
 /**
  * @author ZHENG BAO LE
@@ -43,5 +44,10 @@ public class AuthorizeAutoConfiguration {
     @ConditionalOnMissingBean({AuthorizationTemplate.class})
     public AuthorizationTemplate authorizationTemplate() {
         return new AuthorizationTemplate(clientProperties);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return authentication -> null;
     }
 }

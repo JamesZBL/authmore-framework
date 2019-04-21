@@ -15,7 +15,8 @@
  */
 package me.zbl.authmore.main.client;
 
-import me.zbl.authmore.main.oauth.OAuthProperties.*;
+import me.zbl.authmore.main.oauth.OAuthProperties;
+import me.zbl.authmore.main.oauth.OAuthProperties.ResponseTypes;
 import me.zbl.authmore.main.oauth.RequestUtil;
 import me.zbl.reactivesecurity.common.Assert;
 
@@ -23,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static me.zbl.authmore.main.oauth.OAuthProperties.*;
 
 /**
  * @author ZHENG BAO LE
@@ -47,10 +46,10 @@ public class AuthorizationTemplate implements AuthorizationOperations {
             throws IOException {
         Assert.notEmpty(redirectUrl, "redirect url is required");
         Map<String, String> params = new HashMap<>();
-        params.put(PARAM_RESPONSE_TYPE, type.getName());
-        params.put(PARAM_CLIENT_ID, clientId);
-        params.put(PARAM_REDIRECT_URI, redirectUrl);
-        params.put(PARAM_SCOPE, scope);
+        params.put(OAuthProperties.PARAM_RESPONSE_TYPE, type.getName());
+        params.put(OAuthProperties.PARAM_CLIENT_ID, clientId);
+        params.put(OAuthProperties.PARAM_REDIRECT_URI, redirectUrl);
+        params.put(OAuthProperties.PARAM_SCOPE, scope);
         response.sendRedirect(authorizeUrl + "?" + RequestUtil.queryStringOf(params));
     }
 }
