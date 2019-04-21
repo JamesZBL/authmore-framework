@@ -31,3 +31,8 @@ subprojects {
         }
     }
 }
+
+def common = ':common:publishToMavenLocal'
+def core = ':core:publishToMavenLocal'
+project(':auth').build.dependsOn(common).dependsOn(core)
+project(':authmore').build.dependsOn(common).dependsOn(core)

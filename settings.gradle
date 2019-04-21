@@ -19,11 +19,11 @@
  */
 
 rootProject.name = 'authmore-framework'
+include 'core'
 include 'common'
 include 'auth'
 include 'authmore'
-include 'core'
 include 'resource-sample'
 include 'resource-autoconfigure'
-include 'client-autoconfigure'
 include 'client-sample'
+include 'client-autoconfigure'

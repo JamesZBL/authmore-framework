@@ -18,9 +18,12 @@ plugins {
     id 'maven-publish'
 }
 
-version 'unspecified'
+build.finalizedBy publishToMavenLocal
 
-sourceCompatibility = 1.8
+group = 'me.zbl.authmoreframework'
+version = '0.0.1-SNAPSHOT'
+description = 'common'
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
