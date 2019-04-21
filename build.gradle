@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+plugins {
+    id "com.gradle.build-scan" version "2.2.1"
+}
+
 subprojects {
 
     apply plugin: 'java'
@@ -29,6 +34,11 @@ subprojects {
             url = 'http://repo.maven.apache.org/maven2'
         }
     }
+}
+
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
 }
 
 project(':client-sample').build.enabled = false
