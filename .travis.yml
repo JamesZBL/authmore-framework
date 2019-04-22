@@ -4,8 +4,12 @@ install: true
 jdk:
 - oraclejdk8
 
+services:
+- docker
+
 script:
 - ./gradlew build --scan -s -x test
+- ./build.preview.sh
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
