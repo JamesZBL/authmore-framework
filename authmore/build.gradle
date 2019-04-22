@@ -50,6 +50,13 @@ dependencyManagement {
     }
 }
 
+docker {
+    springBootApplication {
+        ports = [8086]
+        tag = "${registryRepository}/authmore"
+    }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {

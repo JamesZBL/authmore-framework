@@ -53,6 +53,13 @@ dependencies {
     testCompile 'org.springframework.security:spring-security-test:5.1.3.RELEASE'
 }
 
+docker {
+    springBootApplication {
+        ports = [8083]
+        tag = "${registryRepository}/auth"
+    }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {

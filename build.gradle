@@ -16,11 +16,18 @@
 
 plugins {
     id "com.gradle.build-scan" version "2.2.1"
+    id 'com.bmuschko.docker-spring-boot-application' version '4.7.1'
+}
+
+ext {
+    registryHost = "${System.env.PRIVATE_REG_HOST}"
+    registryRepository = "${registryHost}/letec"
 }
 
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
     repositories {
         mavenLocal()
@@ -34,9 +41,24 @@ subprojects {
             url = 'http://repo.maven.apache.org/maven2'
         }
     }
+
+    docker {
+        registryCredentials {
+            url = "${registryHost}"
+            username = "${System.env.PRIVATE_REG_USERNAME}"
+            password = "${System.env.PRIVATE_REG_PASSWORD}"
+        }
+
+        springBootApplication {
+            baseImage = 'openjdk:8-jdk-alpine'
+        }
+    }
 }
 
 buildScan {
     termsOfServiceUrl = 'https://gradle.com/terms-of-service'
     termsOfServiceAgree = 'yes'
 }
+
+//project(':client-sample').build.enabled = false
+//project(':resource-sample').build.enabled = false

@@ -12,7 +12,8 @@ before_install:
 
 script:
 - ./gradlew build --scan -s -x test
-- ./build.preview.sh
+- ./gradlew dockerBuildImage
+- ./gradlew dockerPushImage
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
