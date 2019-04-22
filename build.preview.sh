@@ -1,5 +1,4 @@
 #!/bin/bash
-./gradlew build -x test
 prefix='registry.cn-beijing.aliyuncs.com/letec/'
 modules=(auth authmore)
 for m in "${modules[@]}"; do
