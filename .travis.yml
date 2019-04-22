@@ -4,8 +4,15 @@ install: true
 jdk:
 - oraclejdk8
 
+services:
+- docker
+
+before_install:
+- echo $PRIVATE_REG_PASSWORD | docker login -u "$PRIVATE_REG_USERNAME" --password-stdin $PRIVATE_REG_HOST
+
 script:
-- ./gradlew build --scan -s
+- ./gradlew build --scan -s -x test
+- ./build.preview.sh
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
