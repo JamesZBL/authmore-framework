@@ -8,7 +8,7 @@ services:
 - docker
 
 before_install:
-- $PRIVATE_REG_PASSWORD | docker login -u "$PRIVATE_REG_USERNAME" --password-stdin $PRIVATE_REG_HOST
+- echo $PRIVATE_REG_PASSWORD | docker login -u "$PRIVATE_REG_USERNAME" --password-stdin $PRIVATE_REG_HOST
 
 script:
 - ./gradlew build --scan -s -x test
