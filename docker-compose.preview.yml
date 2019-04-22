@@ -3,9 +3,6 @@ version: "3"
 services:
   authmore:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore
-    environment:
-      - JDK_JAVA_OPTIONS=-Dspring.profiles.active=test
-
     build:
       context: ./authmore
       dockerfile: Dockerfile.test
@@ -21,8 +18,6 @@ services:
 
   auth:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/auth
-    environment:
-      - JDK_JAVA_OPTIONS=-Dspring.profiles.active=test
     build:
       context: ./auth
       dockerfile: Dockerfile.test
