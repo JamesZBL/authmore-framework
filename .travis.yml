@@ -14,7 +14,6 @@ script:
 - ./gradlew build --scan -s -x test
 - ./gradlew dockerBuildImage
 - ./gradlew dockerPushImage
-- ./deploy.remote.preview.sh
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

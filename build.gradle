@@ -16,7 +16,7 @@
 
 plugins {
     id "com.gradle.build-scan" version "2.2.1"
-    id 'com.bmuschko.docker-spring-boot-application' version '4.7.1'
+    id 'com.bmuschko.docker-spring-boot-application' version '4.8.0'
 }
 
 ext {
