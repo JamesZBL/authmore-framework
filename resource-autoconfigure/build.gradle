@@ -18,10 +18,6 @@ plugins {
     id 'maven-publish'
 }
 
-version 'unspecified'
-
-sourceCompatibility = 1.8
-
 dependencies {
     implementation project(":core")
     implementation project(":common")

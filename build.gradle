@@ -29,6 +29,12 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
+    group = 'me.zbl.authmoreframework'
+    version = '0.0.1-SNAPSHOT'
+    description = '基于 OAuth2.0 的跨域认证授权开发套件'
+    sourceCompatibility = '1.8'
+
+
     repositories {
         mavenLocal()
         maven {
