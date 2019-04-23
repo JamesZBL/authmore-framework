@@ -27,7 +27,7 @@ plugins {
 }
 
 ext {
-    registryHost = "${System.env.PRIVATE_REG_HOST}"
+    registryHost = "registry-vpc.cn-beijing.aliyuncs.com"
     registryRepository = "${registryHost}/letec"
 }
 
