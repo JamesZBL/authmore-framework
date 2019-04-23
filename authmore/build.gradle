@@ -57,8 +57,6 @@ docker {
     }
 }
 
-dockerCreateDockerfile.defaultCommand '-Dspring.profiles.active=test'
-
 publishing {
     publications {
         maven(MavenPublication) {
