@@ -13,6 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+    repositories {
+        maven {
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+    }
+}
 
 plugins {
     id "com.gradle.build-scan" version "2.2.1"
