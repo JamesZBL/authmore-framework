@@ -55,7 +55,6 @@ public class RandomSecretTest {
             assertFalse(digests.contains(pwd));
             digests.add(pwd);
             last = pwd;
-            LOGGER.debug("New random password: {}", pwd);
         }
     }
 }
