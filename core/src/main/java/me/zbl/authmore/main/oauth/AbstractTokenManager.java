@@ -17,7 +17,7 @@ package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
-import me.zbl.reactivesecurity.common.RandomSecret;
+import me.zbl.reactivesecurity.common.UniqueToken;
 
 import java.util.Set;
 
@@ -42,7 +42,7 @@ public abstract class AbstractTokenManager implements TokenManager {
         long expireIn = client.getAccessTokenValiditySeconds();
         assertValidateScopes(client, scopes);
         AccessTokenBinding accessTokenBinding = createAccessTokenBinding(clientId, scopes, userId);
-        String refreshToken = RandomSecret.create();
+        String refreshToken = UniqueToken.create();
         RefreshTokenBinding refreshTokenBinding = new RefreshTokenBinding(refreshToken, clientId, scopes, userId);
         saveAccessToken(accessTokenBinding);
         saveRefreshToken(refreshTokenBinding);
@@ -63,7 +63,7 @@ public abstract class AbstractTokenManager implements TokenManager {
         String clientId = refreshTokenBinding.getClientId();
         ClientDetails client = clients.findByClientId(clientId).orElseThrow(() -> new OAuthException(INVALID_CLIENT));
         long expireIn = client.getAccessTokenValiditySeconds();
-        String newAccessToken = RandomSecret.create();
+        String newAccessToken = UniqueToken.create();
         refreshTokenBinding = freshRefreshTokenBinding(client, refreshTokenBinding);
         TokenResponse newTokenResponse = new TokenResponse(refreshTokenBinding, newAccessToken, expireIn);
         AccessTokenBinding newAccessTokenBinding = new AccessTokenBinding(refreshTokenBinding, newAccessToken);
@@ -76,7 +76,7 @@ public abstract class AbstractTokenManager implements TokenManager {
     }
 
     private AccessTokenBinding createAccessTokenBinding(String clientId, Set<String> scopes, String userId) {
-        String accessToken = RandomSecret.create();
+        String accessToken = UniqueToken.create();
         return new AccessTokenBinding(accessToken, clientId, scopes, userId);
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractTokenManager implements TokenManager {
     public RefreshTokenBinding freshRefreshTokenBinding(ClientDetails client, RefreshTokenBinding refreshTokenBinding) {
         Integer refreshTokenValiditySeconds = client.getRefreshTokenValiditySeconds();
         if (null != refreshTokenValiditySeconds && 0 != refreshTokenValiditySeconds) {
-            String newRefreshToken = RandomSecret.create();
+            String newRefreshToken = UniqueToken.create();
             Set<String> scopes = refreshTokenBinding.getScopes();
             String userId = refreshTokenBinding.getUserId();
             String clientId = client.getClientId();
