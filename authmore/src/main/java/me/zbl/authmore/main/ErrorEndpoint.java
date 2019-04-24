@@ -15,6 +15,7 @@
  */
 package me.zbl.authmore.main;
 
+import io.swagger.annotations.Api;
 import me.zbl.authmore.main.oauth.OAuthErrorResponse;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @author ZHENG BAO LE
  * @since 2019-03-05
  */
+@Api(description = "异常响应")
 @RestController
 public class ErrorEndpoint extends AbstractErrorController {
 

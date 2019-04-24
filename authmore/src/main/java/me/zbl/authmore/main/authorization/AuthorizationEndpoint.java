@@ -15,6 +15,9 @@
  */
 package me.zbl.authmore.main.authorization;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.oauth.CodeManager;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -47,6 +51,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @author ZHENG BAO LE
  * @since 2019-02-14
  */
+@Api(description = "授权引导")
 @Controller
 public class AuthorizationEndpoint {
 
@@ -63,17 +68,18 @@ public class AuthorizationEndpoint {
         this.tokenManager = tokenManager;
     }
 
+    @ApiOperation("引导用户授权")
     @GetMapping("/authorize")
     public String authorize(
-            @RequestParam("client_id") String clientId,
-            @RequestParam("response_type") String responseType,
-            @RequestParam("redirect_uri") String redirectUri,
-            @RequestParam(value = "scope", required = false) String scope,
-            @RequestParam(value = "state", required = false) String state,
-            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
-            HttpSession session,
-            Model model,
-            HttpServletResponse response) throws IOException {
+            @ApiParam("客户端 AppId") @RequestParam("client_id") String clientId,
+            @ApiParam("响应类型") @RequestParam("response_type") String responseType,
+            @ApiParam("回调地址") @RequestParam("redirect_uri") String redirectUri,
+            @ApiParam("授权范围") @RequestParam(value = "scope", required = false) String scope,
+            @ApiParam("随机状态（CSRF）") @RequestParam(value = "state", required = false) String state,
+            @ApiIgnore @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
+            @ApiIgnore HttpSession session,
+            @ApiIgnore Model model,
+            @ApiIgnore HttpServletResponse response) throws IOException {
         String location;
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
         String userId = user.getId();
@@ -130,6 +136,7 @@ public class AuthorizationEndpoint {
         return "authorize";
     }
 
+    @ApiIgnore
     @PostMapping("/authorize/confirm")
     public void authorizeConfirm(
             @RequestParam("client_id") String clientId,
@@ -140,7 +147,7 @@ public class AuthorizationEndpoint {
             @SessionAttribute(LAST_SCOPE) String scope,
             @SessionAttribute(LAST_STATE) String state,
             @SessionAttribute(LAST_TYPE) ResponseTypes type,
-            HttpServletResponse response) throws IOException {
+            @ApiIgnore HttpServletResponse response) throws IOException {
         String location;
         if (null == client || !client.getClientId().equals(clientId)) {
             throw new AuthorizationException(INVALID_CLIENT);

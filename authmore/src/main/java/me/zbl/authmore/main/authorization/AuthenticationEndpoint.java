@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static me.zbl.authmore.main.authorization.SessionProperties.LAST_URL;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -30,6 +31,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @author ZHENG BAO LE
  * @since 2019-02-15
  */
+@ApiIgnore
 @Controller
 public class AuthenticationEndpoint {
 

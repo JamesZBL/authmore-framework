@@ -15,6 +15,8 @@
  */
 package me.zbl.authmore.main.oauth;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.authorization.UserDetailsRepository;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
  * @author ZHENG BAO LE
  * @since 2019-02-26
  */
+@Api(description = "令牌校验")
 @RestController
 public class TokenCheckEndpoint {
 
@@ -45,6 +48,7 @@ public class TokenCheckEndpoint {
         this.clients = clients;
     }
 
+    @ApiOperation("令牌校验")
     @GetMapping("/oauth/check_token")
     public TokenCheckResponse checkToken(@RequestParam(value = "token", required = false) String token) {
         AccessTokenBinding accessTokenBinding = tokenManager.findAccessToken(token);

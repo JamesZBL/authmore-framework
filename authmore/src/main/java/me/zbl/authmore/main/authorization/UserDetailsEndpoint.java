@@ -15,6 +15,8 @@
  */
 package me.zbl.authmore.main.authorization;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import me.zbl.authmore.core.UserDetails;
 import me.zbl.authmore.main.oauth.OAuthException;
 import me.zbl.authmore.main.resource.ScopeRequired;
@@ -28,6 +30,7 @@ import static me.zbl.authmore.main.oauth.OAuthProperties.SCOPE_USER_DETAILS;
  * @author ZHENG BAO LE
  * @since 2019-02-25
  */
+@Api(description = "用户资料")
 @RestController
 public class UserDetailsEndpoint {
 
@@ -37,6 +40,7 @@ public class UserDetailsEndpoint {
         this.users = users;
     }
 
+    @ApiOperation("用户资料")
     @GetMapping("/user/details")
     @ScopeRequired({SCOPE_USER_DETAILS})
     public UserDetails userDetails(

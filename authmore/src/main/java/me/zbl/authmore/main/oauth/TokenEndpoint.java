@@ -15,6 +15,9 @@
  */
 package me.zbl.authmore.main.oauth;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import me.zbl.authmore.core.ClientDetails;
 import me.zbl.authmore.main.authorization.RequestProperties;
 import me.zbl.authmore.main.oauth.OAuthProperties.GrantTypes;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -29,6 +33,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @author ZHENG BAO LE
  * @since 2019-02-18
  */
+@Api(description = "令牌签发")
 @RestController
 public class TokenEndpoint {
 
@@ -48,17 +53,18 @@ public class TokenEndpoint {
         this.refreshTokenIssuer = refreshTokenIssuer;
     }
 
+    @ApiOperation("令牌签发")
     @PostMapping("/oauth/token")
     public TokenResponse token(
-            @RequestParam(value = "grant_type", required = false) String grantType,
-            @RequestParam(value = "code", required = false) String code,
-            @RequestParam(value = "redirect_uri", required = false) String redirectUri,
-            @RequestParam(value = "client_id", required = false) String clientId,
-            @RequestParam(value = "username", required = false) String username,
-            @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "scope", required = false) String scope,
-            @RequestParam(value = "refresh_token", required = false) String refreshToken,
-            @RequestAttribute(RequestProperties.CURRENT_CLIENT) ClientDetails client) {
+            @ApiParam("授权方式") @RequestParam(value = "grant_type", required = false) String grantType,
+            @ApiParam("授权码") @RequestParam(value = "code", required = false) String code,
+            @ApiParam("回调地址") @RequestParam(value = "redirect_uri", required = false) String redirectUri,
+            @ApiParam("客户端 AppId") @RequestParam(value = "client_id", required = false) String clientId,
+            @ApiParam("用户名") @RequestParam(value = "username", required = false) String username,
+            @ApiParam("用户密码") @RequestParam(value = "password", required = false) String password,
+            @ApiParam("授权范围") @RequestParam(value = "scope", required = false) String scope,
+            @ApiParam("刷新令牌") @RequestParam(value = "refresh_token", required = false) String refreshToken,
+            @ApiIgnore @RequestAttribute(RequestProperties.CURRENT_CLIENT) ClientDetails client) {
         GrantTypes realType = GrantTypes.eval(grantType);
         if (isEmpty(clientId))
             throw new OAuthException(OAuthException.INVALID_CLIENT);
