@@ -51,12 +51,16 @@ public class ResourceServerInterceptor implements HandlerInterceptor {
         String requireResourceId = resourceServerConfigurationProperties.getResourceId();
         Set<String> resourceIds = (Set<String>) request.getAttribute(OAuthProperties.REQUEST_RESOURCE_IDS);
         if (scope != null) {
-            if (!support(request, response, OAuthProperties.REQUEST_SCOPES, scope.value(), scope.type()))
+            if (!support(request, response, OAuthProperties.REQUEST_SCOPES, scope.value(), scope.type())) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "insufficient scope");
                 return false;
+            }
         }
         if (authority != null) {
-            if (!support(request, response, OAuthProperties.REQUEST_AUTHORITIES, authority.value(), authority.type()))
+            if (!support(request, response, OAuthProperties.REQUEST_AUTHORITIES, authority.value(), authority.type())) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "insufficient authority");
                 return false;
+            }
         }
         if (!isEmpty(requireResourceId)) {
             if (null == resourceIds || !resourceIds.contains(requireResourceId)) {

@@ -45,16 +45,15 @@ public class SampleEndpoint {
     @GetMapping("/password")
     public String password() {
         Map<String, String> params = new HashMap<>();
-        params.put("scope", "PROFILE");
         params.put("username", "james");
         params.put("password", "123456");
-        TokenResponse token = passwordTokenManager.getToken("PROFILE", params);
+        TokenResponse token = passwordTokenManager.getToken("EMAIL", params);
         RestTemplate template = new ClientRestTemplate(token.getAccess_token());
-        return template.getForObject("http://localhost:8011/", String.class);
+        return template.getForObject("http://localhost:8091/inbox", String.class);
     }
 
     @GetMapping("/client")
     public String clientCredentials() {
-        return this.grantedClient.getForObject("http://localhost:8011/", String.class);
+        return this.grantedClient.getForObject("http://localhost:8091/inbox", String.class);
     }
 }

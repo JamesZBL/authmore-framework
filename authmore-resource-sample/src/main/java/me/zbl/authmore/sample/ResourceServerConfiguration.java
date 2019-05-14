@@ -38,7 +38,7 @@ public class ResourceServerConfiguration {
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
-        bean.addUrlPatterns("/");
+        bean.addUrlPatterns("/*");
         bean.setFilter(resourceServerFilter);
         return bean;
     }

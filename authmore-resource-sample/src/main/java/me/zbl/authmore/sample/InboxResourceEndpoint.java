@@ -19,8 +19,8 @@ public class InboxResourceEndpoint {
     @AuthorityRequired("READ")
     public Inbox inbox() {
         return new Inbox(Arrays.asList(
-                new Email().setFrom("James").setTo("Tom").setContent("Hello, Tom!"),
-                new Email().setFrom("Tom").setTo("James").setContent("Hi, James!"),
-                new Email().setFrom("Tony").setTo("James").setContent("James, Let's go hiking!")));
+                new Email().setSubject("Hi, Tom! ").setFrom("James").setTo("Tom").setContent("Hello, Tom!"),
+                new Email().setSubject("Hi, James! ").setFrom("Tom").setTo("James").setContent("Hi, James!"),
+                new Email().setSubject("Go hiking! ").setFrom("Tony").setTo("James").setContent("James, Let's go hiking!")));
     }
 }
