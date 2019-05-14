@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * @author ZHENG BAO LE
@@ -19,10 +18,9 @@ public class InboxResourceEndpoint {
     @ScopeRequired("EMAIL")
     @AuthorityRequired("READ")
     public Inbox inbox() {
-        new Inbox(Arrays.asList(
+        return new Inbox(Arrays.asList(
                 new Email().setFrom("James").setTo("Tom").setContent("Hello, Tom!"),
                 new Email().setFrom("Tom").setTo("James").setContent("Hi, James!"),
                 new Email().setFrom("Tony").setTo("James").setContent("James, Let's go hiking!")));
-        return new Inbox(Collections.emptyList());
     }
 }
