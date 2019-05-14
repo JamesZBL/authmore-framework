@@ -19,8 +19,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(":core")
-    implementation project(":common")
+    compile project(":core")
+    compile project(":common")
     implementation 'org.springframework:spring-webmvc:5.1.5.RELEASE'
     implementation 'org.springframework.security:spring-security-core:5.1.4.RELEASE'
     compileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.1.2.RELEASE'
@@ -32,7 +32,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'me.zbl.authmore'
             artifactId = 'client-autoconfigure'
-            version = '0.0.1-SNAPSHOT'
+            version = '0.0.2-SNAPSHOT'
 
             from components.java
         }

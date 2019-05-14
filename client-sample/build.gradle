@@ -26,11 +26,10 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenLocal()
-    mavenCentral()
 }
 
 dependencies {
-    implementation 'me.zbl.authmore:client-autoconfigure:0.0.1-SNAPSHOT'
+    implementation 'me.zbl.authmore:client-autoconfigure:0.0.2-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
