@@ -18,4 +18,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'authmore'
+rootProject.name = 'authmore-platform'
