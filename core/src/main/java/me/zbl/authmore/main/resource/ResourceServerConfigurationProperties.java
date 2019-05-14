@@ -32,6 +32,8 @@ public class ResourceServerConfigurationProperties {
 
     private String clientSecret;
 
+    private String jwkSetUrl;
+
     public String getResourceId() {
         return resourceId;
     }
@@ -62,5 +64,13 @@ public class ResourceServerConfigurationProperties {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
+    }
+
+    public String getJwkSetUrl() {
+        return jwkSetUrl;
+    }
+
+    public void setJwkSetUrl(String jwkSetUrl) {
+        this.jwkSetUrl = jwkSetUrl;
     }
 }
