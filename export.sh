@@ -1,2 +1,2 @@
 #!/bin/bash
-git archive master | gzip > authmore-framework-master.gz
+git archive --format tar --output authmore-framework.tar.gz master

@@ -19,6 +19,7 @@ build/
 *.ipr
 *.iws
 *.tgz
+*.tar.gz
 .gradle/
 atlassian-ide-plugin.xml
 !etc/eclipse/.checkstyle
