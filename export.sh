@@ -2,6 +2,8 @@
 mkdir -p archive
 fileNamePrefix="authmore-framework-"
 for i in master dev; do
-    git archive --format tar.gz --output archive/$fileNamePrefix$i.tar.gz $i
+    for t in tar.gz zip; do
+        git archive --format $t --output archive/$fileNamePrefix$i.$t $i
+    done
 done
 echo Export finished.
