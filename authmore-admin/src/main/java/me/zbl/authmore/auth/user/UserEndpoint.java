@@ -79,6 +79,9 @@ public class UserEndpoint extends AuthController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") String id) {
+        UserDetails found = users.findById(id).orElseThrow(IllegalArgumentException::new);
+        if ("root".equals(found.getUsername()))
+            throw new IllegalArgumentException("Root user cannot be deleted.");
         users.deleteById(id);
         return success();
     }
