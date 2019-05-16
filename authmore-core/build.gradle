@@ -1,0 +1,47 @@
+/*
+ * Copyright 2019 ZHENG BAO LE
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'me.zbl.authmoreframework'
+version = '0.0.1-SNAPSHOT'
+description = 'common'
+sourceCompatibility = '1.8'
+
+dependencies {
+    implementation project(':authmore-common')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.springframework.security:spring-security-core:5.1.4.RELEASE'
+    compileOnly 'org.springframework:spring-web:5.1.5.RELEASE'
+    compileOnly 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
+    compileOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.14'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.1.2.RELEASE'
+    compileOnly 'org.springframework.data:spring-data-redis:2.1.4.RELEASE'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'me.zbl.authmore'
+            artifactId = 'core'
+            version = '0.0.1-SNAPSHOT'
+
+            from components.java
+        }
+    }
+}

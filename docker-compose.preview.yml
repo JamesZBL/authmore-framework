@@ -3,6 +3,7 @@ version: "3"
 services:
   authmore:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore
+    command: ["--spring.profiles.active=test"]
     build:
       context: ./authmore
       dockerfile: Dockerfile.test
@@ -18,6 +19,7 @@ services:
 
   auth:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/auth
+    command: ["--spring.profiles.active=test"]
     build:
       context: ./auth
       dockerfile: Dockerfile.test

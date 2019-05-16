@@ -6,13 +6,14 @@ jdk:
 
 services:
 - docker
+- mongodb
+- redis-server
 
 before_install:
 - echo $PRIVATE_REG_PASSWORD | docker login -u "$PRIVATE_REG_USERNAME" --password-stdin $PRIVATE_REG_HOST
 
 script:
-- ./gradlew build --scan -s -x test
-- ./build.preview.sh
+- ./gradlew publishToMavenLocal build --scan -s
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

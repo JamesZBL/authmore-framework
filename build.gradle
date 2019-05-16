@@ -13,14 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+    repositories {
+        maven {
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+    }
+}
 
 plugins {
     id "com.gradle.build-scan" version "2.2.1"
+    id 'com.bmuschko.docker-spring-boot-application' version '4.8.0'
+}
+
+ext {
+    registryHost = "registry-vpc.cn-beijing.aliyuncs.com"
+    registryRepository = "${registryHost}/letec"
 }
 
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'com.bmuschko.docker-spring-boot-application'
+
+    group = 'me.zbl.authmoreframework'
+    version = '0.0.1-SNAPSHOT'
+    description = '基于 OAuth2.0 的跨域认证授权开发套件'
+    sourceCompatibility = '1.8'
+
 
     repositories {
         mavenLocal()
@@ -34,9 +54,24 @@ subprojects {
             url = 'http://repo.maven.apache.org/maven2'
         }
     }
+
+    docker {
+        registryCredentials {
+            url = "${registryHost}"
+            username = "${System.env.PRIVATE_REG_USERNAME}"
+            password = "${System.env.PRIVATE_REG_PASSWORD}"
+        }
+
+        springBootApplication {
+            baseImage = 'openjdk:8-jdk-alpine'
+        }
+    }
 }
 
 buildScan {
     termsOfServiceUrl = 'https://gradle.com/terms-of-service'
     termsOfServiceAgree = 'yes'
 }
+
+//project(':client-sample').build.enabled = false
+//project(':resource-sample').build.enabled = false
