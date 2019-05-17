@@ -43,6 +43,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'signing'
     apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
     repositories {
@@ -159,6 +160,10 @@ subprojects {
                 }
             }
         }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
     }
 }
 

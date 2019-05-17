@@ -29,18 +29,6 @@ dependencies {
     testCompile 'commons-codec:commons-codec:1.11'
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'me.zbl.authmore'
-            artifactId = 'common'
-            version = '0.0.1-SNAPSHOT'
-
-            from components.java
-        }
-    }
-}
-
 jar {
     enabled = true
 }

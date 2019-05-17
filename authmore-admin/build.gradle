@@ -54,17 +54,3 @@ docker {
         tag = "${registryRepository}/auth"
     }
 }
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'me.zbl.authmore'
-            artifactId = 'auth'
-            version = '0.0.1-SNAPSHOT'
-
-            from components.java
-        }
-    }
-}
-
-

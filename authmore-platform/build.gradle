@@ -53,18 +53,6 @@ docker {
     }
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'me.zbl.authmore'
-            artifactId = 'authmore'
-            version = '0.0.1-SNAPSHOT'
-
-            from components.java
-        }
-    }
-}
-
 jar {
     enabled = true
 }

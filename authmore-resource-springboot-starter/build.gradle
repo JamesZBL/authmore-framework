@@ -25,15 +25,3 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-autoconfigure:2.1.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'me.zbl.authmore'
-            artifactId = 'resource-autoconfigure'
-            version = '0.0.2-SNAPSHOT'
-
-            from components.java
-        }
-    }
-}
