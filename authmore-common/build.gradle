@@ -17,11 +17,6 @@
 apply plugin: 'java'
 apply plugin: "maven-publish"
 
-group = 'me.zbl.authmoreframework'
-version = '0.0.1-SNAPSHOT'
-description = 'common'
-sourceCompatibility = '1.8'
-
 dependencies {
     implementation 'org.springframework:spring-web:5.1.4.RELEASE'
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.4.0'

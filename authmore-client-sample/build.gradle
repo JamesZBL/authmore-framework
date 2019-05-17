@@ -20,16 +20,12 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'me.zbl.authmore'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
 repositories {
     mavenLocal()
 }
 
 dependencies {
-    implementation 'me.zbl.authmore:client-autoconfigure:0.0.2-SNAPSHOT'
+    implementation project(':authmore-client-springboot-starter')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
