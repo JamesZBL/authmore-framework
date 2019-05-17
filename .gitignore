@@ -13,12 +13,16 @@ out/
 bin/
 intellij/
 build/
+archive/
 *.log
 *.log.*
 *.iml
 *.ipr
 *.iws
+*.tgz
+*.tar.gz
 .gradle/
+gradle.properties
 atlassian-ide-plugin.xml
 !etc/eclipse/.checkstyle
 .checkstyle
