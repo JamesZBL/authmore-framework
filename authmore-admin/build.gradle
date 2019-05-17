@@ -54,3 +54,5 @@ docker {
         tag = "${registryRepository}/auth"
     }
 }
+
+uploadArchives.enabled = false

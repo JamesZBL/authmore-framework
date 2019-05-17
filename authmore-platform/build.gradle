@@ -56,3 +56,5 @@ docker {
 jar {
     enabled = true
 }
+
+uploadArchives.enabled = false

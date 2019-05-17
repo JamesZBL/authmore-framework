@@ -42,7 +42,7 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'java-library'
-    apply plugin: 'maven-publish'
+    apply plugin: 'maven'
     apply plugin: 'signing'
     apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
@@ -81,6 +81,10 @@ subprojects {
         from javadoc
     }
 
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+
     javadoc {
         afterEvaluate {
             configure(options) {
@@ -94,76 +98,53 @@ subprojects {
         }
     }
 
-    publishing {
+    uploadArchives {
         repositories {
-            maven {
-                def userName = System.getProperty("SONATYPE_USERNAME")
-                def passWord = System.getProperty("SONATYPE_PASSWORD")
-                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            mavenDeployer {
 
-                credentials {
-                    username userName
-                    password passWord
+                def username = System.getenv("SONATYPE_USERNAME")
+                def password = System.getenv("SONATYPE_PASSWORD")
+
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication userName: username, password: password
                 }
-            }
-        }
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication userName: username, password: password
+                }
 
-        publications {
-
-            mavenJava(MavenPublication) {
-                from components.java
-
-                artifact sourcesJar
-                artifact javadocJar
-
-                pom {
-                    name = 'authmore'
+                pom.project {
+                    name 'Authmore'
                     packaging 'jar'
-                    description = 'A lightweight development kit for building OAuth2 open platform.'
-                    url = 'https://github.com/jameszbl/authmore'
+                    description 'A lightweight development kit for building OAuth2 open platform.'
+                    url 'https://github.com/jameszbl/authmore'
 
                     scm {
-                        connection = 'scm:git@github.com:Codearte/gradle-nexus-staging-plugin.git'
-                        developerConnection = 'scm:git@github.com:Codearte/gradle-nexus-staging-plugin.git'
-                        url = 'https://github.com/jameszbl/authmore'
+                        connection 'scm:git:git://github.com/jameszbl/authmore.git'
+                        developerConnection 'scm:git:ssh://github.com/jameszbl/authmore.git'
+                        url 'http://github.com/jameszbl/authmore'
                     }
 
                     licenses {
                         license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
 
                     developers {
                         developer {
-                            id = 'JamesZBL'
-                            name = 'ZHENG BAO LE'
-                            email = 'zhengbaole@gmail.com'
-                        }
-                    }
-
-                    withXml {
-                        def root = asNode()
-                        root.dependencies.'*'.findAll {
-                            def d = it
-                            d.scope.text() == 'runtime' && project.configurations.findByName("implementation").allDependencies.find { dep ->
-                                dep.name == it.artifactId.text()
-                            }.each() {
-                                d.scope*.value = 'compile'
-                                d.appendNode('optional', true)
-                            }
+                            id 'JamesZBL'
+                            name 'ZHENG BAO LE'
+                            email '1146556298@qq.com'
+                            organization 'letec.top'
+                            organizationUrl 'http://b.letec.top'
                         }
                     }
                 }
             }
         }
-    }
-
-    signing {
-        sign publishing.publications.mavenJava
     }
 }
 
