@@ -31,6 +31,7 @@ repositories {
 dependencies {
     implementation 'me.zbl.authmore:client-autoconfigure:0.0.2-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
