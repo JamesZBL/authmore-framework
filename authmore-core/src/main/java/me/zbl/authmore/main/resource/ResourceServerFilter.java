@@ -15,7 +15,21 @@
  */
 package me.zbl.authmore.main.resource;
 
-import me.zbl.authmore.main.oauth.*;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.jwk.source.RemoteJWKSet;
+import com.nimbusds.jose.proc.BadJOSEException;
+import com.nimbusds.jose.proc.JWSKeySelector;
+import com.nimbusds.jose.proc.JWSVerificationKeySelector;
+import com.nimbusds.jose.proc.SecurityContext;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
+import com.nimbusds.jwt.proc.DefaultJWTProcessor;
+import me.zbl.authmore.main.oauth.OAuthException;
+import me.zbl.authmore.main.oauth.OAuthFilter;
+import me.zbl.authmore.main.oauth.OAuthUtil;
+import me.zbl.authmore.main.oauth.TokenCheckResponse;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
@@ -23,12 +37,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static me.zbl.authmore.main.oauth.OAuthProperties.PARAM_CLIENT_ID;
-import static me.zbl.authmore.main.oauth.OAuthProperties.PARAM_CLIENT_SECRET;
+import static me.zbl.authmore.main.oauth.OAuthProperties.*;
 import static me.zbl.authmore.main.oauth.RequestUtil.queryStringOf;
 
 /**
@@ -57,26 +72,59 @@ public class ResourceServerFilter extends OAuthFilter {
             sendError(response, e.getMessage());
             return;
         }
-        tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
-        clientId = resourceServerConfigurationProperties.getClientId();
-        clientSecret = resourceServerConfigurationProperties.getClientSecret();
 
-        RestTemplate rest = new RestTemplate();
-        Map<String, String> params = new HashMap<>();
-        params.put("token", token);
-        params.put(PARAM_CLIENT_ID, clientId);
-        params.put(PARAM_CLIENT_SECRET, clientSecret);
-        tokenInfo = rest.getForObject(tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
-        if (null == tokenInfo) {
-            sendError(response, "invalid token");
-            return;
+        Set<String> tokenScopes;
+        Set<String> authorities;
+        Set<String> resourceIds;
+        String userId;
+
+        if (isJWT(token)) {
+            ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
+            JWKSource<SecurityContext> keySource = new RemoteJWKSet<>(
+                    new URL(resourceServerConfigurationProperties.getJwkSetUrl()));
+            JWSAlgorithm expectedJWSAlg = JWSAlgorithm.ES256;
+            JWSKeySelector<SecurityContext> keySelector = new JWSVerificationKeySelector<>(expectedJWSAlg, keySource);
+            jwtProcessor.setJWSKeySelector(keySelector);
+            JWTClaimsSet claimsSet;
+            try {
+                claimsSet = jwtProcessor.process(token, null);
+            } catch (ParseException | BadJOSEException | JOSEException e) {
+                e.printStackTrace();
+                throw new OAuthException("Failed to verify token.");
+            }
+            tokenScopes = (Set<String>) claimsSet.getClaim(TOKEN_SCOPES);
+            authorities = (Set<String>) claimsSet.getClaim(TOKEN_AUTHORITIES);
+            resourceIds = (Set<String>) claimsSet.getClaim(TOKEN_RESOURCE_IDS);
+            userId = (String) claimsSet.getClaim(TOKEN_USER_ID);
+        } else {
+            tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
+            clientId = resourceServerConfigurationProperties.getClientId();
+            clientSecret = resourceServerConfigurationProperties.getClientSecret();
+
+            RestTemplate rest = new RestTemplate();
+            Map<String, String> params = new HashMap<>();
+            params.put("token", token);
+            params.put(PARAM_CLIENT_ID, clientId);
+            params.put(PARAM_CLIENT_SECRET, clientSecret);
+            tokenInfo = rest.getForObject(tokenInfoUrl + "?" + queryStringOf(params), TokenCheckResponse.class);
+            if (null == tokenInfo) {
+                sendError(response, "invalid token");
+                return;
+            }
+            tokenScopes = tokenInfo.getScope();
+            authorities = tokenInfo.getAuthorities();
+            resourceIds = tokenInfo.getResourceIds();
+            userId = tokenInfo.getUserId();
         }
-        Set<String> tokenScopes = tokenInfo.getScope();
-        Set<String> authorities = tokenInfo.getAuthorities();
-        Set<String> resourceIds = tokenInfo.getResourceIds();
-        request.setAttribute(OAuthProperties.REQUEST_SCOPES, tokenScopes);
-        request.setAttribute(OAuthProperties.REQUEST_AUTHORITIES, authorities);
-        request.setAttribute(OAuthProperties.REQUEST_RESOURCE_IDS, resourceIds);
+
+        request.setAttribute(REQUEST_SCOPES, tokenScopes);
+        request.setAttribute(REQUEST_AUTHORITIES, authorities);
+        request.setAttribute(REQUEST_RESOURCE_IDS, resourceIds);
+        request.setAttribute(REQUEST_USER_ID, userId);
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isJWT(String token) {
+        return token.startsWith("eyJ");
     }
 }

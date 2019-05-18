@@ -23,6 +23,7 @@ import java.util.Set;
  */
 public class TokenCheckResponse {
 
+    private String userId;
     private Set<String> scope;
     private long exp;
     private String client_id;
@@ -32,6 +33,7 @@ public class TokenCheckResponse {
     public TokenCheckResponse() {}
 
     public TokenCheckResponse(
+            String userId,
             Set<String> scope,
             long exp,
             String client_id,
@@ -45,7 +47,12 @@ public class TokenCheckResponse {
     }
 
     public TokenCheckResponse(AccessTokenBinding tokenBinding, Set<String> authorities, Set<String> resourceIds) {
-        this(tokenBinding.getScopes(), tokenBinding.getExpire(), tokenBinding.getClientId(), authorities, resourceIds);
+        this(tokenBinding.getUserId(),
+                tokenBinding.getScopes(),
+                tokenBinding.getExpire(),
+                tokenBinding.getClientId(),
+                authorities,
+                resourceIds);
     }
 
     public Set<String> getScope() {
@@ -86,5 +93,13 @@ public class TokenCheckResponse {
 
     public void setResourceIds(Set<String> resourceIds) {
         this.resourceIds = resourceIds;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

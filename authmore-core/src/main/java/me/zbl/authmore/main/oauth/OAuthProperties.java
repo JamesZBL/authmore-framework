@@ -29,6 +29,7 @@ public interface OAuthProperties {
     String TOKEN_USER_ID = "user_id";
     String TOKEN_SCOPES = "scopes";
     String TOKEN_AUTHORITIES = "authorities";
+    String TOKEN_RESOURCE_IDS = "resource_ids";
     String TOKEN_EXPIRE_AT = "expire_at";
     String PARAM_CLIENT_ID = "client_id";
     String PARAM_CLIENT_SECRET = "client_secret";
@@ -44,6 +45,7 @@ public interface OAuthProperties {
     String REQUEST_SCOPES = "REQUEST_SCOPES";
     String REQUEST_AUTHORITIES = "REQUEST_AUTHORITIES";
     String REQUEST_RESOURCE_IDS = "REQUEST_RESOURCE_IDS";
+    String REQUEST_USER_ID = "REQUEST_USER_ID";
     String KEY_PREFIX_CODE_BINDING = "authmore:authorization:code";
     String KEY_PREFIX_ACCESS_TOKEN_BINDING = "authmore:authorization:access-token";
     String KEY_PREFIX_REFRESH_TOKEN_BINDING = "authmore:authorization:refresh-token";

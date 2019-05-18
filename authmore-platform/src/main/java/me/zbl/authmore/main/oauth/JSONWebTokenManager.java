@@ -53,6 +53,7 @@ public class JSONWebTokenManager extends AbstractTokenManager {
                 .claim(TOKEN_AUTHORITIES, client.getAuthoritySet())
                 .claim(TOKEN_SCOPES, scopes)
                 .claim(TOKEN_EXPIRE_AT, expireAtByLiveTime(client.getAccessTokenValiditySeconds()))
+                .claim(TOKEN_RESOURCE_IDS, client.getResourceIds())
                 .build();
         PrivateKey privateKey = keyPair.getPrivate();
         RSASSASigner signer = new RSASSASigner(privateKey);
