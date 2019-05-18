@@ -59,6 +59,7 @@ public class ResourceServerFilter extends OAuthFilter {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token;

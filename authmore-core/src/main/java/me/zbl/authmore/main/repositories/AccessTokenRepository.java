@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main.oauth;
+package me.zbl.authmore.main.repositories;
 
+import me.zbl.authmore.main.oauth.AccessTokenBinding;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-02-26
+ * @since 2019-02-21
  */
-@Repository
-public interface RefreshTokenRepository extends CrudRepository<RefreshTokenBinding, String> {
-}
+public interface AccessTokenRepository extends CrudRepository<AccessTokenBinding, String> {}

@@ -33,7 +33,7 @@ ext {
 
 allprojects {
     group = 'com.github.jameszbl'
-    version = '1.0.2-SNAPSHOT'
+    version = '1.0.2'
 }
 
 description = 'Authmore - 轻量级 OAuth2 开放平台开发套件'
@@ -98,6 +98,10 @@ subprojects {
         }
     }
 
+    signing {
+        sign configurations.archives
+    }
+
     uploadArchives {
         repositories {
             mavenDeployer {
@@ -105,7 +109,7 @@ subprojects {
                 def username = System.getenv("SONATYPE_USERNAME")
                 def password = System.getenv("SONATYPE_PASSWORD")
 
-                beforeDeployment { deployment -> signing.signPom(deployment) }
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                     authentication userName: username, password: password

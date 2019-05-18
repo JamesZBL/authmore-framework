@@ -16,6 +16,8 @@
 package me.zbl.authmore.main.oauth;
 
 import me.zbl.authmore.main.client.ClientDetailsRepository;
+import me.zbl.authmore.main.repositories.AccessTokenRepository;
+import me.zbl.authmore.main.repositories.RefreshTokenRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;

@@ -18,6 +18,8 @@ package me.zbl.authmore.main.oauth;
 import me.zbl.authmore.main.authorization.CodeRepository;
 import me.zbl.authmore.main.authorization.RedisCodeManager;
 import me.zbl.authmore.main.client.ClientDetailsRepository;
+import me.zbl.authmore.main.repositories.AccessTokenRepository;
+import me.zbl.authmore.main.repositories.RefreshTokenRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -58,4 +58,5 @@ jar {
     enabled = true
 }
 
+signArchives.enabled=false
 uploadArchives.enabled = false
