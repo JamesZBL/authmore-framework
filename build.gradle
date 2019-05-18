@@ -33,7 +33,7 @@ ext {
 
 allprojects {
     group = 'com.github.jameszbl'
-    version = '1.0.2'
+    version = '1.0.3'
 }
 
 description = 'Authmore - 轻量级 OAuth2 开放平台开发套件'
