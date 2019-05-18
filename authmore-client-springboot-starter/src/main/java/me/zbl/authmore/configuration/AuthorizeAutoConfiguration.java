@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -31,6 +32,7 @@ import org.springframework.security.authentication.AuthenticationManager;
  */
 @Configuration
 @ConditionalOnClass({ClientRestTemplate.class})
+@ComponentScan("me.zbl.authmore.main.authorization")
 @EnableConfigurationProperties({ClientProperties.class})
 public class AuthorizeAutoConfiguration {
 

@@ -110,7 +110,7 @@ public class AuthorizationEndpoint {
                         throw new AuthorizationException(e.getMessage());
                     }
                     String accessToken = tokenResponse.getAccess_token();
-                    location = String.format("%s?token=%s", redirectUri, accessToken);
+                    location = String.format("%s#access_token=%s", redirectUri, accessToken);
                     if (null != state)
                         location = String.format("%s&state=%s", location, state);
                     response.sendRedirect(location);
@@ -167,7 +167,7 @@ public class AuthorizationEndpoint {
                     throw new AuthorizationException(e.getMessage());
                 }
                 String accessToken = tokenResponse.getAccess_token();
-                location = String.format("%s?token=%s", redirectUri, accessToken);
+                location = String.format("%s#token=%s", redirectUri, accessToken);
                 if (null != state)
                     location = String.format("%s&state=%s", location, state);
                 response.sendRedirect(location);
