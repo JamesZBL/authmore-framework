@@ -30,16 +30,12 @@ import java.util.Map;
  * @since 2019-03-01
  */
 @RestController
-public class SampleEndpoint {
+public class PasswordEndpoint {
 
     private final PasswordTokenManager passwordTokenManager;
-    private final ClientRestTemplate grantedClient;
 
-    public SampleEndpoint(
-            PasswordTokenManager passwordTokenManager,
-            ClientRestTemplate grantedClient) {
+    public PasswordEndpoint(PasswordTokenManager passwordTokenManager) {
         this.passwordTokenManager = passwordTokenManager;
-        this.grantedClient = grantedClient;
     }
 
     @GetMapping("/password")
@@ -50,10 +46,5 @@ public class SampleEndpoint {
         TokenResponse token = passwordTokenManager.getToken("EMAIL", params);
         RestTemplate template = new ClientRestTemplate(token.getAccess_token());
         return template.getForObject("http://localhost:8091/inbox", String.class);
-    }
-
-    @GetMapping("/client")
-    public String clientCredentials() {
-        return this.grantedClient.getForObject("http://localhost:8091/inbox", String.class);
     }
 }
