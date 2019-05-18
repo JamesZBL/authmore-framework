@@ -102,8 +102,8 @@ subprojects {
         repositories {
             mavenDeployer {
 
-                def username = ossrhUser
-                def password = ossrhPassword
+                def username = System.getenv("SONATYPE_USERNAME")
+                def password = System.getenv("SONATYPE_PASSWORD")
 
                 beforeDeployment { deployment -> signing.signPom(deployment) }
 
