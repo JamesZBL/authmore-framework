@@ -18,6 +18,7 @@ package me.zbl.authmore.main.oauth;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Set;
  * @since 2019-02-26
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_REFRESH_TOKEN_BINDING)
-public final class RefreshTokenBinding {
+public final class RefreshTokenBinding implements Serializable {
 
     @Id
     private final String refreshToken;

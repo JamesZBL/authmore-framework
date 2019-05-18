@@ -18,6 +18,7 @@ package me.zbl.authmore.main.oauth;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Set;
  */
 @RedisHash(value = OAuthProperties.KEY_PREFIX_ACCESS_TOKEN_BINDING,
            timeToLive = OAuthProperties.DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS)
-public final class AccessTokenBinding {
+public final class AccessTokenBinding implements Serializable {
 
     @Id
     private String accessToken;
