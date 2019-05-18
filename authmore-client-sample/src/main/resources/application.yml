@@ -6,5 +6,8 @@ authmore:
     client-id: 5cb7e7bcee173c60c379e04e
     client-secret: afLTqlcRUr32UC3nWiUNIMsfOmVlzuzX
     token-issue-url: http://localhost:8086/oauth/token
-    redirect-uri: http://localhost:8090/signin
+    # "/implicit.html" for implicit mode
+    redirect-uri: http://localhost:8090/inbox
     authorize-url: http://localhost:8086/authorize
+    # only for implicit mode
+    implicit-token-uri: http://localhost:8090/token

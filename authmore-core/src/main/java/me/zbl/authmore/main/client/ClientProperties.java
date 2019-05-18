@@ -38,6 +38,8 @@ public final class ClientProperties {
 
     private String redirectUri;
 
+    private String implicitTokenUri;
+
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -92,5 +94,13 @@ public final class ClientProperties {
 
     public void setRedirectUri(String redirectUri) {
         this.redirectUri = redirectUri;
+    }
+
+    public String getImplicitTokenUri() {
+        return implicitTokenUri;
+    }
+
+    public void setImplicitTokenUri(String implicitTokenUri) {
+        this.implicitTokenUri = implicitTokenUri;
     }
 }
