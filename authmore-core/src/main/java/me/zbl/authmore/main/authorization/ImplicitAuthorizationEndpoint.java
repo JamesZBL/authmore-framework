@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @since 2019-05-17
  */
 @Controller
-public class ImplicitEndpoint {
+public class ImplicitAuthorizationEndpoint {
 
     @GetMapping("/implicit.html")
     public String view() {
