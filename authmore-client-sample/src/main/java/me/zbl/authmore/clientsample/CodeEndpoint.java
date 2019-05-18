@@ -21,14 +21,14 @@ import java.util.Map;
  * @since 2019-04-18
  */
 @RestController
-public class InboxEndpoint {
+public class CodeEndpoint {
 
     private AuthorizationCodeTokenManager tokenManager;
     private AuthorizationTemplate authorizationTemplate;
     private static final String SCOPES = "PROFILE,EMAIL";
 
     @Autowired
-    public InboxEndpoint(
+    public CodeEndpoint(
             AuthorizationCodeTokenManager tokenManager,
             AuthorizationTemplate authorizationTemplate) {
         this.tokenManager = tokenManager;
@@ -50,6 +50,6 @@ public class InboxEndpoint {
         TokenResponse token = tokenManager.getToken(SCOPES, params);
         ClientRestTemplate restTemplate =
                 new ClientRestTemplate(token.getAccess_token());
-        return restTemplate.getForObject("http://localhost:8091", Inbox.class);
+        return restTemplate.getForObject("http://localhost:8091/inbox", Inbox.class);
     }
 }
