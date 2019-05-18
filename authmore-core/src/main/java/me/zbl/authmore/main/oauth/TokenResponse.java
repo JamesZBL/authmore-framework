@@ -32,6 +32,12 @@ public class TokenResponse {
 
     public TokenResponse() {}
 
+    public TokenResponse(String access_token, long expires_in, Set<String> scope) {
+        this.access_token = access_token;
+        this.expires_in = expires_in;
+        this.scope = scope;
+    }
+
     public TokenResponse(String access_token, long expires_in, String refresh_token, Set<String> scope) {
         this.access_token = access_token;
         this.expires_in = expires_in;

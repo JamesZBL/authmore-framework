@@ -80,7 +80,7 @@ public abstract class AbstractTokenManager implements TokenManager {
         return new AccessTokenBinding(accessToken, clientId, scopes, userId);
     }
 
-    private void assertValidateScopes(ClientDetails client, Set<String> scopes) {
+    protected void assertValidateScopes(ClientDetails client, Set<String> scopes) {
         boolean validScope = client.getScope().containsAll(scopes);
         if (!validScope)
             throw new OAuthException(INVALID_SCOPE);

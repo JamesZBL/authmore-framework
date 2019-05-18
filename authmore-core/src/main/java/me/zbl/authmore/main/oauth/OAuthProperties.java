@@ -25,6 +25,11 @@ public interface OAuthProperties {
 
     long CODE_VALIDITY_SECONDS = 5 * 60;
     long DEFAULT_ACCESS_TOKEN_VALIDITY_SECONDS = 24 * 60 * 60;
+    String TOKEN_CLIENT_ID = "client_id";
+    String TOKEN_USER_ID = "user_id";
+    String TOKEN_SCOPES = "scopes";
+    String TOKEN_AUTHORITIES = "authorities";
+    String TOKEN_EXPIRE_AT = "expire_at";
     String PARAM_CLIENT_ID = "client_id";
     String PARAM_CLIENT_SECRET = "client_secret";
     String PARAM_USERNAME = "username";

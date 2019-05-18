@@ -24,14 +24,19 @@ public class JWKConfiguration {
     @Bean
     public JWKSet jwkSet() throws NoSuchAlgorithmException {
 
-        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
-        gen.initialize(2048);
-        KeyPair keyPair = gen.generateKeyPair();
+        KeyPair keyPair = keyPair();
         JWK jwk = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
                 .privateKey((RSAPrivateKey) keyPair.getPrivate())
                 .keyUse(KeyUse.SIGNATURE)
                 .keyID(UUID.randomUUID().toString())
                 .build();
         return new JWKSet(jwk);
+    }
+
+    @Bean
+    public KeyPair keyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+        gen.initialize(2048);
+        return gen.generateKeyPair();
     }
 }
