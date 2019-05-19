@@ -18,11 +18,31 @@ package me.zbl.authmore.clientsample;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Sample application for authmore-client-springboot-starter
+ * <p>
+ * Document for testing:
+ * <p>
+ * {
+ * "_id":"5cb7e7bcee173c60c379e04e",
+ * "authorizedGrantTypes":"authorization_code,password,implicit,client_credentials",
+ * "scoped":true,"scope":"PROFILE,EMAIL",
+ * "resourceIds":"MAILBOX",
+ * "isSecretRequired":true,
+ * "clientSecret":"{pbkdf2}cce0073b0e62e2922fe0e9d145da19dc4f3c63c1af95009fd2d1492ecf8c4a5b84a1a72d6013fb1e",
+ * "authorities":"READ",
+ * "registeredRedirectUri":"http://localhost:8090/inbox,http://localhost:8090/implicit.html",
+ * "accessTokenValiditySeconds":99999,
+ * "isAutoApprove":true,
+ * "clientName":"Mailbox Reader",
+ * "_class":"me.zbl.authmore.core.ClientDetails"
+ * }
+ * </p>
+ */
 @SpringBootApplication
 public class ClientSampleApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClientSampleApplication.class, args);
     }
-
 }
