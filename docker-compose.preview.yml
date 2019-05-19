@@ -14,10 +14,10 @@ services:
       - mongo
       - redis
 
-  admin:
+  admin:
     image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore-admin
     command: ["--spring.profiles.active=test"]
-    container_name: admin
+    container_name: admin
     restart: unless-stopped
     networks:
       - authmore
