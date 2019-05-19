@@ -16,11 +16,11 @@
 
 package me.zbl.authmore.clientsample;
 
-import me.zbl.authmore.main.client.AuthorizationCodeTokenManager;
-import me.zbl.authmore.main.client.AuthorizationTemplate;
-import me.zbl.authmore.main.client.ClientRestTemplate;
-import me.zbl.authmore.main.oauth.OAuthProperties;
-import me.zbl.authmore.main.oauth.TokenResponse;
+import me.zbl.authmore.client.AuthorizationCodeTokenManager;
+import me.zbl.authmore.client.AuthorizationTemplate;
+import me.zbl.authmore.client.ClientRestTemplate;
+import me.zbl.authmore.oauth.OAuthProperties;
+import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;

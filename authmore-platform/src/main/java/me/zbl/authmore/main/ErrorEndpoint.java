@@ -15,7 +15,8 @@
  */
 package me.zbl.authmore.main;
 
-import me.zbl.authmore.main.oauth.OAuthErrorResponse;
+import me.zbl.authmore.ErrorResponse;
+import me.zbl.authmore.oauth.OAuthErrorResponse;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.web.bind.annotation.RequestMapping;

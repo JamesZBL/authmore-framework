@@ -15,11 +15,11 @@
  */
 package me.zbl.authmore.configuration;
 
-import me.zbl.authmore.main.client.ClientCredentialsTokenManager;
-import me.zbl.authmore.main.client.ClientProperties;
-import me.zbl.authmore.main.client.ClientRestTemplate;
-import me.zbl.authmore.main.oauth.TokenResponse;
-import me.zbl.reactivesecurity.common.Assert;
+import me.zbl.authmore.client.ClientCredentialsTokenManager;
+import me.zbl.authmore.client.ClientProperties;
+import me.zbl.authmore.client.ClientRestTemplate;
+import me.zbl.authmore.common.Assert;
+import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

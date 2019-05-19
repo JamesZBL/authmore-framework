@@ -15,7 +15,7 @@
  */
 package me.zbl.authmore.main;
 
-import me.zbl.authmore.core.PasswordEncoderFactory;
+import me.zbl.authmore.PasswordEncoderFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;

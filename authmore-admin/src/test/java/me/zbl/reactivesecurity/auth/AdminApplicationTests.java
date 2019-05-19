@@ -15,7 +15,7 @@
  */
 package me.zbl.reactivesecurity.auth;
 
-import me.zbl.authmore.auth.AdminApplication;
+import me.zbl.authmore.admin.AdminApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

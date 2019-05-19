@@ -15,9 +15,9 @@
  */
 package me.zbl.authmore.configuration;
 
-import me.zbl.authmore.main.client.*;
-import me.zbl.authmore.main.oauth.PasswordTokenManager;
-import me.zbl.authmore.main.oauth.RefreshTokenManager;
+import me.zbl.authmore.client.*;
+import me.zbl.authmore.oauth.PasswordTokenManager;
+import me.zbl.authmore.oauth.RefreshTokenManager;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
