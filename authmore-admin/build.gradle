@@ -51,7 +51,7 @@ dependencies {
 docker {
     springBootApplication {
         ports = [8083]
-        tag = "${registryRepository}/auth"
+        tag = "${registryRepository}/authmore-admin"
     }
 }
 

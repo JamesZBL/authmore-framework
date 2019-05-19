@@ -50,7 +50,7 @@ dependencyManagement {
 docker {
     springBootApplication {
         ports = [8086]
-        tag = "${registryRepository}/authmore"
+        tag = "${registryRepository}/authmore-platform"
     }
 }
 

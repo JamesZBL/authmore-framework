@@ -1,13 +1,10 @@
 version: "3"
 
 services:
-  authmore:
-    image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore
+  platform:
+    image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore-platform
     command: ["--spring.profiles.active=test"]
-    build:
-      context: ./authmore
-      dockerfile: Dockerfile.test
-    container_name: authmore
+    container_name: platform
     restart: unless-stopped
     networks:
       - authmore
@@ -17,13 +14,10 @@ services:
       - mongo
       - redis
 
-  auth:
-    image: registry-vpc.cn-beijing.aliyuncs.com/letec/auth
+  admin:
+    image: registry-vpc.cn-beijing.aliyuncs.com/letec/authmore-admin
     command: ["--spring.profiles.active=test"]
-    build:
-      context: ./auth
-      dockerfile: Dockerfile.test
-    container_name: auth
+    container_name: admin
     restart: unless-stopped
     networks:
       - authmore
@@ -42,7 +36,7 @@ services:
     ports:
       - "3002:80"
     depends_on:
-      - auth
+      - admin
 
   redis:
     image: redis
