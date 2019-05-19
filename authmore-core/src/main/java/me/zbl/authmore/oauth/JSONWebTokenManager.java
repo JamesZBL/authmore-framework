@@ -22,7 +22,7 @@ import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import me.zbl.authmore.ClientDetails;
-import me.zbl.authmore.client.ClientDetailsRepository;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;

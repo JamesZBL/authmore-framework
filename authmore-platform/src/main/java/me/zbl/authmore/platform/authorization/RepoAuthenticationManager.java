@@ -20,9 +20,9 @@ import me.zbl.authmore.UserDetails;
 import me.zbl.authmore.authorization.AuthenticationException;
 import me.zbl.authmore.authorization.AuthenticationManager;
 import me.zbl.authmore.authorization.AuthorizationException;
-import me.zbl.authmore.client.ClientDetailsRepository;
 import me.zbl.authmore.oauth.OAuthException;
 import me.zbl.authmore.oauth.OAuthUtil;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

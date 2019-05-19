@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.client;
 
-import me.zbl.authmore.ClientDetails;
-import org.springframework.data.mongodb.repository.MongoRepository;
+package me.zbl.authmore.platform.oauth;
+
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-02-15
+ * @since 2019-05-19
  */
 @Repository
-public interface ClientDetailsRepository extends MongoRepository<ClientDetails, String> {
-
-    Optional<ClientDetails> findByClientId(String clientId);
-}
+public interface AccessTokenRepository extends me.zbl.authmore.repositories.AccessTokenRepository {}

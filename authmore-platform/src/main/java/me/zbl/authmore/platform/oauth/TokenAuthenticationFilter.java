@@ -17,10 +17,10 @@ package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.ClientDetails;
 import me.zbl.authmore.authorization.RequestProperties;
-import me.zbl.authmore.client.ClientDetailsRepository;
 import me.zbl.authmore.oauth.OAuthFilter;
 import me.zbl.authmore.oauth.OAuthProperties;
 import me.zbl.authmore.oauth.OAuthUtil;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.FilterChain;

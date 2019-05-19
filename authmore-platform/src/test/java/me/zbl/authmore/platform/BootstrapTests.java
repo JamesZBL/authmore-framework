@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore;
+package me.zbl.authmore.platform;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -27,11 +27,11 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
-import me.zbl.authmore.client.ClientDetailsRepository;
-import me.zbl.authmore.main.Bootstrap;
+import me.zbl.authmore.ClientDetails;
 import me.zbl.authmore.oauth.JSONWebTokenManager;
 import me.zbl.authmore.oauth.OAuthProperties;
 import me.zbl.authmore.oauth.TokenResponse;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

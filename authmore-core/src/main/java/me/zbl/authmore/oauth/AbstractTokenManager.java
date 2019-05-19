@@ -16,8 +16,8 @@
 package me.zbl.authmore.oauth;
 
 import me.zbl.authmore.ClientDetails;
-import me.zbl.authmore.client.ClientDetailsRepository;
 import me.zbl.authmore.common.UniqueToken;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 
 import java.util.Set;
 

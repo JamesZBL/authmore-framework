@@ -15,13 +15,13 @@
  */
 package me.zbl.authmore.platform.oauth;
 
-import me.zbl.authmore.client.ClientDetailsRepository;
 import me.zbl.authmore.oauth.CodeManager;
 import me.zbl.authmore.oauth.RedisTokenManager;
 import me.zbl.authmore.oauth.TokenManager;
 import me.zbl.authmore.platform.authorization.CodeRepository;
 import me.zbl.authmore.platform.authorization.RedisCodeManager;
 import me.zbl.authmore.repositories.AccessTokenRepository;
+import me.zbl.authmore.repositories.ClientDetailsRepository;
 import me.zbl.authmore.repositories.RefreshTokenRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -35,34 +35,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 public class TokenManagerConfiguration {
 
-    private final AccessTokenRepository tokens;
-    private final RefreshTokenRepository refreshTokens;
-    private final RedisTemplate<String, String> redisTemplate;
-    private final ClientDetailsRepository clients;
-    private final CodeRepository codes;
-
-    public TokenManagerConfiguration(
-            AccessTokenRepository tokens,
-            RefreshTokenRepository refreshTokens,
-            RedisTemplate<String, String> redisTemplate,
-            ClientDetailsRepository clients,
-            CodeRepository codes) {
-        this.tokens = tokens;
-        this.refreshTokens = refreshTokens;
-        this.redisTemplate = redisTemplate;
-        this.clients = clients;
-        this.codes = codes;
-    }
-
     @Bean
     @ConditionalOnMissingBean({TokenManager.class})
-    public TokenManager tokenManager() {
+    public TokenManager tokenManager(
+            AccessTokenRepository tokens,
+            RefreshTokenRepository refreshTokens,
+            RedisTemplate<String, String> redisTemplate, ClientDetailsRepository clients) {
         return new RedisTokenManager(tokens, refreshTokens, redisTemplate, clients);
     }
 
     @Bean
     @ConditionalOnMissingBean({CodeManager.class})
-    public CodeManager codeManager() {
+    public CodeManager codeManager(CodeRepository codes) {
         return new RedisCodeManager(codes);
     }
 }
