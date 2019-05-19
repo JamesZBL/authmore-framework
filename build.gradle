@@ -92,7 +92,7 @@ subprojects {
 
                 pom {
                     name = 'Authmore'
-                    description 'A lightweight development kit for building OAuth2 open platform.'
+                    description = 'A lightweight development kit for building OAuth2 open platform.'
                     url = 'https://github.com/jameszbl/authmore'
                     licenses {
                         license {
