@@ -34,21 +34,30 @@ public class AuthorizationTemplate implements AuthorizationOperations {
     private final String authorizeUrl;
     private final String clientId;
     private final String redirectUrl;
+    private final String implicitRedirectUrl;
 
-    public AuthorizationTemplate(ClientProperties client) {
+    public AuthorizationTemplate(ClientConfigurationProperties client) {
         this.authorizeUrl = client.getAuthorizeUri();
         this.clientId = client.getClientId();
         this.redirectUrl = client.getRedirectUri();
+        this.implicitRedirectUrl = client.getImplicitRedirectUri();
     }
 
     @Override
     public void redirectToUserAuthorize(HttpServletResponse response, ResponseTypes type, String scope)
             throws IOException {
-        Assert.notEmpty(redirectUrl, "redirect url is required");
+        String redirect;
+        if (type == ResponseTypes.TOKEN) {
+            redirect = implicitRedirectUrl;
+        } else {
+            redirect = redirectUrl;
+        }
+        Assert.notEmpty(authorizeUrl, "authorize url is required");
+        Assert.notEmpty(redirect, "redirect url is required");
         Map<String, String> params = new HashMap<>();
         params.put(OAuthProperties.PARAM_RESPONSE_TYPE, type.getName());
         params.put(OAuthProperties.PARAM_CLIENT_ID, clientId);
-        params.put(OAuthProperties.PARAM_REDIRECT_URI, redirectUrl);
+        params.put(OAuthProperties.PARAM_REDIRECT_URI, redirect);
         params.put(OAuthProperties.PARAM_SCOPE, scope);
         response.sendRedirect(authorizeUrl + "?" + RequestUtil.queryStringOf(params));
     }

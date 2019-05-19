@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.client;
 
-import me.zbl.authmore.client.AbstractTokenManager;
 import me.zbl.authmore.common.Assert;
+import me.zbl.authmore.oauth.OAuthProperties;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
@@ -25,9 +25,9 @@ import java.util.Map;
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class PasswordTokenManager extends AbstractTokenManager {
+public final class RefreshTokenManager extends AbstractClientTokenManager {
 
-    public PasswordTokenManager(
+    public RefreshTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
@@ -38,14 +38,12 @@ public final class PasswordTokenManager extends AbstractTokenManager {
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
         super.enhanceQueryParams(params);
-        String userName = params.get(OAuthProperties.PARAM_USERNAME);
-        String password = params.get(OAuthProperties.PARAM_PASSWORD);
-        Assert.notEmpty(userName, "username cannot be empty");
-        Assert.notEmpty(password, "password cannot be empty");
+        String refreshToken = params.get(OAuthProperties.PARAM_REFRESH_TOKEN);
+        Assert.notEmpty(refreshToken, refreshToken);
     }
 
     @Override
     protected final OAuthProperties.GrantTypes getGrantType() {
-        return OAuthProperties.GrantTypes.PASSWORD;
+        return OAuthProperties.GrantTypes.REFRESH_TOKEN;
     }
 }

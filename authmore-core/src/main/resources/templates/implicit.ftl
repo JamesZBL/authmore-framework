@@ -6,9 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Authmore Implicit</title>
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
-    <script src="/implicit.js"></script>
 </head>
 <body>
 <h1>Redirecting...</h1>
 </body>
 </html>
+<script>
+    $(function () {
+        var hash = location.hash;
+        $.post("${callBackUri}", {
+            hash: hash
+        }, function (r) {
+            console.log(r);
+        });
+    });
+</script>

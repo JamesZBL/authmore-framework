@@ -27,7 +27,7 @@ import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes;
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class AuthorizationCodeTokenManager extends AbstractTokenManager {
+public final class AuthorizationCodeTokenManager extends AbstractClientTokenManager {
 
     public AuthorizationCodeTokenManager(
             RestTemplate client,

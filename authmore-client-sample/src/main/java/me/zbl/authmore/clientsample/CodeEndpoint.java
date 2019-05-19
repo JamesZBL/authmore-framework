@@ -41,7 +41,7 @@ public class CodeEndpoint {
 
     private AuthorizationCodeTokenManager tokenManager;
     private AuthorizationTemplate authorizationTemplate;
-    private static final String SCOPES = "PROFILE,EMAIL";
+    private static final String SCOPES = "PROFILE+EMAIL";
 
     @Autowired
     public CodeEndpoint(

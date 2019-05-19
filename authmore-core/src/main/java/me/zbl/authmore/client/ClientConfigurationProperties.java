@@ -22,7 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2019-03-01
  */
 @ConfigurationProperties(prefix = "authmore.client")
-public final class ClientProperties {
+public final class ClientConfigurationProperties {
 
     private String clientId;
 
@@ -39,6 +39,8 @@ public final class ClientProperties {
     private String redirectUri;
 
     private String implicitTokenUri;
+
+    private String implicitRedirectUri;
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -102,5 +104,13 @@ public final class ClientProperties {
 
     public void setImplicitTokenUri(String implicitTokenUri) {
         this.implicitTokenUri = implicitTokenUri;
+    }
+
+    public String getImplicitRedirectUri() {
+        return implicitRedirectUri;
+    }
+
+    public void setImplicitRedirectUri(String implicitRedirectUri) {
+        this.implicitRedirectUri = implicitRedirectUri;
     }
 }

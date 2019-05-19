@@ -8,6 +8,7 @@ authmore:
     token-issue-url: http://localhost:8086/oauth/token
     # "/implicit.html" for implicit mode
     redirect-uri: http://localhost:8090/inbox
-    authorize-url: http://localhost:8086/authorize
+    authorize-uri: http://localhost:8086/authorize
     # only for implicit mode
     implicit-token-uri: http://localhost:8090/token
+    implicit-redirect-uri: http://localhost:8090/implicit.html

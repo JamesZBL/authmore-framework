@@ -31,14 +31,14 @@ import static java.util.Collections.EMPTY_MAP;
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public abstract class AbstractTokenManager implements ClientTokenOperations {
+public abstract class AbstractClientTokenManager implements ClientTokenOperations {
 
     private final RestTemplate client;
     private final String clientId;
     private final String clientSecret;
     private final String tokenIssueUrl;
 
-    public AbstractTokenManager(
+    public AbstractClientTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,

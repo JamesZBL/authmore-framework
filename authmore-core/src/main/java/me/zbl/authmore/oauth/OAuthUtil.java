@@ -29,7 +29,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  */
 public final class OAuthUtil {
 
-    private static final String SCOPE_DELIMITER = "\\+";
+    private static final String SCOPE_DELIMITER = " ";
     private static final String AUTHORITY_DELIMITER = ",";
 
     private OAuthUtil() {}
@@ -53,8 +53,7 @@ public final class OAuthUtil {
     public static void validateClientAndScope(ClientDetails client, String scope, boolean notEmptyScope) {
         if (!isEmpty(scope)) {
             Set<String> registeredScope = client.getScope();
-            boolean validScope = Arrays.stream(scope.split("\\+"))
-                    .allMatch(s -> registeredScope.contains(scope));
+            boolean validScope = registeredScope.containsAll(Arrays.asList(scope.split(SCOPE_DELIMITER)));
             if (!validScope)
                 throw new OAuthException(OAuthException.INVALID_SCOPE);
         } else {

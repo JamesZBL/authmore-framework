@@ -16,7 +16,7 @@
 package me.zbl.authmore.clientsample;
 
 import me.zbl.authmore.client.ClientRestTemplate;
-import me.zbl.authmore.oauth.PasswordTokenManager;
+import me.zbl.authmore.client.PasswordTokenManager;
 import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

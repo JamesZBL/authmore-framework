@@ -17,13 +17,11 @@
 package me.zbl.authmore.clientsample;
 
 import me.zbl.authmore.client.AuthorizationTemplate;
-import me.zbl.authmore.client.ClientRestTemplate;
 import me.zbl.authmore.oauth.OAuthProperties;
-import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +35,7 @@ import java.io.IOException;
 public class ImplicitEndpoint {
 
     private final AuthorizationTemplate authorizationTemplate;
-    private static final String SCOPES = "PROFILE,EMAIL";
+    private static final String SCOPES = "PROFILE+EMAIL";
 
     @Autowired
     public ImplicitEndpoint(AuthorizationTemplate authorizationTemplate) {
@@ -49,10 +47,15 @@ public class ImplicitEndpoint {
         authorizationTemplate.redirectToUserAuthorize(response, OAuthProperties.ResponseTypes.TOKEN, SCOPES);
     }
 
+    //    @PostMapping("/token")
+    //    public Object token(@RequestBody TokenResponse tokenResponse) {
+    //        String token = tokenResponse.getAccess_token();
+    //        ClientRestTemplate restTemplate = new ClientRestTemplate(token);
+    //        return restTemplate.getForObject("http://localhost:8091/inbox", Inbox.class);
+    //    }
+
     @PostMapping("/token")
-    public Object token(@RequestBody TokenResponse tokenResponse) {
-        String token = tokenResponse.getAccess_token();
-        ClientRestTemplate restTemplate = new ClientRestTemplate(token);
-        return restTemplate.getForObject("http://localhost:8091/inbox", Inbox.class);
+    public Object token(@RequestParam String hash) {
+        return hash;
     }
 }

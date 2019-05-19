@@ -15,8 +15,8 @@
  */
 package me.zbl.authmore.configuration;
 
+import me.zbl.authmore.client.ClientConfigurationProperties;
 import me.zbl.authmore.client.ClientCredentialsTokenManager;
-import me.zbl.authmore.client.ClientProperties;
 import me.zbl.authmore.client.ClientRestTemplate;
 import me.zbl.authmore.common.Assert;
 import me.zbl.authmore.oauth.TokenResponse;
@@ -34,7 +34,7 @@ import java.util.Collections;
  */
 @Configuration
 @Import({TokenManagerAutoConfiguration.class})
-@EnableConfigurationProperties({ClientProperties.class})
+@EnableConfigurationProperties({ClientConfigurationProperties.class})
 public class RestTemplateAutoConfiguration {
 
     private final boolean isRequestTokenOnStartup;
@@ -42,7 +42,7 @@ public class RestTemplateAutoConfiguration {
     private final ClientCredentialsTokenManager tokenManager;
 
     public RestTemplateAutoConfiguration(
-            ClientProperties clientConfigurationProperties,
+            ClientConfigurationProperties clientConfigurationProperties,
             ClientCredentialsTokenManager tokenManager) {
         this.isRequestTokenOnStartup = clientConfigurationProperties.isRequestTokenOnStartup();
         this.scope = clientConfigurationProperties.getScope();

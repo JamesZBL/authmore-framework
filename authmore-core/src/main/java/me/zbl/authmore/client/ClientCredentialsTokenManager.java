@@ -23,7 +23,7 @@ import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes;
  * @author ZHENG BAO LE
  * @since 2019-03-02
  */
-public final class ClientCredentialsTokenManager extends AbstractTokenManager {
+public final class ClientCredentialsTokenManager extends AbstractClientTokenManager {
 
     public ClientCredentialsTokenManager(
             RestTemplate client,

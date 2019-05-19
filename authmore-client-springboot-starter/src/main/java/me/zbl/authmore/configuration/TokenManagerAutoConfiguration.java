@@ -16,8 +16,6 @@
 package me.zbl.authmore.configuration;
 
 import me.zbl.authmore.client.*;
-import me.zbl.authmore.oauth.PasswordTokenManager;
-import me.zbl.authmore.oauth.RefreshTokenManager;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,7 +32,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  */
 @Configuration
 @ConditionalOnClass({ClientRestTemplate.class})
-@EnableConfigurationProperties({ClientProperties.class})
+@EnableConfigurationProperties({ClientConfigurationProperties.class})
 public class TokenManagerAutoConfiguration implements SmartInitializingSingleton {
 
     private final String clientId;
@@ -42,7 +40,7 @@ public class TokenManagerAutoConfiguration implements SmartInitializingSingleton
     private final String tokenIssueUrl;
 
     public TokenManagerAutoConfiguration(
-            ClientProperties clientConfigurationProperties) {
+            ClientConfigurationProperties clientConfigurationProperties) {
         this.clientId = clientConfigurationProperties.getClientId();
         this.clientSecret = clientConfigurationProperties.getClientSecret();
         this.tokenIssueUrl = clientConfigurationProperties.getTokenIssueUrl();
