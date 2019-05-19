@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.authorization;
+package me.zbl.authmore.platform.authorization;
 
+import me.zbl.authmore.authorization.AbstractCodeManager;
+import me.zbl.authmore.authorization.CodeBinding;
 import me.zbl.authmore.oauth.OAuthException;
 
 import static me.zbl.authmore.oauth.OAuthException.INVALID_CODE;
@@ -33,7 +35,7 @@ public class RedisCodeManager extends AbstractCodeManager {
     }
 
     @Override
-    void saveCode(CodeBinding codeBinding) {
+    public void saveCode(CodeBinding codeBinding) {
         authorizationCodes.save(codeBinding);
     }
 

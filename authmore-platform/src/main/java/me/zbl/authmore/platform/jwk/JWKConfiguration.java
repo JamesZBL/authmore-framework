@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.zbl.authmore.main.jwk;
+package me.zbl.authmore.platform.jwk;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;

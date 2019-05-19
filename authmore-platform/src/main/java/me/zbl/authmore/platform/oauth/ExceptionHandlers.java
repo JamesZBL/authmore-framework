@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.authorization.AuthorizationException;
+import me.zbl.authmore.oauth.OAuthErrorResponse;
+import me.zbl.authmore.oauth.OAuthException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;

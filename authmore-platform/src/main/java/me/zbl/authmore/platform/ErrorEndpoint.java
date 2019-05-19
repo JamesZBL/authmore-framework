@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main;
+package me.zbl.authmore.platform;
 
 import me.zbl.authmore.ErrorResponse;
 import me.zbl.authmore.oauth.OAuthErrorResponse;

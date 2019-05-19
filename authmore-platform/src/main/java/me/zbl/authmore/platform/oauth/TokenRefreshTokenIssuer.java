@@ -13,32 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.ClientDetails;
+import me.zbl.authmore.oauth.OAuthUtil;
+import me.zbl.authmore.oauth.TokenManager;
+import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
-import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes.CLIENT_CREDENTIALS;
+import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes.REFRESH_TOKEN;
 
 /**
  * @author ZHENG BAO LE
  * @since 2019-03-03
  */
 @Component
-public final class TokenClientCredentialsTokenIssuer {
+public final class TokenRefreshTokenIssuer {
 
     private final TokenManager tokenManager;
 
-    public TokenClientCredentialsTokenIssuer(TokenManager tokenManager) {
+    public TokenRefreshTokenIssuer(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
     }
 
-    public TokenResponse issue(ClientDetails client, String scope) {
-        OAuthUtil.validateClientAndGrantType(client, CLIENT_CREDENTIALS);
-        OAuthUtil.validateClientAndScope(client, scope);
-        Set<String> scopes = OAuthUtil.scopeSet(scope);
-        return tokenManager.create(client, null, scopes);
+    public TokenResponse issue(ClientDetails client, String refreshToken) {
+        OAuthUtil.validateClientAndGrantType(client, REFRESH_TOKEN);
+        return tokenManager.refresh(refreshToken);
     }
 }

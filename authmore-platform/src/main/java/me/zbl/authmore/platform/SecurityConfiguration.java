@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package me.zbl.authmore.platform;
 
-package me.zbl.authmore.main.jwk;
-
-import com.nimbusds.jose.jwk.JWKSet;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
+import me.zbl.authmore.PasswordEncoderFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-05-14
+ * @since 2019-02-15
  */
-@RestController
-public class JWKSetEndpoint {
+@Configuration
+public class SecurityConfiguration {
 
-    private final JWKSet jwkSetBean;
-
-    public JWKSetEndpoint(JWKSet jwkSet) {
-        this.jwkSetBean = jwkSet;
-    }
-
-    @GetMapping("/oauth/jwks")
-    public Map<String, Object> jwkSet() {
-        return this.jwkSetBean.toJSONObject();
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactory.createDelegatingPasswordEncoder();
     }
 }

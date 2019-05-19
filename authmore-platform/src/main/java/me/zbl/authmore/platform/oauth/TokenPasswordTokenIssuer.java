@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.ClientDetails;
 import me.zbl.authmore.UserDetails;
-import me.zbl.authmore.authorization.UserDetailsRepository;
+import me.zbl.authmore.oauth.*;
+import me.zbl.authmore.platform.authorization.UserDetailsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

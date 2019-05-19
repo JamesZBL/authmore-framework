@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.authorization;
+package me.zbl.authmore.platform.authorization;
 
+import me.zbl.authmore.authorization.CodeBinding;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

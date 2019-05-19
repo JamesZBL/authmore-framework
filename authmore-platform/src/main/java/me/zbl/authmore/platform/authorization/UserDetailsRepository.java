@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.main;
+package me.zbl.authmore.platform.authorization;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import me.zbl.authmore.UserDetails;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-@ServletComponentScan
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class Bootstrap {
+import java.util.Optional;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Bootstrap.class, args);
-    }
+/**
+ * @author ZHENG BAO LE
+ * @since 2019-02-14
+ */
+@Repository
+public interface UserDetailsRepository extends MongoRepository<UserDetails, String> {
+
+    Optional<UserDetails> findByUsername(String userName);
 }
-

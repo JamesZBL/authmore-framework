@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.authorization;
+package me.zbl.authmore.platform.authorization;
 
 import me.zbl.authmore.UserDetails;
+import me.zbl.authmore.authorization.AuthenticationException;
+import me.zbl.authmore.authorization.AuthenticationManager;
+import me.zbl.authmore.authorization.SessionManager;
+import me.zbl.authmore.authorization.SessionProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

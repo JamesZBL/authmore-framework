@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.ClientDetails;
 import me.zbl.authmore.authorization.CodeBinding;
+import me.zbl.authmore.oauth.CodeManager;
+import me.zbl.authmore.oauth.OAuthException;
+import me.zbl.authmore.oauth.TokenManager;
+import me.zbl.authmore.oauth.TokenResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;

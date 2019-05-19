@@ -33,5 +33,5 @@ public abstract class AbstractCodeManager implements CodeManager {
         saveCode(codeBinding);
     }
 
-    abstract void saveCode(CodeBinding codeBinding);
+    public abstract void saveCode(CodeBinding codeBinding);
 }

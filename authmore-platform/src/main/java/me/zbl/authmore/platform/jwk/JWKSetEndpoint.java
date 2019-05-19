@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
 
-import me.zbl.authmore.ClientDetails;
-import org.springframework.stereotype.Component;
+package me.zbl.authmore.platform.jwk;
 
-import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes.REFRESH_TOKEN;
+import com.nimbusds.jose.jwk.JWKSet;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author ZHENG BAO LE
- * @since 2019-03-03
+ * @since 2019-05-14
  */
-@Component
-public final class TokenRefreshTokenIssuer {
+@RestController
+public class JWKSetEndpoint {
 
-    private final TokenManager tokenManager;
+    private final JWKSet jwkSetBean;
 
-    public TokenRefreshTokenIssuer(TokenManager tokenManager) {
-        this.tokenManager = tokenManager;
+    public JWKSetEndpoint(JWKSet jwkSet) {
+        this.jwkSetBean = jwkSet;
     }
 
-    public TokenResponse issue(ClientDetails client, String refreshToken) {
-        OAuthUtil.validateClientAndGrantType(client, REFRESH_TOKEN);
-        return tokenManager.refresh(refreshToken);
+    @GetMapping("/oauth/jwks")
+    public Map<String, Object> jwkSet() {
+        return this.jwkSetBean.toJSONObject();
     }
 }

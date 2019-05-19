@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zbl.authmore.oauth;
+package me.zbl.authmore.platform.oauth;
 
-import me.zbl.authmore.authorization.CodeRepository;
-import me.zbl.authmore.authorization.RedisCodeManager;
 import me.zbl.authmore.client.ClientDetailsRepository;
+import me.zbl.authmore.oauth.CodeManager;
+import me.zbl.authmore.oauth.RedisTokenManager;
+import me.zbl.authmore.oauth.TokenManager;
+import me.zbl.authmore.platform.authorization.CodeRepository;
+import me.zbl.authmore.platform.authorization.RedisCodeManager;
 import me.zbl.authmore.repositories.AccessTokenRepository;
 import me.zbl.authmore.repositories.RefreshTokenRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
