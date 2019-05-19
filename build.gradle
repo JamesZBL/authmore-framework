@@ -41,7 +41,7 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'java-library'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'signing'
     apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
@@ -71,20 +71,74 @@ subprojects {
     }
 
     task sourcesJar(type: Jar) {
-        archiveClassifier = 'sources'
         from sourceSets.main.allJava
+        archiveClassifier = 'sources'
     }
 
     task javadocJar(type: Jar) {
-        archiveClassifier = 'javadoc'
         from javadoc
+        archiveClassifier = 'javadoc'
     }
 
-    artifacts {
-        archives javadocJar, sourcesJar
+    publishing {
+
+        publications {
+
+            mavenJava(MavenPublication) {
+
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+
+                pom {
+                    name = 'Authmore'
+                    description 'A lightweight development kit for building OAuth2 open platform.'
+                    url = 'https://github.com/jameszbl/authmore'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'JamesZBL'
+                            name = 'ZHENG BAO LE'
+                            email = '1146556298@qq.com'
+                            organization = 'letec.top'
+                            organizationUrl = 'http://b.letec.top'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/jameszbl/authmore.git'
+                        developerConnection = 'scm:git:ssh://github.com/jameszbl/authmore.git'
+                        url = 'https://github.com/jameszbl/authmore'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username = System.getenv("SONATYPE_USERNAME")
+                    password = System.getenv("SONATYPE_PASSWORD")
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
     }
 
     javadoc {
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+        }
         afterEvaluate {
             configure(options) {
                 encoding "UTF-8"
@@ -93,61 +147,6 @@ subprojects {
                 version true
                 failOnError false
                 links "http://docs.oracle.com/javase/8/docs/api"
-            }
-        }
-    }
-
-    signing {
-        sign configurations.archives
-    }
-
-    signArchives.enabled = project.hasProperty("signing.keyId")
-
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-
-                def username = System.getenv("SONATYPE_USERNAME")
-                def password = System.getenv("SONATYPE_PASSWORD")
-
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication userName: username, password: password
-                }
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication userName: username, password: password
-                }
-
-                pom.project {
-                    name 'Authmore'
-                    packaging 'jar'
-                    description 'A lightweight development kit for building OAuth2 open platform.'
-                    url 'https://github.com/jameszbl/authmore'
-
-                    scm {
-                        connection 'scm:git:git://github.com/jameszbl/authmore.git'
-                        developerConnection 'scm:git:ssh://github.com/jameszbl/authmore.git'
-                        url 'http://github.com/jameszbl/authmore'
-                    }
-
-                    licenses {
-                        license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id 'JamesZBL'
-                            name 'ZHENG BAO LE'
-                            email '1146556298@qq.com'
-                            organization 'letec.top'
-                            organizationUrl 'http://b.letec.top'
-                        }
-                    }
-                }
             }
         }
     }

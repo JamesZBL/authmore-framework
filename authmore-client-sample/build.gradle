@@ -32,8 +32,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-signArchives.enabled = false
-uploadArchives.enabled = false
+signMavenJavaPublication.enabled = false
+publishMavenJavaPublicationToMavenRepository.enabled = false
 dockerBuildImage.enabled = false
 dockerPushImage.enabled = false
 test.enabled = false
