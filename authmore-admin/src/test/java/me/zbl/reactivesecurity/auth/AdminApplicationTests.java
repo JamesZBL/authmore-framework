@@ -18,14 +18,34 @@ package me.zbl.reactivesecurity.auth;
 import me.zbl.authmore.admin.AdminApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AdminApplication.class})
 public class AdminApplicationTests {
 
+    @Autowired
+    private MongoTemplate mongo;
+
     @Test
-    public void contextLoads() {}
+    public void contextLoads() {
+        mongo.save("{\n" +
+                "  \"_id\":ObjectId(\"5cb7e7bcee173c60c379e04e\"),\n" +
+                "  \"authorizedGrantTypes\":\"authorization_code,password,implicit,client_credentials\",\n" +
+                "  \"scoped\":true,\"scope\":\"PROFILE,EMAIL\",\n" +
+                "  \"resourceIds\":\"MAILBOX\",\n" +
+                "  \"isSecretRequired\":true,\n" +
+                "  \"clientSecret\":\"{pbkdf2}cce0073b0e62e2922fe0e9d145da19dc4f3c63c1af95009fd2d1492ecf8c4a5b84a1a72d6013fb1e\",\n" +
+                "  \"authorities\":\"READ\",\n" +
+                "  \"registeredRedirectUri\":\"http://localhost:8090/inbox,http://localhost:8090/implicit.html\",\n" +
+                "  \"accessTokenValiditySeconds\":99999,\n" +
+                "  \"isAutoApprove\":true,\n" +
+                "  \"clientName\":\"Mailbox Reader\",\n" +
+                "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
+                "  }", "clientDetails");
+    }
 }
 
