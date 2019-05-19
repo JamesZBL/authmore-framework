@@ -55,5 +55,5 @@ docker {
     }
 }
 
-signArchives.enabled=false
+signArchives.enabled = false
 uploadArchives.enabled = false
