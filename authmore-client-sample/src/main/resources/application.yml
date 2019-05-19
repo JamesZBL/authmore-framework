@@ -5,6 +5,8 @@ authmore:
   client:
     client-id: 5cb7e7bcee173c60c379e04e
     client-secret: afLTqlcRUr32UC3nWiUNIMsfOmVlzuzX
+    request-token-on-startup: true
+    scope: PROFILE+EMAIL
     token-issue-url: http://localhost:8086/oauth/token
     # "/implicit.html" for implicit mode
     redirect-uri: http://localhost:8090/inbox

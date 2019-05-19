@@ -29,17 +29,22 @@ import static me.zbl.authmore.oauth.OAuthProperties.GrantTypes;
  */
 public final class AuthorizationCodeTokenManager extends AbstractClientTokenManager {
 
+    private String redirectUri;
+
     public AuthorizationCodeTokenManager(
             RestTemplate client,
             String clientId,
             String clientSecret,
-            String tokenIssueUrl) {
+            String tokenIssueUrl,
+            String redirectUri) {
         super(client, clientId, clientSecret, tokenIssueUrl);
+        this.redirectUri = redirectUri;
     }
 
     @Override
     protected void enhanceQueryParams(Map<String, String> params) {
         super.enhanceQueryParams(params);
+        params.put(OAuthProperties.PARAM_REDIRECT_URI, redirectUri);
         String code = params.get(OAuthProperties.PARAM_CODE);
         Assert.notEmpty(code, "code cannot be empty");
     }

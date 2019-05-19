@@ -35,8 +35,8 @@ public class ClientCredentialsEndpoint {
         this.grantedClient = grantedClient;
     }
 
-    @GetMapping("/client")
-    public String clientCredentials() {
+    @GetMapping(value = "/client", produces = {"application/json"})
+    public Object clientCredentials() {
         return this.grantedClient.getForObject("http://localhost:8091/inbox", String.class);
     }
 }

@@ -51,7 +51,7 @@ public class CodeEndpoint {
         this.authorizationTemplate = authorizationTemplate;
     }
 
-    @GetMapping("/inbox")
+    @GetMapping(value = "/inbox", produces = {"application/json"})
     public Object inbox(
             @RequestParam(value = "code", required = false) String code,
             HttpServletResponse response) throws IOException {
@@ -64,8 +64,7 @@ public class CodeEndpoint {
         Map<String, String> params = new HashMap<>();
         params.put("code", code);
         TokenResponse token = tokenManager.getToken(SCOPES, params);
-        ClientRestTemplate restTemplate =
-                new ClientRestTemplate(token.getAccess_token());
-        return restTemplate.getForObject("http://localhost:8091/inbox", Inbox.class);
+        ClientRestTemplate restTemplate = new ClientRestTemplate(token.getAccess_token());
+        return restTemplate.getForObject("http://localhost:8091/inbox", String.class);
     }
 }

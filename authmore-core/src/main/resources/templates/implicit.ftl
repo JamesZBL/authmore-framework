@@ -13,11 +13,24 @@
 </html>
 <script>
     $(function () {
-        var hash = location.hash;
-        $.post("${callBackUri}", {
-            hash: hash
-        }, function (r) {
-            console.log(r);
+        var hash = location.hash.replace('#', '');
+        var body = {};
+
+        hash.split('&').map(function (value) {
+            return value.split('=')
+        }).forEach(function (value) {
+            body[value[0]] = value[1];
         });
+
+        $.ajax({
+                url: "${callBackUri}",
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(body),
+                success: function (r) {
+                    document.write(r);
+                }
+            }
+        );
     });
 </script>

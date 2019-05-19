@@ -38,19 +38,21 @@ public class TokenManagerAutoConfiguration implements SmartInitializingSingleton
     private final String clientId;
     private final String clientSecret;
     private final String tokenIssueUrl;
+    private final String redirectUri;
 
     public TokenManagerAutoConfiguration(
             ClientConfigurationProperties clientConfigurationProperties) {
         this.clientId = clientConfigurationProperties.getClientId();
         this.clientSecret = clientConfigurationProperties.getClientSecret();
         this.tokenIssueUrl = clientConfigurationProperties.getTokenIssueUrl();
+        this.redirectUri = clientConfigurationProperties.getRedirectUri();
     }
 
     @Bean
     @ConditionalOnMissingBean({AuthorizationCodeTokenManager.class})
     public AuthorizationCodeTokenManager clientAuthorizationCodeTokenManager() {
         return new AuthorizationCodeTokenManager(
-                createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl);
+                createTokenRestTemplate(), clientId, clientSecret, tokenIssueUrl, redirectUri);
     }
 
     @Bean

@@ -38,8 +38,8 @@ public class PasswordEndpoint {
         this.passwordTokenManager = passwordTokenManager;
     }
 
-    @GetMapping("/password")
-    public String password() {
+    @GetMapping(value = "/password", produces = {"application/json"})
+    public Object password() {
         Map<String, String> params = new HashMap<>();
         params.put("username", "james");
         params.put("password", "123456");
