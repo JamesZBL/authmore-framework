@@ -31,5 +31,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-signArchives.enabled=false
+signArchives.enabled = false
 uploadArchives.enabled = false
+dockerBuildImage.enabled = false
+dockerPushImage.enabled = false
