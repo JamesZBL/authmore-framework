@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package me.zbl.authmore.authorization;
+package me.zbl.authmore.client;
 
-import me.zbl.authmore.client.ClientConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
