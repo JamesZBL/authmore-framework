@@ -106,7 +106,7 @@ subprojects {
                             name = 'ZHENG BAO LE'
                             email = '1146556298@qq.com'
                             organization = 'letec.top'
-                            organizationUrl = 'http://b.letec.top'
+                            organizationUrl = 'https://b.letec.top'
                         }
                     }
                     scm {
