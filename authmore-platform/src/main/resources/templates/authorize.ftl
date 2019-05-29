@@ -11,7 +11,7 @@
         <div class="col-md-6 offset-3">
             <div class="card p-5">
                 <div class="p-5">
-                    <h2 class="pb-3 pt-5"><b>你好, ${(Session.current_user)!'用户'}: </b></h2>
+                    <h2 class="pb-3 pt-5"><b>你好, ${(Session.current_user)!'用户'} :) </b></h2>
                     <h5 class="pb-3">允许应用 <b>${(client.clientName)!(client.clientId)}</b> 访问你的数据吗？</h5>
                 </div>
                 <form id="id_form_opinion" action="/authorize/confirm" method="post">
