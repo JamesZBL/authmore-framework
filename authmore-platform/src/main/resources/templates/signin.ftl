@@ -2,17 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign in - Authmore</title>
+    <title>用户登录 - Authmore 开放平台</title>
+    <#include "./dist.ftl">
 </head>
 <body>
-<h1>Please Sign in</h1>
-<h4>${error!}</h4>
-<form action="/signin?from=${RequestParameters['from']!}" method="post">
-    <label for="ui">Username</label>
-    <input id="ui" type="text" name="ui" title="Username"><br>
-    <label for="uc">Password</label>
-    <input id="uc" type="password" name="uc" title="Password"><br>
-    <input type="submit" value="Sign In">
+<#include "./header.ftl">
+<div class="header text-center mb-5">
+    <img class="logo" src="/logo.png" alt="Authmore">
+    <h3 class="title">Authmore 开放平台</h3>
+    <h4 class="mb-lg-3">用 户 登 录</h4>
+</div>
+<#if error?? >
+    <div class="alert alert-danger" role="alert">
+        ${error!}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</#if>
+<form class="form-signin" action="/signin?from=${RequestParameters['from']!}" method="post">
+    <input type="text" id="ui" name="ui" class="form-control" placeholder="用户名" required autofocus>
+    <input type="password" id="uc" name="uc" class="form-control" placeholder="密 码" required>
+    <div class="checkbox mt-3">
+        <label>
+            <input type="checkbox" value="remember-me" class="mr-2">记住我
+        </label>
+    </div>
+    <button class="btn btn-primary btn-block" type="submit">登 录</button>
 </form>
+<#include "./footer.ftl">
 </body>
 </html>

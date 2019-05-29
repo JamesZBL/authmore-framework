@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'com.nimbusds:nimbus-jose-jwt:6.0.2'
     implementation 'org.webjars:jquery:3.4.1'
+    implementation 'org.webjars:bootstrap:4.3.1'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'

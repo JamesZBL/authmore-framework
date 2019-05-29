@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Sign in into ${(client.clientName)!(client.clientId)} - Authmore</title>
-    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <title>访问授权 ${(client.clientName)!(client.clientId)} - Authmore</title>
+    <#include "./dist.ftl">
 </head>
 <body>
-<h3>你好 <b>${(Session.current_user)!'用户'}</b>，允许应用${(client.clientName)!(client.clientId)}访问你的信息吗？</h3>
-<form id="id_form_opinion" action="/authorize/confirm" method="post">
-    <input id="id_input_opinion" type="hidden" name="opinion">
-    <input type="hidden" name="client_id" value="${client.clientId}">
-</form>
-<button onclick="allow(false);">Cancel</button>
-<button onclick="allow(true);">Allow</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card p-5">
+                <div class="p-5">
+                    <h2 class="pb-3 pt-5"><b>你好, ${(Session.current_user)!'用户'}: </b></h2>
+                    <h5 class="pb-3">允许应用 <b>${(client.clientName)!(client.clientId)}</b> 访问你的数据吗？</h5>
+                </div>
+                <form id="id_form_opinion" action="/authorize/confirm" method="post">
+                    <input id="id_input_opinion" type="hidden" name="opinion">
+                    <input type="hidden" name="client_id" value="${client.clientId}">
+                </form>
+                <div class="card-body p-5">
+                    <button class="btn btn-success form-control" onclick="allow(true);">允许访问</button>
+                    <button class="btn btn-danger form-control" onclick="allow(false);">拒绝访问</button>
+                </div>
+                <div class="text-center mt-5">
+                    <p>Apache2 Licensed | Copyright © 2019 郑保乐</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-</html>
 <script>
     var allow = function (allow) {
         var opinion = allow ? "allow" : "deny";
@@ -28,3 +43,4 @@
         }, 30 * 1000)
     });
 </script>
+</html>

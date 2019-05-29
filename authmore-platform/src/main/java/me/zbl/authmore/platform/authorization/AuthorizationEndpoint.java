@@ -126,6 +126,7 @@ public class AuthorizationEndpoint {
         session.setAttribute(CURRENT_CLIENT, client);
         session.setAttribute(LAST_SCOPE, scope);
         model.addAttribute("client", client);
+        // TODO scopes 转换成标签置入 model
         if (!isEmpty(state)) {
             session.setAttribute(LAST_STATE, state);
         }
@@ -140,7 +141,7 @@ public class AuthorizationEndpoint {
             @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
             @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
             @SessionAttribute(LAST_SCOPE) String scope,
-            @SessionAttribute(LAST_STATE) String state,
+            @SessionAttribute(value = LAST_STATE, required = false) String state,
             @SessionAttribute(LAST_TYPE) ResponseTypes type,
             HttpServletResponse response) throws IOException {
         String location;
@@ -148,7 +149,7 @@ public class AuthorizationEndpoint {
             throw new AuthorizationException(INVALID_CLIENT);
         }
         if (!"allow".equals(opinion)) {
-            throw new AuthorizationException("signin was rejected");
+            throw new AuthorizationException("Authorization was rejected");
         }
         String userId = user.getId();
         Set<String> scopes = scopeSet(scope);
