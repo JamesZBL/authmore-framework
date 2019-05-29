@@ -42,7 +42,7 @@ public class AdminApplicationTests {
                 "  \"authorities\":\"READ\",\n" +
                 "  \"registeredRedirectUri\":\"http://localhost:8090/inbox,http://localhost:8090/implicit.html\",\n" +
                 "  \"accessTokenValiditySeconds\":99999,\n" +
-                "  \"isAutoApprove\":true,\n" +
+                "  \"isAutoApprove\":false,\n" +
                 "  \"clientName\":\"Mailbox Reader\",\n" +
                 "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
                 "  }", "clientDetails");
