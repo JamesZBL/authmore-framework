@@ -16,17 +16,22 @@
 package me.zbl.authmore.platform.oauth;
 
 import me.zbl.authmore.oauth.CodeManager;
+import me.zbl.authmore.oauth.JSONWebTokenManager;
 import me.zbl.authmore.oauth.RedisTokenManager;
 import me.zbl.authmore.oauth.TokenManager;
 import me.zbl.authmore.platform.authorization.CodeRepository;
 import me.zbl.authmore.platform.authorization.RedisCodeManager;
+import me.zbl.authmore.platform.oauth.TokenConfigurationProperties.TokenPolicy;
 import me.zbl.authmore.repositories.AccessTokenRepository;
 import me.zbl.authmore.repositories.ClientDetailsRepository;
 import me.zbl.authmore.repositories.RefreshTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.security.KeyPair;
 
 /**
  * @author ZHENG BAO LE
@@ -35,12 +40,23 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 public class TokenManagerConfiguration {
 
+    private final TokenConfigurationProperties tokenConfiguration;
+    private final KeyPair keyPair;
+
+    @Autowired
+    public TokenManagerConfiguration(TokenConfigurationProperties tokenConfiguration, KeyPair keyPair) {
+        this.tokenConfiguration = tokenConfiguration;
+        this.keyPair = keyPair;
+    }
+
     @Bean
     @ConditionalOnMissingBean({TokenManager.class})
     public TokenManager tokenManager(
             AccessTokenRepository tokens,
             RefreshTokenRepository refreshTokens,
             RedisTemplate<String, String> redisTemplate, ClientDetailsRepository clients) {
+        if (null != tokenConfiguration && tokenConfiguration.getPolicy() == TokenPolicy.JWT)
+            return new JSONWebTokenManager(clients, keyPair);
         return new RedisTokenManager(tokens, refreshTokens, redisTemplate, clients);
     }
 

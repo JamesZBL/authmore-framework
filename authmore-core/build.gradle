@@ -29,4 +29,5 @@ dependencies {
     compileOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.14'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.1.2.RELEASE'
     compileOnly 'org.springframework.data:spring-data-redis:2.1.4.RELEASE'
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor:2.1.2.RELEASE"
 }
