@@ -9,7 +9,7 @@
 <#include "./header.ftl">
 <div class="header text-center mb-5">
     <img class="logo" src="/logo.png" alt="Authmore">
-    <h3 class="title">Authmore 开放平台</h3>
+    <h3 class="title"><b>Authmore 开放平台</b></h3>
     <h4 class="mb-lg-3">用 户 登 录</h4>
 </div>
 <#if error?? >
