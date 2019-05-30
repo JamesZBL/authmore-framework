@@ -23,7 +23,7 @@
 <form class="form-signin" action="/signin?from=${RequestParameters['from']!}" method="post">
     <input type="text" id="ui" name="ui" class="form-control" placeholder="用户名" required autofocus>
     <input type="password" id="uc" name="uc" class="form-control" placeholder="密 码" required>
-    <div class="checkbox mt-3">
+    <div class="checkbox mt-3 mb-3">
         <label>
             <input name="ur" type="checkbox" class="mr-2">记住我
         </label>

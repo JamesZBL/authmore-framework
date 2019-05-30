@@ -15,7 +15,7 @@
                         <img class="w-25" src="/app-icon.svg" alt="应用程序"/>
                     </div>
                     <h2 class="pb-3 pt-5"><b>你好, ${(Session.current_user)!'用户'} :) </b></h2>
-                    <h5 class="pb-3">允许 <b>${(client.clientName)!(client.clientId)}</b> 访问你的数据吗？</h5>
+                    <h5 class="pb-3"><b>${(client.clientName)!(client.clientId)}</b> 想要访问你的数据</h5>
                 </div>
                 <form id="id_form_opinion" action="/authorize/confirm" method="post">
                     <input id="id_input_opinion" type="hidden" name="opinion">
