@@ -149,6 +149,7 @@ public class AuthorizationEndpoint {
             @SessionAttribute(LAST_SCOPE) String scope,
             @SessionAttribute(value = LAST_STATE, required = false) String state,
             @SessionAttribute(LAST_TYPE) ResponseTypes type,
+            HttpSession session,
             HttpServletResponse response) throws IOException {
         String location;
         if (null == client || !client.getClientId().equals(clientId)) {
@@ -166,7 +167,7 @@ public class AuthorizationEndpoint {
                 location = String.format("%s?code=%s", redirectUri, code);
                 if (null != state)
                     location = String.format("%s&state=%s", location, state);
-                response.sendRedirect(location);
+                redirectAndDestroySession(response, location, session);
                 break;
             case TOKEN:
                 TokenResponse tokenResponse;
@@ -179,10 +180,22 @@ public class AuthorizationEndpoint {
                 location = String.format("%s#token=%s", redirectUri, accessToken);
                 if (null != state)
                     location = String.format("%s&state=%s", location, state);
-                response.sendRedirect(location);
+                redirectAndDestroySession(response, location, session);
                 break;
             default:
                 throw new AuthorizationException(UNSUPPORTED_RESPONSE_TYPE);
         }
+    }
+
+    private void redirectAndDestroySession(HttpServletResponse response, String location, HttpSession session)
+            throws IOException {
+        response.sendRedirect(location);
+        exitIfNotRemember(session);
+    }
+
+    private void exitIfNotRemember(HttpSession session) {
+        Boolean forgetMe = (Boolean) session.getAttribute(FORGET_ME);
+        if (null != forgetMe && forgetMe)
+            session.invalidate();
     }
 }

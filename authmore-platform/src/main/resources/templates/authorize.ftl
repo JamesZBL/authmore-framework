@@ -30,7 +30,6 @@
                                     <input class="mr-2" type="checkbox" checked disabled> ${scope!}
                                 </li>
                             </#list>
-<#--                            <li class="list-group-item"></li>-->
                         </ul>
                     </#if>
                 </div>

@@ -25,7 +25,7 @@
     <input type="password" id="uc" name="uc" class="form-control" placeholder="密 码" required>
     <div class="checkbox mt-3">
         <label>
-            <input type="checkbox" value="remember-me" class="mr-2">记住我
+            <input name="ur" type="checkbox" class="mr-2">记住我
         </label>
     </div>
     <button class="btn btn-primary btn-block" type="submit">登 录</button>

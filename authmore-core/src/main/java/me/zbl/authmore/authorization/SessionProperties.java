@@ -29,4 +29,5 @@ public interface SessionProperties {
     String LAST_STATE = "last_state";
     String LAST_SCOPE = "last_scope";
     String LAST_TYPE = "last_type";
+    String FORGET_ME = "forget_me";
 }

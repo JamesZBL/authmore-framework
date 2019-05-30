@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.HttpSession;
+
 import static org.springframework.util.StringUtils.isEmpty;
 
 /**
@@ -60,7 +62,9 @@ public class AuthenticationEndpoint {
     public String singIn(
             @RequestParam("ui") String userName,
             @RequestParam("uc") String inputPassword,
+            @RequestParam(value = "ur",required = false) boolean rememberMe,
             @SessionAttribute(SessionProperties.LAST_URL) String from,
+            HttpSession session,
             Model model) {
         UserDetails user;
         try {
@@ -70,6 +74,8 @@ public class AuthenticationEndpoint {
             return "/signin";
         }
         sessionManager.signin(user);
+        if (!rememberMe)
+            session.setAttribute(SessionProperties.FORGET_ME, Boolean.TRUE);
         if (!isEmpty(from))
             return "redirect:" + from;
         return "redirect:/";
