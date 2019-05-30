@@ -16,6 +16,7 @@
 
 body {
     padding-top: 3rem;
+    padding-bottom: 3rem;
     color: #5e778d;
     background-color: #e3e7ec;
 }
@@ -39,6 +40,10 @@ body {
 
 .btn-primary {
     background-color: #1890ff;
+}
+
+.btn-danger {
+    background-color: #ff6a76;
 }
 
 .card {

@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static me.zbl.authmore.authorization.SessionProperties.*;
 import static me.zbl.authmore.oauth.OAuthException.*;
@@ -126,11 +127,16 @@ public class AuthorizationEndpoint {
         session.setAttribute(CURRENT_CLIENT, client);
         session.setAttribute(LAST_SCOPE, scope);
         model.addAttribute("client", client);
-        // TODO scopes 转换成标签置入 model
+        Set<String> scopeDescriptions = translateScopes(scopes);
+        model.addAttribute("scopes", scopeDescriptions);
         if (!isEmpty(state)) {
             session.setAttribute(LAST_STATE, state);
         }
         return "authorize";
+    }
+
+    private Set<String> translateScopes(Set<String> scopeIds) {
+        return scopeIds.stream().map(ScopeConstants::findByKey).collect(Collectors.toSet());
     }
 
     @PostMapping("/authorize/confirm")
