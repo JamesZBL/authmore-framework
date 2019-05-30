@@ -18,9 +18,13 @@
                     <input id="id_input_opinion" type="hidden" name="opinion">
                     <input type="hidden" name="client_id" value="${client.clientId}">
                 </form>
-                <div class="card-body p-5">
-                    <button class="btn btn-success form-control" onclick="allow(true);">允许访问</button>
-                    <button class="btn btn-danger form-control" onclick="allow(false);">拒绝访问</button>
+                <div class="row p-5">
+                    <div class="col-md-6">
+                        <button class="btn btn-secondary form-control" onclick="allow(false);">拒绝访问</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary form-control" onclick="allow(true);">允许访问</button>
+                    </div>
                 </div>
                 <div class="text-center mt-5">
                     <p>Apache2 Licensed | Copyright © 2019 郑保乐</p>
