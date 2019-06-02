@@ -34,7 +34,7 @@ allprojects {
 description = 'Authmore - 轻量级 OAuth2 开放平台开发套件'
 
 ext {
-    registryRepository = "registry-vpc.cn-beijing.aliyuncs.com/letec"
+    registryRepository = "jameszbl"
 }
 
 subprojects {
