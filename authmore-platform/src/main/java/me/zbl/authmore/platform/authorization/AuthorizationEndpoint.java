@@ -58,9 +58,9 @@ public class AuthorizationEndpoint {
     private final TokenManager tokenManager;
 
     public AuthorizationEndpoint(
-            AuthenticationManager authenticationManager,
-            CodeManager codeManager,
-            TokenManager tokenManager) {
+        AuthenticationManager authenticationManager,
+        CodeManager codeManager,
+        TokenManager tokenManager) {
         this.authenticationManager = authenticationManager;
         this.codeManager = codeManager;
         this.tokenManager = tokenManager;
@@ -68,15 +68,15 @@ public class AuthorizationEndpoint {
 
     @GetMapping("/authorize")
     public String authorize(
-            @RequestParam("client_id") String clientId,
-            @RequestParam("response_type") String responseType,
-            @RequestParam("redirect_uri") String redirectUri,
-            @RequestParam(value = "scope", required = false) String scope,
-            @RequestParam(value = "state", required = false) String state,
-            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
-            HttpSession session,
-            Model model,
-            HttpServletResponse response) throws IOException {
+        @RequestParam("client_id") String clientId,
+        @RequestParam("response_type") String responseType,
+        @RequestParam("redirect_uri") String redirectUri,
+        @RequestParam(value = "scope", required = false) String scope,
+        @RequestParam(value = "state", required = false) String state,
+        @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
+        HttpSession session,
+        Model model,
+        HttpServletResponse response) throws IOException {
         String location;
         ClientDetails client = authenticationManager.clientValidate(clientId, redirectUri, scope);
         String userId = user.getId();
@@ -141,16 +141,16 @@ public class AuthorizationEndpoint {
 
     @PostMapping("/authorize/confirm")
     public void authorizeConfirm(
-            @RequestParam("client_id") String clientId,
-            @RequestParam("opinion") String opinion,
-            @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
-            @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
-            @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
-            @SessionAttribute(LAST_SCOPE) String scope,
-            @SessionAttribute(value = LAST_STATE, required = false) String state,
-            @SessionAttribute(LAST_TYPE) ResponseTypes type,
-            HttpSession session,
-            HttpServletResponse response) throws IOException {
+        @RequestParam("client_id") String clientId,
+        @RequestParam("opinion") String opinion,
+        @SessionAttribute(CURRENT_USER_DETAILS) UserDetails user,
+        @SessionAttribute(CURRENT_CLIENT) ClientDetails client,
+        @SessionAttribute(CURRENT_REDIRECT_URI) String redirectUri,
+        @SessionAttribute(LAST_SCOPE) String scope,
+        @SessionAttribute(value = LAST_STATE, required = false) String state,
+        @SessionAttribute(LAST_TYPE) ResponseTypes type,
+        HttpSession session,
+        HttpServletResponse response) throws IOException {
         String location;
         if (null == client || !client.getClientId().equals(clientId)) {
             throw new AuthorizationException(INVALID_CLIENT);
@@ -176,8 +176,7 @@ public class AuthorizationEndpoint {
                 } catch (Exception e) {
                     throw new AuthorizationException(e.getMessage());
                 }
-                String accessToken = tokenResponse.getAccess_token();
-                location = String.format("%s#token=%s", redirectUri, accessToken);
+                location = formatTokenRedirectUrl(redirectUri, tokenResponse);
                 if (null != state)
                     location = String.format("%s&state=%s", location, state);
                 redirectAndDestroySession(response, location, session);
@@ -187,8 +186,14 @@ public class AuthorizationEndpoint {
         }
     }
 
+    private String formatTokenRedirectUrl(String redirectUri, TokenResponse tokenResponse) {
+        String accessToken = tokenResponse.getAccess_token();
+        long expiresIn = tokenResponse.getExpires_in();
+        return String.format("%s#access_token=%s&expires_in=%s&token_type=Bearer", redirectUri, accessToken, expiresIn);
+    }
+
     private void redirectAndDestroySession(HttpServletResponse response, String location, HttpSession session)
-            throws IOException {
+        throws IOException {
         response.sendRedirect(location);
         exitIfNotRemember(session);
     }

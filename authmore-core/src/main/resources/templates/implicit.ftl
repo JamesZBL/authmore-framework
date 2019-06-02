@@ -8,7 +8,7 @@
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<h1>Redirecting...</h1>
+<h1>跳转中...</h1>
 </body>
 </html>
 <script>
@@ -22,15 +22,17 @@
             body[value[0]] = value[1];
         });
 
-        $.ajax({
-                url: "${callBackUri}",
-                type: "post",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(body),
-                success: function (r) {
-                    document.write(r);
+        setTimeout(function () {
+            $.ajax({
+                    url: "${callBackUri}",
+                    type: "post",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(body),
+                    success: function (r) {
+                        document.write("<pre>" + JSON.stringify(r, null, 2) + "</pre>");
+                    }
                 }
-            }
-        );
+            );
+        }, 1000);
     });
 </script>
