@@ -60,7 +60,7 @@ subprojects {
 
     docker {
         registryCredentials {
-            url = "registry-vpc.cn-beijing.aliyuncs.com"
+            url = "docker.io"
             username = "${System.env.PRIVATE_REG_USERNAME}"
             password = "${System.env.PRIVATE_REG_PASSWORD}"
         }
