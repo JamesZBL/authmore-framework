@@ -1,8 +1,6 @@
-# Authmore Framework
-
 <p align="center">
   <a href="https://github.com/jameszbl/authmore">
-   <img alt="Authmore-Logo" src=".doc/logo.png" style="max-width:160px">
+   <img alt="Authmore-Logo" src=".doc/logo.png" width="200px">
   </a>
 </p>
 
