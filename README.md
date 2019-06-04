@@ -34,16 +34,20 @@
 
 # 文档 | Documentation
 
-[Authmore 最新开发手册](https://doc.authmore.letec.top)
+集成和配置详细指南请参考 [Authmore 最新开发手册](https://doc.authmore.letec.top)
 
 # 原理 | Principle
+
 ![项目架构原理](.doc/principle.svg)
 
 # 结构目录 | Architecture
+
 ![项目结构说明](.doc/structure.png)
 
 # 最新版本
+
 > 提供最新版开放平台管理应用的 Docker 镜像，当然你也可以在开发环境下对源码打包部署
+
 * **认证平台 Doccker 镜像**
 ```
 jameszbl/authmore-platform:latest
