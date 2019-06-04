@@ -73,7 +73,3 @@ jameszbl/authmore-ui:latest
 # 版权 | License
 
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
-# 关注我 | About Me
-
-[摆码王子的小屋](https://b.letec.top)
