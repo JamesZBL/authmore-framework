@@ -24,7 +24,7 @@
 
 # 简介 | Intro
 
-基于 OAuth2.0 协议的开放平台认证授权开发套件
+基于 OAuth2.0 协议的开放平台认证授权开发套件, 包含授权服务和开放平台 Docker 镜像，基于 Spring Boot Starter 的资源服务工具包和客户端（第三方应用）工具包
 
 # 优点 | Advantages
 
