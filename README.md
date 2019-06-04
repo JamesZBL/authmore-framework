@@ -61,7 +61,7 @@ jameszbl/authmore-ui:latest
 <dependency>
     <groupId>com.github.jameszbl</groupId>
     <artifactId>authmore-client-springboot-starter</artifactId>
-    <version>1.0.8</version>
+    <version>latest version</version>
 </dependency>
 ```
 
@@ -70,10 +70,14 @@ jameszbl/authmore-ui:latest
 <dependency>
     <groupId>com.github.jameszbl</groupId>
     <artifactId>authmore-resource-springboot-starter</artifactId>
-    <version>1.0.8</version>
+    <version>latest version</version>
 </dependency>
 ```
 
 # 版权 | License
 
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+# 关注我 | About Me
+
+[摆码王子的小屋](https://b.letec.top)
