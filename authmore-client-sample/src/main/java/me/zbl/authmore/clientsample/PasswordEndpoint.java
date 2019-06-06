@@ -45,6 +45,6 @@ public class PasswordEndpoint {
         params.put("password", "123456");
         TokenResponse token = passwordTokenManager.getToken("EMAIL", params);
         RestTemplate template = new ClientRestTemplate(token.getAccess_token());
-        return template.getForObject("http://localhost:8091/inbox", String.class);
+        return template.getForObject("http://127.0.0.1:8091/inbox", String.class);
     }
 }

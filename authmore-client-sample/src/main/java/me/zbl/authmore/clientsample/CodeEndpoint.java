@@ -65,6 +65,6 @@ public class CodeEndpoint {
         params.put("code", code);
         TokenResponse token = tokenManager.getToken(SCOPES, params);
         ClientRestTemplate restTemplate = new ClientRestTemplate(token.getAccess_token());
-        return restTemplate.getForObject("http://localhost:8091/inbox", String.class);
+        return restTemplate.getForObject("http://127.0.0.1:8091/inbox", String.class);
     }
 }
