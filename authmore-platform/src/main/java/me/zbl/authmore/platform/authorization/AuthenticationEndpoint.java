@@ -48,11 +48,6 @@ public class AuthenticationEndpoint {
         this.sessionManager = sessionManager;
     }
 
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-
     @GetMapping("/signin")
     public String signInPage() {
         return "signin";
