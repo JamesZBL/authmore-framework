@@ -33,19 +33,27 @@ public class AdminApplicationTests {
     @Test
     public void contextLoads() {
         mongo.save("{\n" +
-                "  \"_id\":ObjectId(\"5cb7e7bcee173c60c379e04e\"),\n" +
-                "  \"authorizedGrantTypes\":\"authorization_code,password,implicit,client_credentials\",\n" +
-                "  \"scoped\":true,\"scope\":\"PROFILE,EMAIL\",\n" +
-                "  \"resourceIds\":\"MAILBOX\",\n" +
-                "  \"isSecretRequired\":true,\n" +
-                "  \"clientSecret\":\"{pbkdf2}cce0073b0e62e2922fe0e9d145da19dc4f3c63c1af95009fd2d1492ecf8c4a5b84a1a72d6013fb1e\",\n" +
-                "  \"authorities\":\"READ\",\n" +
-                "  \"registeredRedirectUri\":\"http://127.0.0.1:8090/inbox,http://127.0.0.1:8090/implicit.html\",\n" +
-                "  \"accessTokenValiditySeconds\":99999,\n" +
-                "  \"isAutoApprove\":false,\n" +
-                "  \"clientName\":\"Mailbox Reader\",\n" +
-                "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
-                "  }", "clientDetails");
+            "  \"_id\":ObjectId(\"5cb7e7bcee173c60c379e04e\"),\n" +
+            "  \"authorizedGrantTypes\":\"authorization_code,password,implicit,client_credentials\",\n" +
+            "  \"scoped\":true,\"scope\":\"PROFILE,EMAIL\",\n" +
+            "  \"resourceIds\":\"MAILBOX\",\n" +
+            "  \"isSecretRequired\":true,\n" +
+            "  \"clientSecret\":\"{pbkdf2}cce0073b0e62e2922fe0e9d145da19dc4f3c63c1af95009fd2d1492ecf8c4a5b84a1a72d6013fb1e\",\n" +
+            "  \"authorities\":\"READ\",\n" +
+            "  \"registeredRedirectUri\":\"http://127.0.0.1:8090/inbox,http://127.0.0.1:8090/implicit.html\",\n" +
+            "  \"accessTokenValiditySeconds\":99999,\n" +
+            "  \"isAutoApprove\":false,\n" +
+            "  \"clientName\":\"Mailbox Reader\",\n" +
+            "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
+            "  }", "clientDetails");
+
+        mongo.save("{\n" +
+            "  \"_id\":ObjectId(\"5cb88433ee173c60c379e04f\"),\n" +
+            "  \"clientSecret\":\"{pbkdf2}1b344b2544b277aa6a8d075bde8706bdcca05051caf1b31c4aa8f6e5145155e7fd6f2722fa82d671\",\n" +
+            "  \"authorities\":\"CHECK\",\n" +
+            "  \"clientName\":\"Mail Resource Service\",\n" +
+            "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
+            "  }", "clientDetails");
     }
 }
 
