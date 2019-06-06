@@ -2,7 +2,7 @@ version: "3"
 
 services:
   platform:
-    image: registry.cn-beijing.aliyuncs.com/letec/authmore-platform
+    image: jameszbl/authmore-platform
     command: ["--spring.profiles.active=test"]
     container_name: platform
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
       - redis
 
   admin:
-    image: registry.cn-beijing.aliyuncs.com/letec/authmore-admin
+    image: jameszbl/authmore-admin
     command: ["--spring.profiles.active=test"]
     container_name: admin
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
       - redis
 
   authmore-ui:
-    image: registry.cn-beijing.aliyuncs.com/letec/authmore-ui
+    image: jameszbl/authmore-ui
     container_name: authmore-ui
     restart: unless-stopped
     networks:
