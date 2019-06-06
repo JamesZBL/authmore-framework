@@ -27,7 +27,7 @@ services:
       - mongo
       - redis
 
-  authmore-ui:
+  ui:
     image: jameszbl/authmore-ui
     container_name: authmore-ui
     restart: unless-stopped
