@@ -4,7 +4,7 @@ server:
 authmore:
   resource:
     resource-id: MAILBOX
-    token-info-url: http://127.0.0.1:8086/oauth/check_token
-    jwk-set-url: http://127.0.0.1:8086/oauth/jwks
+    token-info-url: http://platform.authmore/oauth/check_token
+    jwk-set-url: http://platform.authmore/oauth/jwks
     client-id: 5cb88433ee173c60c379e04f
     client-secret: 6LJTlUAfSo4TZhgRdAh2BC1hfUGROEpT

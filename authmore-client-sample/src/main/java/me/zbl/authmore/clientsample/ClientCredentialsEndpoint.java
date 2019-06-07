@@ -37,6 +37,6 @@ public class ClientCredentialsEndpoint {
 
     @GetMapping(value = "/client", produces = {"application/json"})
     public Object clientCredentials() {
-        return this.grantedClient.getForObject("http://127.0.0.1:8091/inbox", String.class);
+        return this.grantedClient.getForObject("http://resource.authmore/inbox", String.class);
     }
 }
