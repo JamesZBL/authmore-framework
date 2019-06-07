@@ -7,10 +7,10 @@ authmore:
     client-secret: afLTqlcRUr32UC3nWiUNIMsfOmVlzuzX
     request-token-on-startup: true
     scope: PROFILE+EMAIL
-    token-issue-url: http://127.0.0.1:8086/oauth/token
+    token-issue-url: http://platform.authmore/oauth/token
     # "/implicit.html" for implicit mode
-    redirect-uri: http://127.0.0.1:8090/inbox
-    authorize-uri: http://127.0.0.1:8086/authorize
+    redirect-uri: http://client.authmore/inbox
+    authorize-uri: http://platform.authmore/authorize
     # only for implicit mode
-    implicit-token-uri: http://127.0.0.1:8090/token
-    implicit-redirect-uri: http://127.0.0.1:8090/implicit.html
+    implicit-token-uri: http://client.authmore/token
+    implicit-redirect-uri: http://client.authmore/implicit.html

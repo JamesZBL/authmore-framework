@@ -53,6 +53,6 @@ public class ImplicitEndpoint {
     public Object token(@RequestBody TokenResponse tokenResponse) {
         String token = tokenResponse.getAccess_token();
         ClientRestTemplate restTemplate = new ClientRestTemplate(token);
-        return restTemplate.getForObject("http://127.0.0.1:8091/inbox", String.class);
+        return restTemplate.getForObject("http://resource.authmore/inbox", String.class);
     }
 }
