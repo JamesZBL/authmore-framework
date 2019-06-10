@@ -49,8 +49,10 @@ public class AdminApplicationTests {
 
         mongo.save("{\n" +
             "  \"_id\":ObjectId(\"5cb88433ee173c60c379e04f\"),\n" +
+            "  \"authorizedGrantTypes\":\"client_credentials\",\n" +
             "  \"clientSecret\":\"{pbkdf2}1b344b2544b277aa6a8d075bde8706bdcca05051caf1b31c4aa8f6e5145155e7fd6f2722fa82d671\",\n" +
             "  \"authorities\":\"CHECK\",\n" +
+            "  \"accessTokenValiditySeconds\":99999,\n" +
             "  \"clientName\":\"Mail Resource Service\",\n" +
             "  \"_class\":\"me.zbl.authmore.core.ClientDetails\"\n" +
             "  }", "clientDetails");
