@@ -27,6 +27,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import me.zbl.authmore.oauth.*;
+import net.minidev.json.JSONArray;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
@@ -36,9 +37,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author ZHENG BAO LE
@@ -55,7 +58,7 @@ public class ResourceServerFilter extends OAuthFilter {
     @Override
     @SuppressWarnings("unchecked")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         String token;
         String tokenInfoUrl;
         String clientId;
@@ -68,7 +71,7 @@ public class ResourceServerFilter extends OAuthFilter {
             return;
         }
 
-        Set<String> tokenScopes;
+        Set<String> scopes;
         Set<String> authorities;
         Set<String> resourceIds;
         String userId;
@@ -76,8 +79,8 @@ public class ResourceServerFilter extends OAuthFilter {
         if (isJWT(token)) {
             ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
             JWKSource<SecurityContext> keySource = new RemoteJWKSet<>(
-                    new URL(resourceServerConfigurationProperties.getJwkSetUrl()));
-            JWSAlgorithm expectedJWSAlg = JWSAlgorithm.ES256;
+                new URL(resourceServerConfigurationProperties.getJwkSetUrl()));
+            JWSAlgorithm expectedJWSAlg = JWSAlgorithm.RS256;
             JWSKeySelector<SecurityContext> keySelector = new JWSVerificationKeySelector<>(expectedJWSAlg, keySource);
             jwtProcessor.setJWSKeySelector(keySelector);
             JWTClaimsSet claimsSet;
@@ -87,9 +90,9 @@ public class ResourceServerFilter extends OAuthFilter {
                 e.printStackTrace();
                 throw new OAuthException("Failed to verify token.");
             }
-            tokenScopes = (Set<String>) claimsSet.getClaim(OAuthProperties.TOKEN_SCOPES);
-            authorities = (Set<String>) claimsSet.getClaim(OAuthProperties.TOKEN_AUTHORITIES);
-            resourceIds = (Set<String>) claimsSet.getClaim(OAuthProperties.TOKEN_RESOURCE_IDS);
+            scopes = extractSetFrom(claimsSet, OAuthProperties.TOKEN_SCOPES);
+            authorities = extractSetFrom(claimsSet, OAuthProperties.TOKEN_AUTHORITIES);
+            resourceIds =extractSetFrom(claimsSet, OAuthProperties.TOKEN_RESOURCE_IDS);
             userId = (String) claimsSet.getClaim(OAuthProperties.TOKEN_USER_ID);
         } else {
             tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
@@ -106,13 +109,13 @@ public class ResourceServerFilter extends OAuthFilter {
                 sendError(response, "invalid token");
                 return;
             }
-            tokenScopes = tokenInfo.getScope();
+            scopes = tokenInfo.getScope();
             authorities = tokenInfo.getAuthorities();
             resourceIds = tokenInfo.getResourceIds();
             userId = tokenInfo.getUserId();
         }
 
-        request.setAttribute(OAuthProperties.REQUEST_SCOPES, tokenScopes);
+        request.setAttribute(OAuthProperties.REQUEST_SCOPES, scopes);
         request.setAttribute(OAuthProperties.REQUEST_AUTHORITIES, authorities);
         request.setAttribute(OAuthProperties.REQUEST_RESOURCE_IDS, resourceIds);
         request.setAttribute(OAuthProperties.REQUEST_USER_ID, userId);
@@ -121,5 +124,11 @@ public class ResourceServerFilter extends OAuthFilter {
 
     private boolean isJWT(String token) {
         return token.startsWith("eyJ");
+    }
+
+    private Set<String> extractSetFrom(JWTClaimsSet claimsSet, String key) {
+        JSONArray scopeArray = (JSONArray) claimsSet.getClaim(key);
+        String[] scopesStrings = scopeArray.toArray(new String[0]);
+        return Arrays.stream(scopesStrings).collect(Collectors.toSet());
     }
 }

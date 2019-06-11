@@ -3,7 +3,9 @@ version: "3"
 services:
   platform:
     image: jameszbl/authmore-platform
-    command: ["--spring.profiles.active=test"]
+    command: ["--spring.profiles.active=prod"]
+    environment:
+      - token_type: JWT
     container_name: platform
     restart: unless-stopped
     networks:
@@ -16,7 +18,7 @@ services:
 
   admin:
     image: jameszbl/authmore-admin
-    command: ["--spring.profiles.active=test"]
+    command: ["--spring.profiles.active=prod"]
     container_name: admin
     restart: unless-stopped
     networks:

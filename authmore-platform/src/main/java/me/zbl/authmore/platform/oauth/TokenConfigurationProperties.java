@@ -19,6 +19,8 @@ package me.zbl.authmore.platform.oauth;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 /**
  * @author ZHENG BAO LE
  * @since 2019-05-30
@@ -27,6 +29,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "token")
 public class TokenConfigurationProperties {
 
+    private final static String ENV_TOKEN_TYPE = "token_type";
+
+    private String tokenType = System.getenv(ENV_TOKEN_TYPE);
+
     enum TokenPolicy {
         REDIS, JWT
     }
@@ -34,7 +40,26 @@ public class TokenConfigurationProperties {
     private TokenPolicy policy;
 
     public TokenPolicy getPolicy() {
-        return policy;
+        String tokenTypeName = getTokenTypeName();
+        if (isEmpty(tokenTypeName)) {
+            return policy;
+        }
+        switch (tokenTypeName) {
+            case "jwt":
+                return TokenPolicy.JWT;
+            case "redis":
+                return TokenPolicy.REDIS;
+            default:
+                return policy;
+        }
+    }
+
+    private String getTokenTypeName() {
+        String name = null;
+        if (!isEmpty(tokenType)) {
+            name = tokenType.toLowerCase();
+        }
+        return name;
     }
 
     public void setPolicy(TokenPolicy policy) {
