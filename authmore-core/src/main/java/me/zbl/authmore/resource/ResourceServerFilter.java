@@ -75,6 +75,7 @@ public class ResourceServerFilter extends OAuthFilter {
         Set<String> authorities;
         Set<String> resourceIds;
         String userId;
+        long expireAt;
 
         if (isJWT(token)) {
             ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
@@ -92,8 +93,16 @@ public class ResourceServerFilter extends OAuthFilter {
             }
             scopes = extractSetFrom(claimsSet, OAuthProperties.TOKEN_SCOPES);
             authorities = extractSetFrom(claimsSet, OAuthProperties.TOKEN_AUTHORITIES);
-            resourceIds =extractSetFrom(claimsSet, OAuthProperties.TOKEN_RESOURCE_IDS);
+            resourceIds = extractSetFrom(claimsSet, OAuthProperties.TOKEN_RESOURCE_IDS);
             userId = (String) claimsSet.getClaim(OAuthProperties.TOKEN_USER_ID);
+            try {
+                expireAt = claimsSet.getLongClaim(OAuthProperties.TOKEN_EXPIRE_AT);
+            } catch (ParseException e) {
+                throw new OAuthException("Error while parsing expire time");
+            }
+            if (System.currentTimeMillis() > expireAt) {
+                throw new OAuthException("This token has been expired");
+            }
         } else {
             tokenInfoUrl = resourceServerConfigurationProperties.getTokenInfoUrl();
             clientId = resourceServerConfigurationProperties.getClientId();
