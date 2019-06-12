@@ -44,7 +44,7 @@
 
 ![项目结构说明](.doc/structure.png)
 
-# 最新版本
+# 最新版本 | Latest Version
 
 > 提供最新版开放平台管理应用的 Docker 镜像，当然你也可以在开发环境下对源码打包部署
 
